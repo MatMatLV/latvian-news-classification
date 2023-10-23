@@ -1,0 +1,183 @@
+\documentclass{VEA}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tabularray}
+\usepackage{float}
+\usepackage{url}
+\graphicspath{ {./images/} }
+
+%% Pakotne lai saliktu automātisku figūru skaitīšanu
+\usepackage{totcount}
+
+%% Precīzu attālumu izveide starp tekstiem vienā rindā
+\usepackage{tabto}
+
+%% Lapu numuriem labajā pusē
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[RO,RE]{\thepage} %RO=right odd, RE=right even
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\newcounter{nofappendices}
+\setcounter{nofappendices}{0}
+\regtotcounter{nofappendices}
+
+\newtotcounter{fignum}
+\def\oldfigure{} \let\oldfigure=\figure
+\def\figure{\stepcounter{fignum}\oldfigure}
+
+%defineejam atsauču skaitītāju
+\newtotcounter{citnum}
+\def\oldbibitem{} \let\oldbibitem=\bibitem
+\def\bibitem{\stepcounter{citnum}\oldbibitem}
+
+\begin{document}
+\pagenumbering{gobble}
+%%%% Titullapas sākums
+\input{src/titullapas-dati} %šeit pārdefinējam savus mainīgos
+\input{src/titullapa} %pievienota titullapa, kura izveidota atsevišķā failā
+
+\tableofcontents
+\clearpage
+
+
+%%%% Nodaļa bez numerācijas
+\pagestyle{plain}
+\pagenumbering{arabic} % sākam numurēt lapas
+\setcounter{page}{4}
+\chapter*{Anotācija}
+%%%% Lai uzrādītos satura rādītājā
+\addcontentsline{toc}{chapter}{Anotācija}
+
+\begin{tabular}{@{}r@{}l@{}}
+\parbox[c]{0.3\textwidth}{\textbf{Darba nosaukums:}}&
+\parbox[t]{0.65\textwidth}{\defDarbaNosaukums} \\
+\parbox[c]{0.3\textwidth}{\textbf{Darba autors:}}&
+\parbox[t]{0.65\textwidth}{\defAutors} \\
+\parbox[c]{0.3\textwidth}{\textbf{Darba vadītājs:}}&
+\parbox[t]{0.65\textwidth}{\defZinVaditajs} \\
+\parbox[c]{0.3\textwidth}{\textbf{Darba apjoms:}}&
+\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} lpp, XX~tabulas,  \total{fignum}~attēli, XX~formulas, \total{citnum}~bibliogrāfiskās norādes, \total{nofappendices}~pielikumi} \\
+\parbox[c]{0.3\textwidth}{\textbf{Atslēgas vārdi:}}&
+\parbox[t]{0.65\textwidth}{Dabiskās valodas apstrāde, mašīnmācīšanās, tekstu klasifikācija} \\
+&\\
+\end{tabular}
+
+Bakalaura darbā ir aprakstīta dabīgās valodas apstrāde un kā mašīnmācīšanās metodes var palīdzēt risināt teksta klasifikācijas problēmu, konkrēti apskatot tieši ziņu klasifikāciju latviešu valodas rakstiem.
+
+Darba ietvaros tiek ievākta rakstu kopa no ziņu portāliem un pārbaudīts kāda pieeja sniedz augstāko precizitāti teksta klasifikācijai latviešu valodā. Tiek izvērtētas un salīdzinātās dažādas pazīmju izvēles pieejas un apmācības algoritmi (naivā Bajesa metode, loģistiskā regresija, lēmumu koki, atbalsta vektora mašīnas, neironu tīkli).
+
+Papildus apskatītas dažādas atvērtā pirmkoda bibliotēkas mašīnmācīšanās problēmu risināšanai kā scikit-learn un Tensorflow, to praktiskais pielietojums dabīgo valodu apstrādei.
+
+
+\clearpage
+
+\selectlanguage{english}
+\chapter*{Abstract}
+%%%% Lai uzrādītos satura rādītājā
+\addcontentsline{toc}{chapter}{Abstract}
+
+\begin{tabular}{@{}r@{}l@{}}
+\parbox[c]{0.3\textwidth}{\textbf{The title:}}&
+\parbox[t]{0.65\textwidth}{\defDarbaNosaukumsEN} \\
+\parbox[c]{0.3\textwidth}{\textbf{Author:}}&
+\parbox[t]{0.65\textwidth}{\defAutors} \\
+\parbox[c]{0.3\textwidth}{\textbf{Academic Advisor:}}&
+\parbox[t]{0.65\textwidth}{\defZinVaditajs} \\
+\parbox[c]{0.3\textwidth}{\textbf{The volume of the work:}}&
+\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} pages, XX~tables,  \total{fignum}~images, XX~equations, \total{citnum}~literature sources, \total{nofappendices}~appendices} \\
+\parbox[c]{0.3\textwidth}{\textbf{Keywords:}}&
+\parbox[t]{0.65\textwidth}{ Natural language processing, machine learning, text classification} \\
+&\\
+\end{tabular}
+
+The bachelor thesis describes natural language processing and how machine learning methods can help to resolve text classification problems, focusing specifically the classification of news articles in the Latvian language.
+
+As part of this work a data set of articles is gathered from Latvian news websites and the best approach is researched for achieving the highest accuracy of Latvian text classification. Various feature generation approaches and learning algorithms (e.g. Naïve Bayes, logistic regression, decision trees, support vector machines, neural networks) are evaluated and compared.
+
+In addition, various open source libraries for machine learning as scikit-learn and Tensorflow along with their practical applications for natural language processing are explored as part of this work.
+
+\selectlanguage{latvian}
+
+%------------------------------------------------APZĪMĒJUMI---------------------------------------------------------
+%%%% Nodaļa bez numerācijas
+\chapter*{Izmantotie saīsinājumi un termini}
+\addcontentsline{toc}{chapter}{Izmantotie saīsinājumi un termini}
+
+\textbf{DVA} - Dabisko valodu apstrāde (angliski - natural language processing)
+
+\textbf{TF-IDF} - Terminu biežums - inversais dokumentu biežums (angliski - term frequency - inverse document frequency)
+
+\textbf{PA} - pareiza atbilsme (angliski - true positive)
+
+\textbf{PA} - pareiza atbilsme (angliski - true positive)
+
+\textbf{PN} - pareiza neatbilsme (angliski - true negative)
+
+\textbf{KA} - kļūdaina atbilsme (angliski - false positive)
+
+\textbf{KN} - kļūdaina neatbilsme (angliski - false negative)
+
+\chapter*{Ievads} % * nepieliks numuru pie nosaukuma
+\addcontentsline{toc}{chapter}{Ievads}
+\input{src/ievads}
+
+%------------------------------------------------DARBS--------------------------------------------------------------
+
+\chapter{Teorija}
+\input{src/teorija}
+
+\chapter{Praktiskā daļa}
+\input{src/risinajums}
+
+%----------------------------------------------SECINĀJUMI----------------------------------------------------------
+
+\chapter*{Secinājumi un priekšlikumi}
+\addcontentsline{toc}{chapter}{Secinājumi un priekšlikumi}
+\input{src/secinajumi}
+
+%---------------------------------------------LIETERATŪRA----------------------------------------------------------
+\renewcommand{\bibname}{\uppercase{Izmantotās literatūras un avotu saraksts}}
+\bibliographystyle{unsrt}
+\bibliography{main}
+\addcontentsline{toc}{chapter}{Izmantotās literatūras un avotu saraksts}
+
+\chapter*{Galvojums}
+\addcontentsline{toc}{chapter}{Galvojums}
+\sloppy
+\noindent Ar šo es, Matīss Kalniņš, galvoju, ka šis bakalaura darbs ir manis paša patstāvīgi 
+izpildīts oriģināls darbs. Visi informācijas avoti, kā arī no tiem ņemtie dati un
+definējumi ir norādīti darbā. Šis darbs tādā vai citādā veidā nav iesniegts nevienai
+citai pārbaudījumu komisijai un nav nekur publicēts.
+
+Esmu informēts (-a), ka mans bakalaura darbs tiks ievietots un apstrādāts
+Vienotajā datorizētajā plaģiāta kontroles sistēmā plaģiāta kontroles nolūkos.
+
+\vspace{1in}
+\noindent202\rule{0.5cm}{0.2pt}.gada \rule{1cm}{0.2pt}.\rule{3cm}{0.2pt} \tabto{10cm} \rule{5cm}{0.2pt}
+\vspace{0.5in}
+
+Es, Matīss Kalniņš, atļauju Ventspils Augstskolai savu bakalaura darbu bez
+atlīdzības ievietot un uzglabāt Latvijas Nacionālās bibliotēkas pārvaldītā datortīklā
+Academia (www.academia.lndb.lv), kurā tie ir pieejami gan bibliotēkas lietotājiem,
+gan globālajā tīmeklī tādā veidā, ka ikviens tiem var piekļūt individuāli izraudzītā
+laikā, individuāli izraudzītā vietā.
+
+\vspace{0.5in}
+\rightline{Piekrītu \rule{4cm}{0.2pt}}
+\rightline{Nepiekrītu \rule{4cm}{0.2pt}}
+\vspace{0.5in}
+\noindent202\rule{0.5cm}{0.2pt}.gada \rule{1cm}{0.2pt}.\rule{3cm}{0.2pt} 
+
+\label{LastPage}
+%----------------------------------------------PIELIKUMS----------------------------------------------------------
+
+\begin{appendices}
+\chapter*{Pielikums}
+\input{src/pielikums}
+\end{appendices}
+
+
+\end{document}
