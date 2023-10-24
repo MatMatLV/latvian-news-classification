@@ -105,7 +105,40 @@ Atbalsta vektora mašīnas \cite{supportvectornetworks} (angliski - support vect
 Atbalstu vektora mašīnas analīze atradīs līniju (vispārīgi – hiperplakni), kas novietota pēc iespējas lielāku robežu starp atbalsta vektoriem.
 
 \subsection{Neironu tīkli}
-TBD
+Cilvēka smadzenes ir neironu tīkla arhitektūras iedvesmas avots. Cilvēka smadzeņu šūnas, ko sauc par neironiem, veido sarežģītu, savstarpēji cieši saistītu tīklu, kurā neironi sūta viens otram elektriskus signālus ar mērķi palīdzēt cilvēkiem apstrādāt informāciju. Līdzīgi mākslīgais neironu tīkls ir veidots no mākslīgiem neironiem, kas strādā kopā, lai atrisinātu problēmu \cite{AwsNeuralNetworks}. 
+
+Sākumā jāapskata māklīgā neironu tīkla pamatvienība - neirons.
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{neirons}
+	\caption{Mākslīgā neirona attēlojums}
+	\label{fig:neirons}
+\end{figure}
+
+Kā redzams attēlā attēlā \ref{fig:neirons}, šī neirona uzbūvi raksturo tā 4 pamatelementi - ieejas signāls, svars, summēšanas funckija, aktivizācijas funkcija un nobīde.
+
+Ieejas signāls - tas ir neironā ienākošais signāls. Izcelsme tam var būt ārēja vai arī tas var būt cita neirona izejas signāls. Šādi ieejas signāli neironam var būt vairāki.
+
+Svars - tā galvenā funkcija ir piešķirt tiem ieejas signāliem, kas ir svarīgas pareizam problēmas risinājumam. Piemēram, negatīvs vārds ietekmētu noskaņojuma analīzes modeļa lēmumu vairāk nekā neitrālu vārdu pāris. Svara vērtības tiek noteiktas apmācības procesā.
+
+Summēšanas funkcija - šīs funkcijas mērķis ir apvienot vairākus ieejas signālus un to svarus vienā vērtībā, ko tālāk padot aktivizācijas funkcijai.
+
+Aktivizācijas funkcija - šī funkcija izrēķina aktivitātes stāvokli, kas bieži ir arī neirona izejas vērtība.	
+
+Papildus svars (novirze) -  novirzes uzdevums ir novirzīt aktivizācijas funkcijas radīto vērtību. Tās loma ir līdzīga konstantes lomai lineārā funkcijā un gluži kā svars tā vērtība tiek noteikta apmācībnas procesā.
+
+Kad vairāki neironi ir salikti kopā pēc kārtas, tie veido slāni. Vairākus slāņus apievojot varam iegūt daudzslāņu neironu tīklu. Vienkārša daudzslāņu neironu tīkla arhitektūra aprakstāma kā savstarpēji savienoti mākslīgie neironi trīs slāņos.
+
+\textbf{Ievades slānis}
+
+Informācija no ārpasaules caur ievades slāni nonāk mākslīgajā neironu tīklā. Ievades mezgli apstrādā datus, analizē vai klasificē tos un nodod tos nākamajam slānim.
+
+\textbf{Slēptais slānis}
+
+Slēptie slāņi izmanto ievadi no ievades slāņa vai citiem slēptiem slāņiem. Mākslīgajiem neironu tīkliem var būt liels skaits slēpto slāņu. Katrs slēptais slānis analizē iepriekšējā slāņa izvadi, apstrādā to tālāk un nodod nākamajam slānim.
+
+\textbf{Izvades slānis}
+
+Izvades slānis sniedz visu mākslīgā neironu tīkla veiktās datu apstrādes gala rezultātu. Tam var būt viens vai vairāki mezgli. Piemēram, ja mums ir bināra (jā/nē) klasifikācijas problēma, izvades slānim būs viens izvades mezgls, kas dos rezultātu 1 vai 0. Tomēr, ja mums ir vairāku klašu klasifikācijas problēma, izvades slānis var sastāvēt no vairāk nekā viena izvades mezgla.
 
 \section{Modeļu novērtēšana un validācija}
 Pēc apmācīta modeļa iegūšanas ir svarīgi novērtēt izveidotā modeļa veiktspēju un to, cik labi tas spēs veikt tekstu klasifikāciju ar jauniem datiem. 
