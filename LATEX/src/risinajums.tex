@@ -1,7 +1,7 @@
 \section{Datu izgūšana no ziņu portāliem ar rāpuli}
-Lai veiktu izpēti, sakumā ir nepieciešams ievākt treniņdatus / valodas korpusu, kas raksturo problēmvidi – ziņu portālu rakstus. Praktiskai rāpuļa implementācijai tika izvēlēts Python ietvars “Scrapy”, ar kura palīdzību iespējams izveidot tīmekļa rāpuļus, kas pārmeklē mājaslapas un izvelk no tām datus strukturētā formā. Šis ietvars izvēlēts, jo tas ir viens no populārākajiem rīkiem šajā kategorijā un tas labi spēj apstrādāt un formatēt lielu datu apjomu. Tā kā tīmekļa rāpuļi ir jāpielāgo konkrētai mājaslapas struktūrai, lai iegūtu vēlamos datus, tika izvēlēts konkrēts portāls - delfi.lv, dēļ tā daudzveidīgā kategoriju klāsta un rakstu daudzuma. Darba ietvaros izveidots rāpulis, kas ievāc datus no šī portāla un saglabā tos JSON formā ar 4 pamatlaukiem – virsraksts, kategorija, saturs, hipersaite. Lai sašaurinātu problēmvidi un ierobežotu nepieciešamos resursus tika izvēlētas 5 apskatāmās kategorijas – kriminālziņas, biznesa, izklaides, politikas un sporta ziņas. Izgūta raksta piemēru JSON formātā iespējams apskatīt \ref{appendix:raksta_piemers} pielikumā.
+Lai veiktu izpēti, sakumā ir nepieciešams ievākt treniņdatus / valodas korpusu, kas raksturo problēmvidi – ziņu portālu rakstus. Praktiskai rāpuļa implementācijai tika izvēlēts Python ietvars “Scrapy”, ar kura palīdzību iespējams izveidot tīmekļa rāpuļus, kas pārmeklē mājaslapas un izvelk no tām datus strukturētā formā. Šis ietvars izvēlēts, jo tas ir viens no populārākajiem rīkiem šajā kategorijā un tas labi spēj apstrādāt un formatēt lielu datu apjomu. Tā kā tīmekļa rāpuļi ir jāpielāgo konkrētai mājaslapas struktūrai, lai iegūtu vēlamos datus, tika izvēlēts konkrēts portāls - delfi.lv, dēļ tā daudzveidīgā kategoriju klāsta un rakstu daudzuma. Darba ietvaros izveidots rāpulis, kas ievāc datus no šī portāla un saglabā tos JSON formā ar 4 pamatlaukiem – virsraksts, kategorija, saturs, hipersaite. Lai sašaurinātu problēmvidi un ierobežotu nepieciešamos resursus tika izvēlētas 10 apskatāmās kategorijas – kmūzika, atpūta, kriminālziņas, finanses, tehnoloģijas, kino, literatūra, politika, sports, auto. Izgūta raksta piemēru JSON formātā iespējams apskatīt \ref{appendix:raksta_piemers} pielikumā.
 
-Rezultātā tika ievākti 6526 raksti ar sadalījumu pa kategorijām kāds redzams tabulā \ref{tab:rakstu_kategorijas}
+Rezultātā tika ievākti 13762 raksti ar sadalījumu pa kategorijām kāds redzams tabulā \ref{tab:rakstu_kategorijas}
 \begin{table}[H]
 \centering
 \caption{\label{tab:rakstu_kategorijas}}
@@ -11,15 +11,20 @@ Rezultātā tika ievākti 6526 raksti ar sadalījumu pa kategorijām kāds redza
   vlines,
 }
 Kategorija    & Raksti  \\
-politika     & 1633   \\
-kriminālziņas & 1286   \\
-izklaide     & 1261   \\
-sports       & 1180  \\
-bizness      & 1166  
+Mūzika & 1722  \\
+Atpūta & 1523  \\
+Kriminālziņas & 1517  \\
+Finanses & 1363  \\
+Tehnoloģijas & 1333  \\
+Kino & 1282  \\
+Literatūra & 1277  \\
+Politika & 1263  \\
+Sports & 1250  \\
+Auto & 1232
 \end{tblr}
 \end{table}
 
-Ievācot rakstus novērots, ka bez rakstu satura atšķiras arī vidējie rakstu garumi katrā kategorijā. Politikas un biznesa ziņām raksturīgi gari raksti ar vidēji vairāk nekā 350 vārdiem, savukārt izklaides, sporta un kriminālziņām – krietni īsāki raksti (īpaši kriminālziņām ar vidējo rakstu garumu ap 115 vārdiem). Šāda atšķirība garumos varētu atstāt ietekmi uz konkrētu kategoriju klasifikāciju akurātumu. Rakstu iedalījumu garumos sīkāk iespējams apskatīt \ref{appendix:kategorijas_wc} pielikumā.
+Ievācot rakstus novērots, ka bez rakstu satura atšķiras arī vidējie rakstu garumi katrā kategorijā. Piemēram atpūtas ziņām raksturīgi gari raksti ar vidēji vairāk nekā 662 vārdiem, savukārt auto, sporta un kriminālziņām – krietni īsāki raksti (īpaši auto ziņām ar vidējo rakstu garumu ap 227 vārdiem). Šāda atšķirība garumos varētu atstāt ietekmi uz konkrētu kategoriju klasifikāciju akurātumu. Rakstu iedalījumu garumos sīkāk iespējams apskatīt \ref{appendix:kategorijas_wc} pielikumā.
 
 \section{Tekstu priekšapstrāde}
 \subsection{Stopvārdu atmešana}
