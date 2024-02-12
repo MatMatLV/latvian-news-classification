@@ -4,6 +4,7 @@
 \usepackage{tabularray}
 \usepackage{float}
 \usepackage{url}
+\usepackage{makecell}
 \graphicspath{ {./images/} }
 
 %% Pakotne lai saliktu automātisku figūru skaitīšanu
@@ -59,7 +60,7 @@
 \parbox[c]{0.3\textwidth}{\textbf{Darba vadītājs:}}&
 \parbox[t]{0.65\textwidth}{\defZinVaditajs} \\
 \parbox[c]{0.3\textwidth}{\textbf{Darba apjoms:}}&
-\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} lpp, XX~tabulas,  \total{fignum}~attēli, XX~formulas, \total{citnum}~bibliogrāfiskās norādes, \total{nofappendices}~pielikumi} \\
+\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} lpp, 6~tabulas,  \total{fignum}~attēli, 12~formulas, \total{citnum}~bibliogrāfiskās norādes, \total{nofappendices}~pielikumi} \\
 \parbox[c]{0.3\textwidth}{\textbf{Atslēgas vārdi:}}&
 \parbox[t]{0.65\textwidth}{Dabiskās valodas apstrāde, mašīnmācīšanās, tekstu klasifikācija} \\
 &\\
@@ -67,7 +68,7 @@
 
 Bakalaura darbā ir aprakstīta dabīgās valodas apstrāde un kā mašīnmācīšanās metodes var palīdzēt risināt teksta klasifikācijas problēmu, konkrēti apskatot tieši ziņu klasifikāciju latviešu valodas rakstiem.
 
-Darba ietvaros tiek ievākta rakstu kopa no ziņu portāliem un pārbaudīts kāda pieeja sniedz augstāko precizitāti teksta klasifikācijai latviešu valodā. Tiek izvērtētas un salīdzinātās dažādas pazīmju izvēles pieejas un apmācības algoritmi (naivā Bajesa metode, loģistiskā regresija, lēmumu koki, atbalsta vektora mašīnas, neironu tīkli).
+Darba ietvaros tiek ievākta rakstu kopa no ziņu portāliem un pārbaudīts kāda pieeja sniedz augstāko precizitāti teksta klasifikācijai latviešu valodā. Tiek izvērtētas un salīdzinātās dažādas pazīmju ģenerēšanas pieejas un apmācības algoritmi (naivā Bajesa metode, loģistiskā regresija, lēmumu koki, atbalsta vektora mašīnas, neironu tīkli).
 
 Papildus apskatītas dažādas atvērtā pirmkoda bibliotēkas mašīnmācīšanās problēmu risināšanai kā scikit-learn un Tensorflow, to praktiskais pielietojums dabīgo valodu apstrādei.
 
@@ -87,7 +88,7 @@ Papildus apskatītas dažādas atvērtā pirmkoda bibliotēkas mašīnmācīšan
 \parbox[c]{0.3\textwidth}{\textbf{Academic Advisor:}}&
 \parbox[t]{0.65\textwidth}{\defZinVaditajs} \\
 \parbox[c]{0.3\textwidth}{\textbf{The volume of the work:}}&
-\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} pages, XX~tables,  \total{fignum}~images, XX~equations, \total{citnum}~literature sources, \total{nofappendices}~appendices} \\
+\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} pages, 6~tables,  \total{fignum}~images, 12~equations, \total{citnum}~literature sources, \total{nofappendices}~appendices} \\
 \parbox[c]{0.3\textwidth}{\textbf{Keywords:}}&
 \parbox[t]{0.65\textwidth}{ Natural language processing, machine learning, text classification} \\
 &\\
@@ -128,10 +129,8 @@ In addition, various open source libraries for machine learning as scikit-learn 
 
 %------------------------------------------------DARBS--------------------------------------------------------------
 
-\chapter{Teorija}
 \input{src/teorija}
 
-\chapter{Praktiskā daļa}
 \input{src/risinajums}
 
 %----------------------------------------------SECINĀJUMI----------------------------------------------------------

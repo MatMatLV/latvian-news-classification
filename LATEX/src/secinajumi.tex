@@ -1,8 +1,8 @@
-Darba procesā tika noskaidrots ka ziņu klasifikācijā pielietot mašīnmācīšanās algoritmus ir noderīgi, jo iespējams veikt šo klasifikāciju ļoti precīzi, augstāko akurātuma rādītāju 0.966 sasniedzot ar atbalsta vektora mašīnas algoritmu un TF-IDF pielietojumu pazīmju ģenerēšanā.
+Darba procesā tika noskaidrots ka ziņu klasifikācijā pielietot mašīnmācīšanās algoritmus ir noderīgi, jo iespējams veikt šo klasifikāciju ļoti precīzi, augstāko akurātuma rādītāju 0.9738 sasniedzot ar atbalsta vektora mašīnas algoritmu un TF-IDF pielietojumu pazīmju ģenerēšanā.
 
-Novērots arī tas, ka ne visas kategorijas ir vienlīdz viegli klasificēt. Sporta ziņas visiem algoritmiem sanāca klasificēt daudz veiksmīgāk nekā politikas un biznesa ziņas. Tas izskaidrojams ar saturisku pārklājumu starp tēmām (politikas un biznesa ziņas bieži kļūdīgi tika klasificētas kā pretējā kategorija) un rakstu garumiem (sporta ziņas pārsvarā ir īsākas).
+Novērots arī tas, ka ne visas kategorijas ir vienlīdz viegli klasificēt. Piemēram – finanšu un tehnoloģiju ziņas visiem modeļiem bija grūti klasificēt. Tas izskaidrojams ar saturisku pārklājumu starp tēmām (tehnoloģiju jaunumi un tehnoloģijas uzņēmumu finanšu jaunumi par peļņu/investīcijām).
 
-Lai gan izpētīt un implementēt konvolūcijas neironu tīklus autora ieskatā bija jēgpilni, izveidotais modelis nespēja sasniegt augstāku precizitāti par vienkāršākiem algoritmiem.
+Lai gan izpētīt un implementēt neironu tīklus un dažādas to arhitekrūtas autora ieskatā bija jēgpilni, izveidotie modeļi nespēja sasniegt augstāku precizitāti.
 
 Autora ieskatā publiskas ziņu rakstu datu kopas ir ļoti noderīgas mašīnmācīšanās eksperimentos, piemēram, angļu valodā ziņu kopas kā “20 Newsgroup” tiek plaši pielietotas un pat iekļautas populārās bibliotēkās kā sckit-learn. Latviešu valodā šādas publiskas datu kopas netika atrastas un rakstu kopas izveide ne vienmēr ir triviāls uzdevums. Autora ievākto datu kopu publiskojot iespējama tālāka tās pielietošana citu autoru darbos.
 
@@ -12,4 +12,6 @@ Teksta priekšapstrāde latviešu valodā ir ierobežota morfoloģisko rīku pie
 
 Autora ieskatā noderīgi būtu uzlabot modeļu apmācību ar papildus tekstu morfoloģisko apstrādi (piemēram, lemmatizāciju). Šāda apstrāde angļu un citu izplatītāku valodas tekstiem ir pieejama dažādās Python bibliotēkās, diemžēl latviešu valodas tekstiem nav tāda atbalsta. Nepieciešams veikt papildus darbu šādu rīku izstrādei.
 
-Nepieciešama tālāka izpēte par neironu tīkliem un iespējām sasniegt augstāku precizitāti – iespējams autora izvēlētie slāņi un paramatri tīkla izveidei nebija optimāli. Labākus rezultātus iespējams varētu sasniegt ar LSTM neironu tīkliem.
+Nepieciešama tālāka izpēte par neironu tīkliem un iespējām sasniegt augstāku precizitāti – iespējams autora izvēlētie slāņi un paramatri tīkla izveidei nebija optimāli.
+
+Lai izvairītos no klasifikācijas problēmām kategorijās ar saturisku pārklājumu – noderīgi būtu implementēt kategorizāciju, kas spētu piešķirt tekstiem vairāk par vienas klases atbilstību. 

@@ -1,10 +1,20 @@
-Mūsdienās internets ir kļuvis par galveno informācijas avotu lielai daļai cilvēku, kuri ikdienā ar dažādu mediju palīdzību caur to gūst informāciju par jaunākajām aktualitātēm savā rajonā, valstī un pasaulē. Svarīga loma informācijas iegūšanā un izplatīšanā ir arī pareizai teksta klasifikācijai, lai šī informācija sasniegtu vēlamo lasītāju. Pārsvarā problēma tiek atrisināta autoram klasificējot savu darbu jau izveides procesā, tomēr bieži ar to vien nepietiek – tiek pārpublicēti raksti no ārējiem resursiem, mainās kategoriju iedalījums, aktuālas kļūst jaunas tēmas u.t.t. Lai gan arī šādos gadījumos klasifikāciju iespējams darīt manuāli, pie liela informācija apjoma kļūst jēgpilni šo klasifikāciju automatizēt ar mašīnmācīšanās algoritmiem, ietaupot laiku un resursus. Autors plāno izpētīt metodes ar kurām iespējams veikt šādu tekstu klasifikāciju un kā tās ir piemērotas latviešu valodas tekstu apstrādei, konkrētāk apskatot tieši ziņu portālu rakstu klasifikācijas problēmu. Darba mērķis ir izveidot mašīnmācīšanās modeli, kas ar augstu precizitāti spētu klasificēt ziņu portālu rakstus. Lai sasniegtu šo mērķi, tiek izvirzīti sekojoši uzdevumi:
+Mūsdienās internets ir kļuvis par galveno informācijas avotu lielai daļai cilvēku, kuri ikdienā ar dažādu mediju palīdzību caur to gūst informāciju par jaunākajām aktualitātēm savā rajonā, valstī un pasaulē. Svarīga loma informācijas iegūšanā un izplatīšanā ir arī pareizai teksta klasifikācijai, lai šī informācija sasniegtu vēlamo lasītāju. Pārsvarā problēma tiek atrisināta autoram klasificējot savu darbu jau izveides procesā, tomēr bieži ar to vien nepietiek – tiek pārpublicēti raksti no ārējiem resursiem, mainās kategoriju iedalījums, aktuālas kļūst jaunas tēmas u.t.t. Lai gan arī šādos gadījumos klasifikāciju iespējams darīt manuāli, pie liela informācija apjoma kļūst jēgpilni šo klasifikāciju automatizēt ar mašīnmācīšanās algoritmiem, ietaupot laiku un resursus. 
+
+Autors plāno izpētīt metodes ar kurām iespējams veikt šādu tekstu klasifikāciju un kā tās ir piemērotas latviešu valodas tekstu apstrādei, konkrētāk apskatot tieši ziņu portālu rakstu klasifikācijas problēmu. Darba mērķis ir izveidot mašīnmācīšanās modeli, kas ar augstu precizitāti spētu klasificēt ziņu portālu rakstus. Lai sasniegtu šo mērķi, tiek izvirzīti sekojoši uzdevumi:
 \begin{enumerate}
 \item Veikt literatūras izpēti par mašīnmācīšanos un tekstu klasifikāciju
 \item Izveidot rāpuli ar kura palīdzību izgūt un marķēt ziņu portālu rakstus, pielietojamus modeļu apmācībā
 \item Implementēt dažādus mašīnmācīšanās algoritmus tekstu klasifikācijai
-\item Izpētīt kā dažāda tekstu priekšapstrāde / pazīmju izveides metodes ietekmē klasifikācijas rezultātus
-\item Veikt precizitātes novērtējumus un salīdzināt cik labi dažādi algoritmi spēj veikt latviešu valodas tekstu klasifikāciju
+\item Izpētīt kā dažādas pazīmju ģenerēšanas pieejas ietekmē klasifikācijas rezultātus
+\item Veikt precizitātes novērtējumus un salīdzināt cik labi dažādos algoritmos balstīti modeļi spēj veikt latviešu valodas tekstu klasifikāciju
 \end{enumerate}
 
-Lai veiktu algoritmu implementēšanu un analīzi tiks izmantota programmēšanas valoda Python un plaši pielietotas bibliotēkas mašīnmācīšanās problēmu risināšanai (scikit-learn, Tensorflow)
+Lai veiktu algoritmu implementēšanu un analīzi tiks izmantota programmēšanas valoda Python un plaši pielietotas bibliotēkas mašīnmācīšanās problēmu risināšanai (scikit-learn, Tensorflow).
+
+Darbs sastāv no 4 nodaļām. Pirmajā nodaļā tiek apskatīta dabiskās valodas apstrāde un mašīnmācīšanās, pamatjēdzieni uz kuriem balstās nākošo nodaļu saturs.
+
+Otrajā nodaļā uzsvars tiek likts uz pazīmju ģenerēšanas aprakstu un literatūras izpēti par to. Šis ir svarīgs solis pirms mašīnmācīšanās algoritmu pielietošanas, pārvēršot teksta informāciju apstrādei piemērotā formā un ietekmējot to cik veiksmīgu modeli būs iespējams izveidot.
+
+Trešajā nodaļā konkrēti tiek apskatīti dažādi izplatītākie algoritmi ar kuriem veikt teksta klasifikāciju – sākot no vienkāršākām pieejām kā atbalsta vektora mašīnas, turpinot ar neironu tīkliem un lielajiem valodas modeļiem kā BERT.
+
+Ceturtajā nodaļā tiek apskatīta rāpuļa un klasifikācijas modeļu praktiskā izveide, cik labi dažādi modeļi spēja sasniegt vēlamo rezultātu.

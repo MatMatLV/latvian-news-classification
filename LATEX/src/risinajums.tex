@@ -1,7 +1,16 @@
+\chapter{Rāpuļa un klasifikācijas modeļu izveide}
 \section{Datu izgūšana no ziņu portāliem ar rāpuli}
-Lai veiktu izpēti, sakumā ir nepieciešams ievākt treniņdatus / valodas korpusu, kas raksturo problēmvidi – ziņu portālu rakstus. Praktiskai rāpuļa implementācijai tika izvēlēts Python ietvars “Scrapy”, ar kura palīdzību iespējams izveidot tīmekļa rāpuļus, kas pārmeklē mājaslapas un izvelk no tām datus strukturētā formā. Šis ietvars izvēlēts, jo tas ir viens no populārākajiem rīkiem šajā kategorijā un tas labi spēj apstrādāt un formatēt lielu datu apjomu. Tā kā tīmekļa rāpuļi ir jāpielāgo konkrētai mājaslapas struktūrai, lai iegūtu vēlamos datus, tika izvēlēts konkrēts portāls - delfi.lv, dēļ tā daudzveidīgā kategoriju klāsta un rakstu daudzuma. Darba ietvaros izveidots rāpulis, kas ievāc datus no šī portāla un saglabā tos JSON formā ar 4 pamatlaukiem – virsraksts, kategorija, saturs, hipersaite. Lai sašaurinātu problēmvidi un ierobežotu nepieciešamos resursus tika izvēlētas 10 apskatāmās kategorijas – kmūzika, atpūta, kriminālziņas, finanses, tehnoloģijas, kino, literatūra, politika, sports, auto. Izgūta raksta piemēru JSON formātā iespējams apskatīt \ref{appendix:raksta_piemers} pielikumā.
+Lai veiktu izpēti, sakumā ir nepieciešams ievākt treniņdatus / valodas korpusu, kas raksturo problēmvidi – ziņu portālu rakstus. Praktiskai rāpuļa implementācijai tika izvēlēts Python ietvars “Scrapy”, ar kura palīdzību iespējams izveidot tīmekļa rāpuļus, kas pārmeklē mājaslapas un izvelk no tām datus strukturētā formā. Šis ietvars izvēlēts, jo tas ir viens no populārākajiem rīkiem šajā kategorijā un tas labi spēj apstrādāt un formatēt lielu datu apjomu. Tā kā tīmekļa rāpuļi ir jāpielāgo konkrētai mājaslapas struktūrai, lai iegūtu vēlamos datus, tika izvēlēts konkrēts portāls - delfi.lv, dēļ tā daudzveidīgā kategoriju klāsta un rakstu daudzuma. Lai palielinātu iegūstamo rakstu daudzveidību tika apsvērts pielietot rāpuli arī uz citiem ziņu portāliem, tomēr tiem visiem ir liels pārklājums savā starpā, pārpublicējot rakstus no ziņu aģentūrām kā LETA. Šāda pieeja sekojoši varētu novest pie dublikātiem datu kopā, radot iespēju vienādiem rakstiem parādīties gan apmācības, gan validācijas kopās vienlaicīgi. Darba ietvaros izveidots rāpulis, kas ievāc datus no delfi.lv portāla un saglabā tos JSON formā ar 4 pamatlaukiem – virsraksts, kategorija, saturs, hipersaite. Lai sašaurinātu problēmvidi un ierobežotu nepieciešamos resursus tika izvēlētas 10 apskatāmās kategorijas – mūzika, atpūta, kriminālziņas, finanses, tehnoloģijas, kino, literatūra, politika, sports, auto. Darbības princips rāpulim ir sekojošs:
+\begin{itemize}
+\item Rāpulim sākotnēji apskatāmās saites noradām kā 10 izvēlēto kategoriju lapas (piemēram, politikas ziņām - https://www.delfi.lv/193/politics?page=1).
+\item No lapām iegūstam hipersaites uz individuāliem rakstiem, ierobežojot tālāk apskatāmās saites tā, lai tās aizvien piederētu apskatāmajām kategorijām un nesaturētu nevēlamas saites (kā komentāru lapas rakstiem).
+\item Apstrādājam katra raksta lapu, piefiksējot hipersaiti un dažādas komponentes - virsrakstu, kategoriju, saturu, atlasot tos pēc HTML elementu atbilstības konkrētas komponentes kritērijiem.
+\item Saglabājam katru rakstu JSON formātā un ierakstam failā, atkārtojot procedūru līdz vairs neatrodam unikālus rakstus ko rāpulim apmeklēt.
+\end{itemize}
 
-Rezultātā tika ievākti 13762 raksti ar sadalījumu pa kategorijām kāds redzams tabulā \ref{tab:rakstu_kategorijas}
+Scrapy ietvars kopumā dod iespēju diezgan efektīvi realizēt šādu rāpuli – sākot no apskatāmo rakstu ierobežošanas līdz elementu atlasei un apstrādei. Salīdzinoši grūtāk ir tieši formalizēt kādus selektorus izvēlēties elementu atlasei, jo lapu formatējums starp dažādām kategorijām mēdz būt atšķirīgs un pat vienas kategorijas ietvaros tika novērots ka senākiem rakstiem formatējums var atšķirties no jaunāko rakstu formatējuma. Papildus tam arī ne visi raksti ir derīgi datu ieguvei, piemēram sastopami raksti kas satur tikai foto un video galerijas ar minimāliem aprakstiem, sastopami arī maksas raksti ar tikai vienu publiski pieejamu rindkopu.
+
+Izgūta raksta piemēru JSON formātā iespējams apskatīt \ref{appendix:raksta_piemers} pielikumā. Rezultātā tika ievākti 13762 raksti ar sadalījumu pa kategorijām kāds redzams tabulā \ref{tab:rakstu_kategorijas}
 \begin{table}[H]
 \centering
 \caption{\label{tab:rakstu_kategorijas}}
@@ -24,18 +33,85 @@ Auto & 1232
 \end{tblr}
 \end{table}
 
-Ievācot rakstus novērots, ka bez rakstu satura atšķiras arī vidējie rakstu garumi katrā kategorijā. Piemēram atpūtas ziņām raksturīgi gari raksti ar vidēji vairāk nekā 662 vārdiem, savukārt auto, sporta un kriminālziņām – krietni īsāki raksti (īpaši auto ziņām ar vidējo rakstu garumu ap 227 vārdiem). Šāda atšķirība garumos varētu atstāt ietekmi uz konkrētu kategoriju klasifikāciju akurātumu. Rakstu iedalījumu garumos sīkāk iespējams apskatīt \ref{appendix:kategorijas_wc} pielikumā.
+Ar rāpuli izgūtie teksti papildus tika manuāli pārbaudīti un attīrīti no nevēlamiem datiem – iegulti koda fragmenti audio /video atskaņotājiem, hipersaites. Ievācot rakstus novērots, ka bez rakstu satura atšķiras arī vidējie rakstu garumi katrā kategorijā. Piemēram atpūtas ziņām raksturīgi gari raksti ar vidēji vairāk nekā 662 vārdiem, savukārt auto, sporta un kriminālziņām – krietni īsāki raksti (īpaši auto ziņām ar vidējo rakstu garumu ap 227 vārdiem). Šāda atšķirība garumos varētu atstāt ietekmi uz konkrētu kategoriju klasifikāciju akurātumu. Rakstu iedalījumu garumos sīkāk iespējams apskatīt \ref{appendix:kategorijas_wc} pielikumā.
 
-\section{Tekstu priekšapstrāde}
-\subsection{Stopvārdu atmešana}
-Izmantotajās Python bibliotēkās ir iekļauti saraksti ar stopvārdiem daudzām izplatītām valodām, tomēr latviešu valodai šāds sarakts jādefinē neatkarīgi. Tika veikta izpēte par to vai šāds saraksts jau ir publiski pieejams un kā viens no populārākajiem atrasts ‘stopwords-lv’ repozitorijs iekš github. Lai gan tas ir izmantojams kā labs pamats un uzskaita palīgvārdus (saikļus, prievārdus, partikulas), trūkst citas svarīgas morfoloģiskās grupas kā vietniekvārdi (attieksmes vietniekvārdi – kurš, kura u.c., norādāmie vietniekvārdi – šis, šī, tas, tā, viņš u.c, kā arī locījumi šiem vārdiem), jo arī šo vārdu esamība neraksturo teksta fragmenta jēgu vai piederību kādai kategorijai. Darba ietvaros izveidots uzlabots stopvārdu saraksts latviešu valodai, kas labāk spētu veikt vārdu filtrēšanas soli teksta priekšasptrādē, un pielietots uz apmācības datiem. 
+\section{Klasisko mašīnmācīšanās algortimu implementācija}
 
-\clearpage
+\subsubsection{Izmantotie rīki}
+Viena no Python valodas populārākajām mašīnmācīšanās bibliotēkām, kas palīdz risināt problēmas kā klasteru veidošana, regresija, klasifikācija, dimensiju skaita samazināšana, ir ‘sckit-learn’. Autors ir izvēlējies lietot šo bibliotēku lai atvieglotu plaši lietotu klasifikācijas algoritmu implementāciju (Naivā Bejesa metode, loģistiskā regresija, lēmumu koki,  atbalsta vektoru mašīnas). 
 
-\section{Algoritmu rezultāti}
-\subsection{Atbalsta vektora mašīnas}
+Svarīga loma valodas apstrādē arī ir ievades tokenizācijai, tās veikšanai iespējams izmantot Python bibliotēkas kā NLTK un spaCy. Tieši šīs divas bibliotēkas ir populārākās un spēj tikt galā ar biežām tokenizācijas problēmām kā saīsinājumu, pieturzīmju un simbolu atdalīšana. Darba ietvaros tokenizācijas nolūkiem tika izvēlēts pielietot spaCy.
 
-Atbalsta vektora mašīnas apmācības algoritms ir implementēts ar scikit-learn SVM klases komponenti LinearSVC (sklearn.svm.LinearSVC). Sasniegtais akurātums ar testa rakstu kopu un izmantojot vārdu maisa vektorizācijas pieeju -  0.952, pielietojot TF-IDF pazīmju izveidē savukārt tiek iegūts augstāks akurātums - \textbf{0.966}. Kā redzams pārpratuma matricā \ref{fig:AVM_TFIDF} - piecu kategoriju klasifikācija tiek veikta ļoti precīzi un biežākā kļūda ir nepareizi klasificētas politikas ziņas, klasificējot tās kā biznesa ziņas. Precīzāki novērtējumi pa kategorijām apskatāmi \ref{tab:AVM} tabulā.
+\subsection{Priekšapstrāde un vektorizācija}
+\subsubsection{Tokenizācija un tekstu attīrīšana}
+Teksta apstrāde tiek sākta ar teksta tokenizāciju, izmantojot spaCy bibliotēkā iebūvētās metodes. Kad teksts ir sadalīts vārdos – apstrāde tiek turpināta ar visu vārdu pārvēršanu formā ar visiem mazajiem burtiem, tiek izņemtas pieturzīmes un stopvārdi.
+
+Konkrētāk apskatot stopvārdu atmešanu - dažādās Python bibliotēkās ir iekļauti saraksti ar stopvārdiem izplatītām valodām, tomēr latviešu valodai šāds sarakts jādefinē neatkarīgi. Tika veikta izpēte par to vai šāds saraksts jau ir publiski pieejams un kā viens no populārākajiem atrasts ‘stopwords-lv’ repozitorijs iekš github. Lai gan tas ir izmantojams kā labs pamats un uzskaita palīgvārdus (saikļus, prievārdus, partikulas), trūkst citas svarīgas morfoloģiskās grupas kā vietniekvārdi (attieksmes vietniekvārdi – kurš, kura u.c., norādāmie vietniekvārdi – šis, šī, tas, tā, viņš u.c, kā arī locījumi šiem vārdiem), jo arī šo vārdu esamība neraksturo teksta fragmenta jēgu vai piederību kādai kategorijai. Darba ietvaros izveidots uzlabots stopvārdu saraksts latviešu valodai, kas labāk spētu veikt vārdu filtrēšanas soli teksta priekšasptrādē, un pielietots uz apmācības datiem. 
+
+\subsubsection{Vektorizācija}
+Pirms algoritmu pielietošanas nepieciešams datus vektorizēt. Darba ietvaros uz katru no algoritmiem tika pārbaudītas dažādas vektorizācijas pieejas – vārdu maiss, bigrammu maiss, TF-IDF un vārdlietojuma kartējumi ar FastText, pielietojot katru no tām uz rāpuļa izgūtās datu kopas. Tika arī veikti eksperimenti ar word2vec vārdlietojuma kartējuma pieeju, tomēr Fasttext pielietošana sniedza labākus sākotnējos rezultātus, arī citi pētījumi par vārdlietojuma kartējuma pieejām latviešu valodas tekstiem \cite{LaucisJekabsonWordEmbedding} norāda FastText kā pieeju ar labāko veiktspēju, salīdzinot ar word2vec, ngram2vec, SSG (Structured Skip-Gram).
+
+\subsection{Algoritmu implementācijas}
+
+\subsubsection{Datu līdzsvarošana un sadale}
+Svarīģs priekšnosacījums labai klasifikācijas modeļa apmācībai ir izvairīšanās no nevienmērīga klašu sadalījuma datu kopā. Ar rāpuli tika mēģināts izgūt samērā līdzīgu rakstu skaitu pa kategorijām, tomēr atšķirības eksistē, piemēram, klasei “Mūzika” rezultātā tika izgūti 1722 raksti, bet auto ziņām – 1232 raksti. Pirms apmācības visām kategorijām saglabājam 1200 rakstus, pārējos atmetot. Rezultātā iegūstam 12 000 rakstus, kurus tālāk sadalām – 80\% apmācībai (9600 raksti), 20\% validācijai (2400 raksti).
+
+\subsubsection{Atbalsta vektora mašīnas}
+Atbalsta vektora mašīnas apmācības algoritms ir implementēts ar scikit-learn komponenti LinearSVC (sklearn.svm.LinearSVC) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_svm} tabulā.
+\begin{table}[H]
+\centering
+\caption{\label{tab:accuracy_svm}}
+\textbf{Akurātuma mēri pielietojot AVM\\}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+0.9696 & 0.9679 & 0.9738 & 0.9567 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Naivā Bajesa metode}
+Naivā Bajesa apmācības algoritms ir implementēts ar scikit-learn komponenti MultinomialNB (sklearn.naive\_bayes.MultinomialNB) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_nb} tabulā.
+\begin{table}[H]
+\centering
+\caption{\label{tab:accuracy_nb}}
+\textbf{Akurātuma mēri pielietojot Naivā Bajesa metodi\\}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+0.9629 & 0.9558 & 0.9617 & 0.85 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Loģistiskā regresija}
+Loģistiskās regresijas apmācības algoritms ir implementēts ar scikit-learn komponenti LogisticRegression (sklearn.linear\_model.LogisticRegression) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_lr} tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:accuracy_lr}}
+\textbf{Akurātuma mēri pielietojot loģistisko regresiju\\}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+0.9663 & 0.9663 & 0.9663 & 0.9579 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Lēmumu koki}
+Lēmumu koku pmācības algoritms ir implementēts ar scikit-learn komponenti DecisionTreeClassifier (sklearn.tree.DecisionTreeClassifier) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_dt}tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:accuracy_dt}}
+\textbf{Akurātuma mēri pielietojot lēmumu kokus\\}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+0.8096 & 0.8196 & 0.7975 & 0.7408 \\ \hline
+\end{tabular}
+\end{table}
+
+
+Vislabākais sasniegtais akurātums iegūts ar atbalsta vektora mašīnām un TF-IDF vektorizāciju - \textbf{0.9738}, šai pieejai varam vizualizēt kategorizāciju ar pārpratuma matricu. Kā redzams attēlā \ref{fig:AVM_TFIDF} – desmit  kategoriju klasifikācija tiek veikta ļoti precīzi un biežākā kļūda ir nepareizi klasificētas finanšu ziņas, klasificējot tās kā tehnoloģiju ziņas.
 
 \begin{figure}[H]
 	\centering
@@ -43,100 +119,23 @@ Atbalsta vektora mašīnas apmācības algoritms ir implementēts ar scikit-lear
 	\caption{Atbalsta vektora mašīnas pārpratuma matrica}
 	\label{fig:AVM_TFIDF}
 \end{figure}
-\begin{table}[H]
-\centering
-\caption{\label{tab:AVM}}
-\textbf{AVM algoritma novērtējums pa kategorijām\\}
-\begin{tblr}{
-  hlines,
-  vlines,
-}
-kategorija & precizitāte & pārklājums   & F1 mērs \\
-bizness  & 0.938017  & 0.970085 & 0.953782     \\
-criminal & 0.979339  & 0.979339 & 0.979339     \\
-izklaide & 0.98855   & 0.992337 & 0.99044     \\
-politika & 0.965944  & 0.945455 & 0.95559     \\
-sports   & 1         & 0.991632 & 0.995798     
-\end{tblr}
-\end{table}
 
-\subsection{Naivā Bajesa metode}
-TBD
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{NB_TFIDF}
-	\caption{Naivā Bajesa metode pārpratuma matrica}
-	\label{fig:NB_TFIDF}
-\end{figure}
-\begin{table}[H]
-\centering
-\caption{\label{tab:NB}}
-\textbf{Naivā Bajesa algoritma novērtējums pa kategorijām\\}
-\begin{tblr}{
-  hlines,
-  vlines,
-}
-kategorija & precizitāte & pārklājums   & F1 mērs \\
-bizness  & 0.944724  & 0.803419 & 0.86836     \\
-criminal & 0.982063  & 0.904959 & 0.941935     \\
-izklaide & 0.995984  & 0.950192 & 0.972549     \\
-politika & 0.794045  & 0.969697 & 0.873124     \\
-sports   & 0.99569   & 0.966527 & 0.980892     \\
-\end{tblr}
-\end{table}
-
-\subsection{Loģistiskā regresija}
-TBD
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{LogRef_TFIDF}
-	\caption{Loģistiskās regresijas pārpratuma matrica}
-	\label{fig:LogRef_TFIDF}
-\end{figure}
-\begin{table}[H]
-\centering
-\caption{\label{tab:LogRef}}
-\textbf{Loģistiskā regresijas algoritma novērtējums pa kategorijām\\}
-\begin{tblr}{
-  hlines,
-  vlines,
-}
-kategorija & precizitāte & pārklājums   & F1 mērs \\
-bizness  & 0.928571  & 0.944444 & 0.936441      \\
-criminal & 0.963265  & 0.975207 & 0.969199      \\
-izklaide & 0.980989  & 0.988506 & 0.984733      \\
-politika & 0.944444  & 0.927273 & 0.93578      \\
-sports   & 1         & 0.987448 & 0.993684      \\
-\end{tblr}
-\end{table}
-
-\subsection{Lēmumu koki}
-TBD
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{LemKok_TFIDF}
-	\caption{Lēmumu koki - pārpratuma matrica}
-	\label{fig:LemKok_TFIDF}
-\end{figure}
-\begin{table}[H]
-\centering
-\caption{\label{tab:LemKok}}
-\textbf{Lēmumu koku algoritma novērtējums pa kategorijām\\}
-\begin{tblr}{
-  hlines,
-  vlines,
-}
-kategorija & precizitāte & pārklājums   & F1 mērs \\
-bizness  & 0.840517  & 0.833333 & 0.83691      \\
-criminal & 0.823529  & 0.867769 & 0.84507       \\
-izklaide & 0.848249  & 0.835249 & 0.841699      \\
-politika & 0.817365  & 0.827273 & 0.822289      \\
-sports   & 0.912281  & 0.870293 & 0.890792      \\
-\end{tblr}
-\end{table}
-
+\section{Neironu tīklu implementācija}
 \subsection{Konvolūcijas neironu tīkli}
-TBD
+Konvolūcijas neironu tīklu implementēšanai izvēlēta Tensoflow bibliotēka ar Keras interfeisu, lai vieglāk varētu prototipēt un izstrādāt vēlamo neironu tīkla arhitektūru. Darba ietvarā apskatīta diezgan tradicionāla pieeja konvolūcijas neironu tīkliem teksta klasifikācijai, respektīvi, tiek definēti 5 slāņi:
+
+\begin{itemize}
+\item Iegulšanas slānis
+\item Konvolūcijas slānis ar 1 dimensiju, izmantojot ReLU aktivizācijas funkciju
+\item Apvienošanas slānis ar globālā maksimuma apvienošanu
+\item Atmešanas slānis ar vērtību 0.5
+\item Pilnīgi savienotais slānis gala klasifikācijai, izmantojot softmax aktivizācijas funkciju
+\end{itemize}
+
+Apmācība tika veikta 10 epohus, saglabājot modeli posmos ar mazāko validācijas zuduma (validation loss) vērtību, mēģinot izvairīties no pārmērīgas pielāgošanas.Akurātuma un zuduma evolūciju pa epohiem iespējams apskatīt \ref{fig:Accuracy_Loss_CNN_10epoch} attēlā.
+
+Pielietojot augstāk minēto konvolūcijas neironu tīkla uzbūvi iegūstam akurātuma mēru kā 0.9571, kas lai gan ir diezgan labs rezultāts, tomēr ir mazāk precīzs par klasisku algoritmu (kā atbalsta vektora mašīnas) modeļiem. Pārpratuma matricu iespējams apskatīt attēlā \ref{fig:CNN}, kur varam novērot, ka arī ar šo pieeju visgrūtāk modelim ir atķirt tieši tehnoloģiju un finanšu ziņas.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\textwidth]{CNN}
@@ -150,23 +149,14 @@ TBD
 	\label{fig:Accuracy_Loss_CNN_10epoch}
 \end{figure}
 
-\begin{table}[H]
-\centering
-\caption{\label{tab:CNN}}
-\textbf{Konvolūcijas neironu tīkli - novērtējums pa kategorijām\\}
-\begin{tblr}{
-  hlines,
-  vlines,
-}
-kategorija & precizitāte & pārklājums   & F1 mērs \\
-bizness  & 0.891775  & 0.88412  & 0.887931  \\
-criminal & 0.96124   & 0.96124  & 0.96124   \\
-izklaide & 0.968     & 0.960317 & 0.964143  \\
-politika & 0.920245  & 0.917431 & 0.918836  \\
-sports   & 0.958506  & 0.978814 & 0.968553 
-\end{tblr}
-\end{table}
+Meklējot iespējas uzlabot rezultātu ar konvolūcijas tīkliem tika izmēģināta arī Kim Yoon piedāvātā arhitektūra \cite{kimYoonCNN}, uzlabojot sākotnējo modeli ar 3 paralēliem konvolūcijas/apvienošanas slāņiem, kur katram konvolūcijas slānim pielietojam dažādus filtra izmērus.
 
-
-\section{Modeļu salīdzinājums}
-TBD
+\subsection{BERT}
+Latviešu valodā ir pieejams BERT modelis ko izstrādājuši LU Matemātikas un informātikas institūta pētnieki Artūrs Znotiņš un Guntis Barzdiņš. Modelis ir apmācīts uz latviešu Wikipedia ierakstiem, tekstiem no valodas korpusa LVK2018, dažādiem ziņu rakstiem un to komentāriem, kas kopā veido 500 miljonu lielu tokenu kopu apmācībai. Ņemot par pamatu šo modeli un pielāgojot to klasifikācijas problēmai tika veikta apmācība, iegūstot modeli ar akurātuma mēru kā 0.9704.
+Tā kā BERT noderīga daļa ir spēja uztvert teksta kontekstu, tekstu priekšapstrāde kā stopvārdu izņemšana netika pielietota, jo tādējādi varam pazaudēt daļu no konteksta un saiknēm starp vārdiem.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{Matrica_BERT}
+	\caption{BERT - pārpratuma matrica}
+	\label{fig:Matrica_BERT}
+\end{figure}
