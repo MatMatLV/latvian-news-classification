@@ -149,8 +149,6 @@ Pielietojot augstāk minēto konvolūcijas neironu tīkla uzbūvi iegūstam akur
 	\label{fig:Accuracy_Loss_CNN_10epoch}
 \end{figure}
 
-Meklējot iespējas uzlabot rezultātu ar konvolūcijas tīkliem tika izmēģināta arī Kim Yoon piedāvātā arhitektūra \cite{kimYoonCNN}, uzlabojot sākotnējo modeli ar 3 paralēliem konvolūcijas/apvienošanas slāņiem, kur katram konvolūcijas slānim pielietojam dažādus filtra izmērus.
-
 \subsection{BERT}
 Latviešu valodā ir pieejams BERT modelis ko izstrādājuši LU Matemātikas un informātikas institūta pētnieki Artūrs Znotiņš un Guntis Barzdiņš. Modelis ir apmācīts uz latviešu Wikipedia ierakstiem, tekstiem no valodas korpusa LVK2018, dažādiem ziņu rakstiem un to komentāriem, kas kopā veido 500 miljonu lielu tokenu kopu apmācībai. Ņemot par pamatu šo modeli un pielāgojot to klasifikācijas problēmai tika veikta apmācība, iegūstot modeli ar akurātuma mēru kā 0.9704.
 Tā kā BERT noderīga daļa ir spēja uztvert teksta kontekstu, tekstu priekšapstrāde kā stopvārdu izņemšana netika pielietota, jo tādējādi varam pazaudēt daļu no konteksta un saiknēm starp vārdiem.
