@@ -150,11 +150,30 @@ Pielietojot augstāk minēto konvolūcijas neironu tīkla uzbūvi iegūstam akur
 \end{figure}
 
 \subsection{BERT}
-Latviešu valodā ir pieejams BERT modelis ko izstrādājuši LU Matemātikas un informātikas institūta pētnieki Artūrs Znotiņš un Guntis Barzdiņš. Modelis ir apmācīts uz latviešu Wikipedia ierakstiem, tekstiem no valodas korpusa LVK2018, dažādiem ziņu rakstiem un to komentāriem, kas kopā veido 500 miljonu lielu tokenu kopu apmācībai. Ņemot par pamatu šo modeli un pielāgojot to klasifikācijas problēmai tika veikta apmācība, iegūstot modeli ar akurātuma mēru kā 0.9704.
-Tā kā BERT noderīga daļa ir spēja uztvert teksta kontekstu, tekstu priekšapstrāde kā stopvārdu izņemšana netika pielietota, jo tādējādi varam pazaudēt daļu no konteksta un saiknēm starp vārdiem.
+Sākotnējais BERT modelis, kuru Google izstrādātāji jau bija apmācījuši un publicējuši, latviešu valodas ziņu apstrādei nav pielietojams, jo modelis apmācīts tikai uz angļu valodas tekstiem. Lai gan tikusi publicēta arī BERT uzbūves arhitektūra un modeli iespējams pašrocīgi apmācīt uz latviešu valodas tekstiem – šī darba ietvaros tas netiek veikts, jo šādai apmācībai nepieciešami ievērojami apmācības resursi ilgstošā laika posmā, kas autoram nav pieejami. Publiski gan palaik ir pieejams BERT modelis, kur apmācība uz latviešu valodas tekstiem jau ir veikta, to apmācījuši LU Matemātikas un informātikas institūta pētnieki Artūrs Znotiņš un Guntis Barzdiņš, modeli nosaucot par LVBERT. Tas ir apmācīts uz latviešu Wikipedia ierakstiem, tekstiem no valodas korpusa LVK2018, dažādiem ziņu rakstiem un to komentāriem, kas kopā veido 500 miljonu lielu tokenu kopu apmācībai \cite{lvbert}. Salīdzinot ar sākotnējo BERT modeli, LVBERT apmācības tokenu skaits ir vairāk nekā sešas reizes mazāks.
+
+LVBERT, gluži kā citi BERT balstītie modeļi ir vispārināti un nav piemēroti tikai vienai problēmai – tos nepieciešams pielāgot konkrētai problēmai pirms to pielietošanas, šajā gadījumā - papildus tika pievienoti slāņi tieši klasifikācijas risināšanai. Papildus tekstu priekšapstrāde netika pielietota, jo tādējādi varam pazaudēt daļu no konteksta un saiknēm starp vārdiem, kas tieši ir viena no BERT modeļu spēcīgākajām pusēm.
+
+Modeļa pielāgošana veikta 5 epohos ar apmācības ātrumu kā 2e-5 un partijas izmēru kā 32, šai kombinācijai pēc eksperimentiem ar dažādām parametru vērtībām uzrādot labākos rezultātus. Sākotnējā BERT publikācijā \cite{devlin2019bert} pielāgošana dažādiem GLUE uzdevumiem veikta ar partijas izmēru kā 32, 3 epohos un apmācības ātrumiem 5e-5, 4e-5, 3e-5 un 2e-5 (izvēloties labāko rezultējošo modeli katram uzdevumam).  Apskatot arī citas publikācijās \cite{sun2020finetune}, kur apskatīta BERT pielāgošana teksta klasifikācijai, apmācības ātrums kā 2e-5 uzrāda labākos rezultātus, kamēr lielāki ātrumi kā 4e-4 noved pie “katastrofālas aizmiršanas” problēmas, kur iepriekš apgūtā informācija tiek zaudēta veicot jaunu apmācību.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:score_bert}}
+\textbf{Veiktspējas mēri pielietojot BERT\\}
+\begin{tabular}{|l|l|}
+\hline
+Akurātums & F1 \\ \hline
+0.9704 & 0.9704  \\ \hline
+\end{tabular}
+\end{table}
+
+Rezultātā iegūtā modeļa raksturojošie mēri skatāmi \ref{tab:score_bert} tabulā. Lai gan salīdzinot ar citiem neironu tīklu modeļiem tiek sasniegts rezultātu uzlabojums, tas nepārsniedz atbalsta vektora mašīnu akurātumu. Angļu valodas lielie valodu modeļi pārsvarā gūst krietni labākus rezultātus klasifikācijā, salīdzinot ar vienkāršākām metodēm. Daļējs izskaidrojums LVBERT veiktspējai varētu būt ievērojami mazākais tokenu skaits apmācības posmā, salīdzinot ar angļu valodas modeli.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\textwidth]{Matrica_BERT}
 	\caption{BERT - pārpratuma matrica}
 	\label{fig:Matrica_BERT}
 \end{figure}
+
+Papildus apskatot pārpratuma matricu attēlā \ref{fig:Matrica_BERT}, BERT modelim var novērot līdzīgu klasifikācijas kļūdu sadalījums kā jau iepriekš apskatītajiem modeļiem.
