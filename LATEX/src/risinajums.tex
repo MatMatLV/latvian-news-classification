@@ -120,21 +120,36 @@ Vislabākais sasniegtais akurātums iegūts ar atbalsta vektora mašīnām un TF
 	\label{fig:AVM_TFIDF}
 \end{figure}
 
+\pagebreak
 \section{Neironu tīklu implementācija}
+
+Darba ietvaros tika izvērtētas un implementētas dažādas neironu tīklu arhitektūras. Tā kā tika nolemts pārbaudīt plašu spektru ar dažādiem apmācības algoritmiem – tika izvēlēts Python ietvars Keras, balstīts uz Tensorflow bāzes, kas palīdz ātri un sintaktiski vienkārši prototipēt dažādus modeļus. Neironu tīklu apmācība, vismaz sākotnēji, tika veikta uz autora datora, izmantojot viduvējas veiktspējas procesoru (AMD Ryzen 5700X) un 16GB RAM. Apmācība vienkāršākiem tīkliem šādi veicama diezgan efektīvi, tomēr sarežģītākas arhitektūras ar BiLSTM slāņiem vai BERT modeļa pielāgošana kļūst gan laikietilpīgāka (12+ stundu apmācība), gan ierobežota operatīvās atmiņas resursu dēļ. Šo iemeslu dēļ darba gaitā modeļu apmācība turpināta ar Google TPU v2, kas izstrādāts tieši neironu tīklu apmācībai un nodrošina krietni ātrakus apmācības laikus.
+
 \subsection{Konvolūcijas neironu tīkli}
-Konvolūcijas neironu tīklu implementēšanai izvēlēta Tensoflow bibliotēka ar Keras interfeisu, lai vieglāk varētu prototipēt un izstrādāt vēlamo neironu tīkla arhitektūru. Darba ietvarā apskatīta diezgan tradicionāla pieeja konvolūcijas neironu tīkliem teksta klasifikācijai, respektīvi, tiek definēti 5 slāņi:
+Konvolūcijas tīklu implementācijai tiek veidots Keras modelis ar secīgiem slāņiem – iegulšanas, viendimensiju konvolūcijas ar ReLU aktivizācijas funkciju, apvienošanas (globālā maksimuma), atmešanas, pilnīgi savienotais slānis gala klasifikācijas veikšanai. Ilustrēti ar papildus informāciju par izvēlētajām slāņu dimensijām varam apskatīt modeli \ref{fig:SingleLayerCNN} attēlā.
 
-\begin{itemize}
-\item Iegulšanas slānis
-\item Konvolūcijas slānis ar 1 dimensiju, izmantojot ReLU aktivizācijas funkciju
-\item Apvienošanas slānis ar globālā maksimuma apvienošanu
-\item Atmešanas slānis ar vērtību 0.5
-\item Pilnīgi savienotais slānis gala klasifikācijai, izmantojot softmax aktivizācijas funkciju
-\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{SingleLayerCNN}
+	\caption{Konvolūcijas neironu tīkla uzbūve}
+	\label{fig:SingleLayerCNN}
+\end{figure}
 
-Apmācība tika veikta 10 epohus, saglabājot modeli posmos ar mazāko validācijas zuduma (validation loss) vērtību, mēģinot izvairīties no pārmērīgas pielāgošanas.Akurātuma un zuduma evolūciju pa epohiem iespējams apskatīt \ref{fig:Accuracy_Loss_CNN_10epoch} attēlā.
+\pagebreak
+Apmācību tiek veikta ar partijas izmēru kā 32, turpinot apmācību 10 epohos, saglabājot modeli posmos ar mazāko validācijas zuduma (validation loss) vērtību, mēģinot izvairīties no pārmērīgas pielāgošanas. Uz tekstiem pirms apmācības tiek veikta priekapstrāde - simbolu un stopvārdu atmešana. Akurātuma un zuduma evolūciju pa epohiem iespējams apskatīt \ref{fig:Accuracy_Loss_CNN_10epoch} attēlā.
 
-Pielietojot augstāk minēto konvolūcijas neironu tīkla uzbūvi iegūstam akurātuma mēru kā 0.9571, kas lai gan ir diezgan labs rezultāts, tomēr ir mazāk precīzs par klasisku algoritmu (kā atbalsta vektora mašīnas) modeļiem. Pārpratuma matricu iespējams apskatīt attēlā \ref{fig:CNN}, kur varam novērot, ka arī ar šo pieeju visgrūtāk modelim ir atķirt tieši tehnoloģiju un finanšu ziņas.
+\begin{table}[H]
+\centering
+\caption{\label{tab:score_cnn}}
+\textbf{Veiktspējas mēri pielietojot konvolūcijas neironu tīklu\\}
+\begin{tabular}{|l|l|}
+\hline
+Akurātums & F1 \\ \hline
+0.9621 & 0.9620  \\ \hline
+\end{tabular}
+\end{table}
+
+Pielietojot attēlā \ref{fig:SingleLayerCNN} ilustrēto konvolūcijas neironu tīkla uzbūvi tiek iegūti rezultāti kā \ref{tab:score_cnn} tabulā. Pārpratuma matricu iespējams apskatīt attēlā \ref{fig:CNN}, kur varam novērot līdzīgu kļūdu izplatību pa klasēm kā iepriekš apskatītos modeļos, arī ar šo pieeju visgrūtāk modelim ir atķirt tieši tehnoloģiju un finanšu ziņas.
 
 \begin{figure}[H]
 	\centering
@@ -148,6 +163,29 @@ Pielietojot augstāk minēto konvolūcijas neironu tīkla uzbūvi iegūstam akur
 	\caption{Konvolūcijas neironu tīkli - novērtējums pa apmācības posmiem}
 	\label{fig:Accuracy_Loss_CNN_10epoch}
 \end{figure}
+
+Mēģinot uzlabot modeļa veiktspēju tiek pielietota plaši citēta konvolūcijas neironu tīklu arhitektūra tekstu apstrādei no Kim Yoon \cite{kimYoonCNN}. Šīs arhitektūras galvenā ideja ir ieviest vairākus paralēlu konvolūcijas un apvienošanas slāņus ar dažādiem filtra izmēriem, vēlāk to rezultātus apkopojot. Galvenais iemesls – palīdzēt neironu tīklam apgūt dažādas iezīmes un likumsakarības tekstos, piemēram, mazāki filtri uztver vārdu kombinācijas, plašāki filtri – sarežģītākas valodas struktūras kā frāzes. Arī šāda pieeja tiek implementēta ar filtra izmēriem kā 4,5 un 6. Šī modeļa uzbūvi var apskatīt \ref{fig:MultiLayerCNN} attēlā.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{MultiLayerCNN}
+	\caption{Konvolūcijas neironu tīkla uzbūve - paralēla konvolūcija}
+	\label{fig:MultiLayerCNN}
+\end{figure}
+
+\pagebreak
+Modelis kurš apmācīts at augstākminēto arhitektūru nesiendza veiktspējas uzlabojumus, kā redzams \ref{tab:score_cnn_multi}tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:score_cnn_multi}}
+\textbf{Veiktspējas mēri -  konvolūcijas neironu tīkls ar parelēlu konvolūciju\\}
+\begin{tabular}{|l|l|}
+\hline
+Akurātums & F1 \\ \hline
+0.9517 & 0.9516  \\ \hline
+\end{tabular}
+\end{table}
 
 \subsection{BERT}
 Sākotnējais BERT modelis, kuru Google izstrādātāji jau bija apmācījuši un publicējuši, latviešu valodas ziņu apstrādei nav pielietojams, jo modelis apmācīts tikai uz angļu valodas tekstiem. Lai gan tikusi publicēta arī BERT uzbūves arhitektūra un modeli iespējams pašrocīgi apmācīt uz latviešu valodas tekstiem – šī darba ietvaros tas netiek veikts, jo šādai apmācībai nepieciešami ievērojami apmācības resursi ilgstošā laika posmā, kas autoram nav pieejami. Publiski gan palaik ir pieejams BERT modelis, kur apmācība uz latviešu valodas tekstiem jau ir veikta, to apmācījuši LU Matemātikas un informātikas institūta pētnieki Artūrs Znotiņš un Guntis Barzdiņš, modeli nosaucot par LVBERT. Tas ir apmācīts uz latviešu Wikipedia ierakstiem, tekstiem no valodas korpusa LVK2018, dažādiem ziņu rakstiem un to komentāriem, kas kopā veido 500 miljonu lielu tokenu kopu apmācībai \cite{lvbert}. Salīdzinot ar sākotnējo BERT modeli, LVBERT apmācības tokenu skaits ir vairāk nekā sešas reizes mazāks.
