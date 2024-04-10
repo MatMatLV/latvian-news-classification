@@ -48,6 +48,8 @@ Teksta apstrāde tiek sākta ar teksta tokenizāciju, izmantojot spaCy bibliotē
 
 Konkrētāk apskatot stopvārdu atmešanu - dažādās Python bibliotēkās ir iekļauti saraksti ar stopvārdiem izplatītām valodām, tomēr latviešu valodai šāds sarakts jādefinē neatkarīgi. Tika veikta izpēte par to vai šāds saraksts jau ir publiski pieejams un kā viens no populārākajiem atrasts ‘stopwords-lv’ repozitorijs iekš github. Lai gan tas ir izmantojams kā labs pamats un uzskaita palīgvārdus (saikļus, prievārdus, partikulas), trūkst citas svarīgas morfoloģiskās grupas kā vietniekvārdi (attieksmes vietniekvārdi – kurš, kura u.c., norādāmie vietniekvārdi – šis, šī, tas, tā, viņš u.c, kā arī locījumi šiem vārdiem), jo arī šo vārdu esamība neraksturo teksta fragmenta jēgu vai piederību kādai kategorijai. Darba ietvaros izveidots uzlabots stopvārdu saraksts latviešu valodai, kas labāk spētu veikt vārdu filtrēšanas soli teksta priekšasptrādē, un pielietots uz apmācības datiem. 
 
+Lemmatizācija netiek pielietota, dazādiem autoriem norādot tās mazo nozīmi tekstu klasifikācijas modeļu uzlabošanā \cite{santos2023effect}. Citos pētījumos, piemēram par angļu un čehu valodas datu kopu priekapstrādi \cite{normalizationTextClassification}, secināts, ka kopumā stopvārdu izņemana gandrīz vienmēr uzlabo iegūtos rezultātus, tomēr lemmatizācija gandrīz vienmēr atstāj negatīvu ietekmi uz gala modeli.
+
 \subsubsection{Vektorizācija}
 Pirms algoritmu pielietošanas nepieciešams datus vektorizēt. Darba ietvaros uz katru no algoritmiem tika pārbaudītas dažādas vektorizācijas pieejas – vārdu maiss, bigrammu maiss, TF-IDF un vārdlietojuma kartējumi ar FastText, pielietojot katru no tām uz rāpuļa izgūtās datu kopas. Tika arī veikti eksperimenti ar word2vec vārdlietojuma kartējuma pieeju, tomēr Fasttext pielietošana sniedza labākus sākotnējos rezultātus, arī citi pētījumi par vārdlietojuma kartējuma pieejām latviešu valodas tekstiem \cite{LaucisJekabsonWordEmbedding} norāda FastText kā pieeju ar labāko veiktspēju, salīdzinot ar word2vec, ngram2vec, SSG (Structured Skip-Gram).
 
@@ -62,10 +64,11 @@ Atbalsta vektora mašīnas apmācības algoritms ir implementēts ar scikit-lear
 \centering
 \caption{\label{tab:accuracy_svm}}
 \textbf{Akurātuma mēri pielietojot AVM\\}
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l||l|l|l|l|}
 \hline
-Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-0.9696 & 0.9679 & 0.9738 & 0.9567 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+Akurātums & 0.9696 & 0.9679 & \textbf{0.9738} & 0.9567 \\ \hline
+F1 & 0.9695 & 0.9678 & \textbf{0.9737} & 0.9564 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -75,10 +78,11 @@ Naivā Bajesa apmācības algoritms ir implementēts ar scikit-learn komponenti 
 \centering
 \caption{\label{tab:accuracy_nb}}
 \textbf{Akurātuma mēri pielietojot Naivā Bajesa metodi\\}
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l||l|l|l|l|}
 \hline
-Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-0.9629 & 0.9558 & 0.9617 & 0.85 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+Akurātums & \textbf{0.9629} & 0.9558 & 0.9617 & 0.85 \\ \hline
+F1 & \textbf{0.9628} & 0.9559 & 0.9616 & 0.8487 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -89,10 +93,11 @@ Loģistiskās regresijas apmācības algoritms ir implementēts ar scikit-learn 
 \centering
 \caption{\label{tab:accuracy_lr}}
 \textbf{Akurātuma mēri pielietojot loģistisko regresiju\\}
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l||l|l|l|l|}
 \hline
-Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-0.9663 & 0.9663 & 0.9663 & 0.9579 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+Akurātums & 0.9663 & \textbf{0.9663} & 0.9663 & 0.9579 \\ \hline
+F1 & 0.9662 & \textbf{0.9663} & 0.9662 & 0.9579 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -103,13 +108,45 @@ Lēmumu koku pmācības algoritms ir implementēts ar scikit-learn komponenti De
 \centering
 \caption{\label{tab:accuracy_dt}}
 \textbf{Akurātuma mēri pielietojot lēmumu kokus\\}
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l||l|l|l|l|}
 \hline
-Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-0.8096 & 0.8196 & 0.7975 & 0.7408 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
+Akurātums & 0.8096 & \textbf{0.8196} & 0.7975 & 0.7408 \\ \hline
+F1 & 0.8095 & \textbf{0.8192} & 0.7975 & 0.7408 \\ \hline
 \end{tabular}
 \end{table}
 
+\subsubsection{Priekšapstrādes nozīme un rezultātu salīdzinājums}
+
+Lai veiksmīgi varētu novērtēt priekšapstrādes lomu modeļu veiktspējā, iepriekš apskatītie algoritmi un vektorizācijas pieejas tiek pārbaudīti arī bez tekstu papildus priekšapstrādes. Īpaši nozīmīgi tas ir modeļiem ar FastText vektorizāciju, jo šajā gadījumā priekšapmācītie vārdu vektori ir apmācīti bez priekapstrādes \cite{grave2018learning}. Rezultāti apkopoti tabulā \ref{tab:accuracy_all}, izceļot labākos rezultātus starp pieejām ar priekšapstrādi un bez tās.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:accuracy_all}}
+\textbf{Akurātuma mēri dažādiem modeļiem ar un bez priekšapstrādes\\}
+\begin{tabular}{|l|l|l|l|}
+\hline
+                                         & \makecell{Ar \\ priekšapstrādi} & \makecell{Bez \\ priekšapstrādes} & $| \Delta|$          \\ \hline
+Atbalsta vektora mašīna (TF-IDF)         & \textbf{\textcolor{teal}{0.9738}}   & 0.9733 & 0.0005 \\ \hline
+Atbalsta vektora mašīna (Bigrammu maiss) & \textbf{0.9679}   & 0.9663 & 0.0016 \\ \hline
+Atbalsta vektora mašīna (Vārdu maiss)    & \textbf{0.9696}   & 0.9663 & 0.0033 \\ \hline
+Atbalsta vektora mašīna (FastText)       & 0.9567            & \textbf{0.9592} & 0.0025 \\ \hline
+Naivā Bajesa metode (TF-IDF)             & \textbf{0.9617}   & 0.9542 & 0.0075 \\ \hline
+Naivā Bajesa metode (Bigrammu maiss)     & \textbf{0.9558}   & 0.9363 & 0.0195 \\ \hline
+Naivā Bajesa metode (Vārdu maiss)        & \textbf{0.9629}   & 0.9575 & 0.0054 \\ \hline
+Naivā Bajesa metode (FastText)           & \textbf{0.85}     & 0.8396 & 0.0104 \\ \hline
+Loģistiskā regresija (TF-IDF)            & 0.9663            & \textbf{0.9667} & 0.0004 \\ \hline
+Loģistiskā regresija (Bigrammu maiss)    & \textbf{0.9663}   & 0.9613 & 0.005 \\ \hline
+Loģistiskā regresija (Vārdu maiss)       & \textbf{0.9663}   & 0.9642 & 0.0021 \\ \hline
+Loģistiskā regresija (FastText)          & \textbf{0.9579}   & 0.9546 & 0.0033 \\ \hline
+Lēmumu koki (TF-IDF)                     & \textbf{0.7975}   & 0.7921 & 0.0054 \\ \hline
+Lēmumu koki (Bigrammu maiss)             & \textbf{0.8196}   & 0.8083 & 0.0113 \\ \hline
+Lēmumu koki (Vārdu maiss)                & 0.8096            & \textbf{0.8142} & 0.0046 \\ \hline
+Lēmumu koki (FastText)                   & \textbf{0.7408}   & 0.735 & 0.0058 \\ \hline
+\end{tabular}
+\end{table}
+
+Pēc tabulas datiem varam novērot, ka priekšapstrāde gandrīz vienmēr uzlabo gala rezultātu, lai gan sastopami arī izņēmumi. Kopumā gan priekšapstrādes ietekme nav vērtējama kā pārāk liela – labākajam modelim sniedzot akurātuma uzlabojumu kā 0,0005. 
 
 Vislabākais sasniegtais akurātums iegūts ar atbalsta vektora mašīnām un TF-IDF vektorizāciju - \textbf{0.9738}, šai pieejai varam vizualizēt kategorizāciju ar pārpratuma matricu. Kā redzams attēlā \ref{fig:AVM_TFIDF} – desmit  kategoriju klasifikācija tiek veikta ļoti precīzi un biežākā kļūda ir nepareizi klasificētas finanšu ziņas, klasificējot tās kā tehnoloģiju ziņas.
 
