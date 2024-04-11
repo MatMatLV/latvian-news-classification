@@ -26,11 +26,11 @@ Induktīvā mācīšanās ir mašīnmācīšanās apakšnozare, kas specifiski n
 \item Stimulētā mācīšanās: Šis ir īpašs uzraudzītās mācīšanās gadījums, kur apmācības posmā tiek sniegta atlīdzība pēc katras darbības.
 \end{itemize}
 
-Uzraudzītas mācīšanās gadījumus, kad uzdevums ir iemācīties diskrēti vērtētu funkciju, sauc par klasifikāciju. Uzdevums, kad jāiemācās nepārtraukti vērtēta funkcija, tiek saukts par regresiju. Savukārt klasterošana ir neuzraudzītās mācīšanās uzdevums, kas atrod līdzīgu objektu grupas datu kopā.
+Uzraudzītas mācīšanās gadījumus, kad uzdevums ir iemācīties diskrēti vērtētu funkciju, sauc par klasifikāciju. Uzdevums, kad jāiemācās nepārtraukti vērtēta funkcija, tiek saukts par regresiju. Savukārt klasterošana ir neuzraudzītās mācīšanās uzdevums, kas atrod līdzīgu objektu grupas datu kopā. Šī darba ietvaros tiek apskatīta tieši klasifikācija.
 
 \section{Tekstu klasifikācija}
 
-Teksta klasifikācijas mērķis ir tekstu piesaiste konkrētai kategorijai, balstoties uz teksta saturu. Šāda klasifikācija ir ļoti izplatīta ziņu portālos un citur, kur nepieciešams kategorizēt lielu rakstu daudzumu, piemēram akadēmisko darbu datubāzēs. Mašīnmācīšanās algoritmi ļauj rast risinājumu automātiskai šādu tekstu kategorizēšanai un daudzām citām klasifikācijas problēmām, piemēram, ar augstu precizitāti noteikt vai ienākošais e-pasts ir vai nav mēstule. Iespējams arī veikt sentimentu analīzi un noteikt cilvēku attieksmi par kādu konkrētu tematu, piemēram, M. Kandias ir apskatījis kā ar tekstu klasifikācijas palīdzību noteikt negatīvu attieksmi pret likumsargiem, balstoties uz konkrēta lietotāja ierakstiem vietnē YouTube \cite{threatdetectionyoutube}.
+Teksta klasifikācijas mērķis ir tekstu piesaiste konkrētai klasei, balstoties uz teksta saturu. Šāda klasifikācija ir pielietojama ziņu portālos un citur, kur nepieciešams kategorizēt lielu datu daudzumu. Mašīnmācīšanās algoritmi ļauj rast risinājumu dažādām problēmām, piemēram, ar augstu precizitāti noteikt vai ienākošais e-pasts ir vai nav mēstule. Iespējams arī veikt sentimentu analīzi un noteikt cilvēku attieksmi par kādu konkrētu tematu, piemēram, M. Kandias ir apskatījis kā ar tekstu klasifikācijas palīdzību noteikt negatīvu attieksmi pret likumsargiem, balstoties uz konkrēta lietotāja ierakstiem vietnē YouTube \cite{threatdetectionyoutube}.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{masinmacisanas}
@@ -38,31 +38,66 @@ Teksta klasifikācijas mērķis ir tekstu piesaiste konkrētai kategorijai, bals
 	\label{fig:masinmacisanas}
 \end{figure}
 
-Teksta klasifikācijas piemēru ar mašīnmācīšanās pielietojumu iespējams redzēt attēlā  \ref{fig:masinmacisanas}. Pieņemsim, ka dota datu kopa ar sporta ziņām, un risināmā problēma ir - kā klasificēt jaunu dokumentu, piešķirot tam atbilstošā sporta veida kategoriju. Sākumā būs nepieciešami apmācības dokumenti (ar klases marķējumiem) no kuriem mācīties. Tālāk katru ziņu mēs pārveidojam par pazīmju kopu, kuru vektorizētā veidā mēs varam padot tālāk mašīnmācīšanās algoritmam. Ar šo informāciju algoritms izveido modeli, kas var paredzēt iepriekš neredzētu tekstu kategoriju.
+Teksta klasifikācijas piemēru ar mašīnmācīšanās pielietojumu iespējams redzēt attēlā  \ref{fig:masinmacisanas}. Pieņemsim, ka dota datu kopa ar sporta ziņām, un risināmā problēma ir - kā klasificēt jaunu dokumentu, piešķirot tam atbilstošā sporta veida marķējumu. Sākumā būs nepieciešami apmācības dokumenti (ar klases marķējumiem) no kuriem mācīties. Tālāk katru ziņu mēs pārveidojam par pazīmju kopu, kuru vektorizētā veidā mēs varam padot tālāk mašīnmācīšanās algoritmam. Ar šo informāciju algoritms izveido modeli, kas var paredzēt iepriekš neredzētu tekstu klases.
 
 \chapter{Pazīmju ģenerēšana}
 \section{Tekstu priekšapstrāde}
-Pirms iespējams izveidot klasifikācijas modeli, DVA problēmvidē nepieciešams veikt teksta priekšapstrādi, lai dati būtu pielietojami tālākā apstrādē. Tas sevī ietver gan dažādu teksta fragmentu atmešanu, gan pārveidošanu formā kuru spētu saprast apmācības algoritmi. Tālāk apskatīti konkrēti priekšapstrādes soļi.
+Pirms iespējams izveidot klasifikācijas modeli, nepieciešams veikt teksta priekšapstrādi, lai dati būtu pielietojami tālākā apstrādē. Tas sevī ietver gan dažādu teksta fragmentu atmešanu, gan pārveidošanu formā kuru spētu saprast apmācības algoritmi. Tālāk apskatīti konkrēti priekšapstrādes soļus.
 
 \subsubsection{Vārdu atdalīšana jeb tokenizācija}
 Lai tekstu izmantotu klasificēšanā, ir jāspēj atdalīt atsevišķas šī teksta daļas. To iespējams paveikt dažādos veidos – tekstu iespējams sadalīt pa individuāliem vārdiem vai arī  secīgu vārdu grupām. Vārdu atdalīšanai var izmantot dažādus atdalošos simbolus, piemēram atstarpi un jaunas līnijas sākuma simbolu (\textbackslash n’). Tomēr ne visi atdalošie simboli ir viennozīmīgi, piemēram punkts var būt gan kā teikuma beigas, gan kā daļa no konkrētas vērtības (skaitlis 10.5).
 Vārdu atdalīšana secīgās vārdu grupās izmanto n-grammas, kas ir n secīgu vārdu un/vai simbolu kopa tekstā. Izmantojot n-grammas, iespējams iegūt plašāku teksta kontekstu no atdalītajiem vārdiem.
 
 \subsubsection{Sakņu atdalīšana un lemmatizācija}
-Apstrādājot tekstus, svarīgi ir arī ņemt vērā faktu, ka dažādos tekstos viens un tas pats vārds bieži tiek lietots dažādos locījumos un visbiežāk locījumam nav ietekme uz to vai teksts pieder konkrētai kategorijai vai nē. Svarīgi arī ņemt vērā, ka liels individuālo vārdu atkārtojums dažādos locījumos palielina klasifikācijai nepieciešamo laiku un resursus. Sakņu atdalīšana un lemmatizācija risina šo problēmu, pārvēršot vārdus to pamatformā. 
+Apstrādājot tekstus, svarīgi ir arī ņemt vērā faktu, ka dažādos tekstos viens un tas pats vārds bieži tiek lietots dažādos locījumos un visbiežāk locījumam nav ietekme uz to vai teksts pieder konkrētai klasei vai nē. Svarīgi arī ņemt vērā, ka liels individuālo vārdu atkārtojums dažādos locījumos palielina klasifikācijai nepieciešamo laiku un resursus. Sakņu atdalīšana un lemmatizācija risina šo problēmu, pārvēršot vārdus dažādos locījumos vienādā formā. Sakņu atdalīšanas gadījumā tiek mēģināts nodzēst vārdu galotnes / piedēkļus (saulei - saul, saulīte - saul), balstoties uz valodas likumsakarībām vārda daļu atpazīšanai. Lemmatizācijas gadījumā vārdi tiek pārveidoti to pamatformā (saulei - saule, saulīte - saule), šādai apstrādes metodei nepieciešama krietni sarežģītāka morfoloģijas izpratne.
 
 \subsubsection{Stopvārdu dzēšana}
 Bieži vien noderīga ir arī tā sauktā stopvārdu (angliski - stopwords) dzēšana no apstrādāmajiem datiem. Tie ir vārdi kuri neietekmē teksta saturu un to biežais lietojums var atstāt negatīvu ietekmi uz klasifikācijas akurātumu. Latviešu valodā piemērs šādiem vārdiem būtu palīgvārdi, kuri tiek saprasti kā saikļi (un, bet, vai u.c.), prievārdi (uz, no u.c.), partikulas (arī, diezin, gan u.c.).
 
 \section{Vektorizācija}
-Teksta vektorizācija ir process, kurā teksta informācija tiek pārveidota skaitļu formā, ko tālāk savukārt var izmantot mašīnmācīšanai. Šis solis ir būtisks, jo lielākā daļa mašīnmācīšanās algoritmu strādā ar skaitļiem, bet teksta dati ir paši par sevi neskaitliski. Teksta vektorizācijai ir vairākas metodes, populārākās no tām uzskaitītas zemāk.
+Teksta vektorizācija ir process, kurā teksta informācija tiek pārveidota skaitļu formā, ko tālāk savukārt var izmantot mašīnmācīšanai. Šis solis ir būtisks, jo mašīnmācīšanās algoritmu strādā ar skaitļiem, bet teksta dati ir paši par sevi neskaitliski. Teksta vektorizācijai ir vairākas metodes, populārākās no tām apskatītas zemāk.
 
 \subsubsection{Vārdu maiss}
-Vārdu maiss – tā ir nesakārtota vārdu kopa, kur vārdu secība tiek ignorēta, saglabājot tikai vārdu biežumu dokumentā \cite{speechandlanguageproc}. Teksts tiek pārveidots vektorā, kur katram unikālam vārdam dokumentā tiek piešķirts indekss, kā vērtību indeksā norādot konkrētā vārda biežumu. Ar šo pieeju mēs veicam šādus pieņēmumus:
+Vārdu maiss – tā ir nesakārtota vārdu kopa, kur vārdu secība tiek ignorēta, saglabājot tikai vārdu biežumu dokumentā \cite{speechandlanguageproc}. Teksts tiek pārveidots vektorā, kur katram unikālam vārdam dokumentā tiek piešķirts indekss, kā vērtību indeksā norādot konkrētā vārda biežumu. 
+
+Lai ilustrētu šādu pieeju, pielietojam to uz 2 teikumiem:
+
+1. Kaķis devās medīt peles
+
+2. Kaķis ātri skrēja, peles ātri bēga
+
+Rezultātā iegūstot vektorus teikumiem kā \ref{tab:vardu_maiss} tabulā.
+\begin{table}[H]
+\centering
+\caption{\label{tab:vardu_maiss}}
+\textbf{Vārdu maisa vektori 2 teikumiem\\}
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+           & kaķis & devās & medīt & peles & ātri & skrēja & bēga \\ \hline
+1. teikums & 1     & 1     & 1     & 1     & 0    & 0      & 0    \\ \hline
+2. teikums & 1     & 0     & 0     & 1     & 2    & 1      & 1    \\ \hline
+\end{tabular}
+\end{table}
+
+Ar šo pieeju mēs veicam šādus pieņēmumus:
 \begin{itemize}
 \item Tekstu iespējams analizēt, ignorējot vārdu / tekstvienību secību.
 \item Nepieciešams zināt tikai kuri vārdi / tekstvienības atrodas tekstā un cik bieži tie atkārtojas.
 \end{itemize}
+
+Plašāka konteksta izgūšanai no teksta, iespējams veidot vektorus, kur katram indeksam atbilst vairāku secīgu vārdu kombinācija jeb n-gramma. Piemēram, izvēloties n-grammas ar garumu 2 (bigrammas), iepriekš apskatīto teikumu vekori izskatītos kā \ref{tab:vardu_maiss_bigramma} tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:vardu_maiss_bigramma}}
+\textbf{Bigrammu maisa vektori 2 teikumiem\\}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+ & \begin{tabular}[c]{@{}l@{}}kaķis\\ devās\end{tabular} & \begin{tabular}[c]{@{}l@{}}devās\\ medīt\end{tabular} & \begin{tabular}[c]{@{}l@{}}medīt\\ peles\end{tabular} & \begin{tabular}[c]{@{}l@{}}kaķis\\ ātri\end{tabular} & \begin{tabular}[c]{@{}l@{}}ātri\\ skrēja\end{tabular} & \begin{tabular}[c]{@{}l@{}}skrēja\\ peles\end{tabular} & \begin{tabular}[c]{@{}l@{}}peles\\ ātri\end{tabular} & \begin{tabular}[c]{@{}l@{}}ātri\\ bēga\end{tabular} \\ \hline
+1. teikums & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\ \hline
+2. teikums & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
 
 \subsubsection{TF-IDF}
 Terminu biežums - inversais dokumentu biežums (angliski, saīsināti - TF-IDF) ir vektorizācijas paveids ko izmanto, lai novērtētu termina (vārda) svarīgumu dokumentā attiecībā uz dokumentu kopu (korpusu) \cite{manning_raghavan_schutze_2008}. 
@@ -105,7 +140,7 @@ TF\text{-}IDF(t, d, D) = TF(t, d) \times IDF(t, D)
 TF-IDF rezultāts atspoguļo, cik svarīgs ir vārds konkrētajā dokumentā, ņemot vērā visu tekstu kopu. Augstāki TF-IDF vērtējumi tiek piešķirti terminiem, kas bieži parādās dokumentā, bet reti visā kopā. Tas palīdz uzsvērt terminu svarīgumu, kuri ir raksturīgi tieši konkrētiem dokumentiem, vienlaikus samazinot kopīgu terminu nozīmi, kas parādās daudzos dokumentos.
 
 \subsubsection{Vārdlietojuma kartējums}
-Vārdlietojuma kartējums (angliski - word embedding) ir jaunāka metode, kur vārdi tiek attēloti kā skaitliski vektori daudzdimensiju telpā. Šie vektori spēj saglabāt informāciju par vārdu kontekstu / nozīmi / saikni ar citiem vārdiem, respektīvi -  vārdi ar līdzīgu nozīmi vai pielietojumu ir attēloti ar vektoriem, kas ģeometriski tuvi viens otram vektoru telpā. Piemēram, labi apmācītā vārdu iegulšanas modelī vārdi "karalis" un "karaliene" tiek attēloti kā vektori, kas ir tuvu viens otram, norādot to semantisko līdzību \cite{BaeldungEmbedding}.
+Vārdlietojuma kartējums (angliski - word embedding) ir jaunāka metode, kur vārdi tiek attēloti kā skaitliski vektori daudzdimensiju telpā. Šie vektori spēj saglabāt informāciju par vārdu kontekstu / nozīmi / saikni ar citiem vārdiem, respektīvi -  vārdi ar līdzīgu nozīmi vai pielietojumu ir attēloti ar vektoriem, kas ģeometriski tuvi viens otram vektoru telpā. Piemēram, labi apmācītā vārdu iegulšanas modelī vārdi "karalis" un "karaliene" tiek attēloti kā vektori, kas ir tuvu viens otram, norādot to semantisko līdzību \cite{BaeldungEmbedding}. Šāda pieeja tiek vizualizēta \ref{fig:wordembedding} attēlā.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{word_embedding}
@@ -369,10 +404,11 @@ Izvade satur kontekstualizētus vārdu attēlojumus, ņemot vērā to attiecība
 Padeves slānis tiek izmantots uz pašuzmanības slāņu izvadi un tas tiek pielietots katrai pozīcijai atsevišķi. Šis slānis palīdz modelēt attālas vārdu savstarpējās atkarības. Pirmais solis padeves slānī ir lineāras transformācijas pielietošana ievadei. Tas ietver ievades reizināšanu ar apgūstamo svaru un nobīdes pievienošanu. Šī lineārā transformācija projicē ievadi citā (bieži vien augstākas dimensijas) telpā, radot pamatu sarežģītai mijiedarbībai un transformācijām. Pēc lineārās transformācijas pārveidotajai ievadei tiek piemērota nelineāra aktivizācijas funkcija, piemēram, Rectified Linear Unit (ReLU). Aktivizācijas funkcija ievieš nelinearitāti, ļaujot modelim tvert sarežģītas saiknes datos. Pēc aktivizācijas funkcijas rezultātiem tiek piemērota cita lineāra transformācija. Šī transformācija izmanto atšķirīgus svarus un nobīdes, lai vēl vairāk pielāgotu datus.
 
 \subsection{BERT}
-BERT modelis pirmo reizi publicēts 2019. gadā un autoru vārdiem BERT ir pirmā neparraudzītās apmācības pieeja ar dziļu divvirziena konkteksta izveidi dabīgās valodas priekšapstrādei \cite{devlin2019bert}. Viena no BERT priekšrocībām ir tā, ka visu BERT arhitektūru un jau apmācītos modeļus Google komanda ir publiskojusi caur GitHub [https://github.com/google-research/bert], atšķirībā no citiem izplatītiem lielajiem valodas modeļiem kā GPT no OpenAI, kur kods nav publiski pieejams un kurus nevaram izmantot darbā apskatītās problēmas risināšanai.
+BERT modelis pirmo reizi publicēts 2019. gadā un autoru vārdiem BERT ir pirmā neparraudzītās apmācības pieeja ar dziļu divvirziena konkteksta izveidi dabīgās valodas priekšapstrādei \cite{devlin2019bert}. Viena no BERT priekšrocībām ir tā, ka visu BERT arhitektūru un jau apmācītos modeļus Google komanda ir publiskojusi caur GitHub \footnote{https://github.com/google-research/bert}, atšķirībā no citiem izplatītiem lielajiem valodas modeļiem kā GPT no OpenAI, kur kods nav publiski pieejams un kurus nevaram izmantot darbā apskatītās problēmas risināšanai.
 
-Ar BERT mēs apmācam “valodas izpratnes” modeli uz lielapjoma teksta korpusa, piemēram, visiem Wikipedia rakstiem konkrētajā valodā, pēc tam to pielāgojot konkrētu dabīgās valodas apstrādes uzdevumu risināšanai kā tekstu klasifikācija. Nepārraudzītā apmācība ļauj mums pielietot to uz plašiem teksta korpusiem no jebkura interneta resursa. Svarīga loma ir arī kā valodas dati tiek vektorizēti, jo valodas attēlojumi var būt ar kontekstu un bez tā. Citas iepriekš populārākās vektorizācijas pieejas kā word2vec ģenerē vārdlietojuma kartējumu bez konteksta katram vārdam apmācības vārdnīcā, respketīvi, daudznozīmīgi vārdi (piemēram, komanda - ko varam uztvert kā pavēli vai cilvēku kopu sportā) pazaudē savu atšķirīgo nozīmi un patieso kontekstu. Kontekstu veidojoši modeļi savukārt ģenerē attēlojumu katram vārdam atkarībā no konteksta konkrētajā teikumā. BERT gadījumā, atšķirībā no citiem iepriekšējiem modeļiem, arī šo kontekstu mēs veidojam arī divos virzienos – apskatot vārdus gan pirms, gan pēc konkrētā vārda.
-Šādai priekšapstrādei BERT izmanto sekojošu pieeju -  tiek maskēti 15\% ievades vārdu, tālāk šādu ievades kopu apstrādājam caur dziļu divvirzienu transformatora kodētāju, pēc tam paredzam tikai maskētos vārdus. Piemēram:
+Ar BERT arhitekrūru tiek apmācīts “valodas izpratnes” modelis, izmantojot lielapjoma teksta korpusus, piemēram, visus Wikipedia rakstus konkrētajā valodā. Pēc tam jāveic modeļa pielāgošana konkrētu dabīgās valodas apstrādes uzdevumu risināšanai kā tekstu klasifikācija. Nepārraudzītā apmācība ļauj veidot BERT modeli uz plašiem teksta korpusiem no jebkura interneta resursa.
+
+Svarīga loma iekš BERT ir arī kā valodas dati tiek vektorizēti. Valodas attēlojumi vektora formā var iekļaut sevī kontekstu vai neiekļaut to. Citas iepriekš populārākās vektorizācijas pieejas kā word2vec ģenerē vārdlietojuma kartējumu bez konteksta katram vārdam apmācības vārdnīcā, respketīvi, daudznozīmīgi vārdi (piemēram, "komanda" - ko varam uztvert kā pavēli vai cilvēku kopu sportā) pazaudē savu atšķirīgo nozīmi un patieso kontekstu. Kontekstu veidojoši modeļi savukārt ģenerē attēlojumu katram vārdam atkarībā no konteksta konkrētajā teikumā. BERT gadījumā, atšķirībā no citiem iepriekšējiem modeļiem, šo konteksts tiek veidots divos virzienos – apskatot vārdus gan pirms, gan pēc konkrētā vārda. Šādai priekšapstrādei BERT izmanto sekojošu pieeju -  tiek maskēti 15\% ievades vārdu, tālāk šādu ievades kopu apstrādājam caur dziļu divvirzienu transformatora kodētāju, pēc tam paredzam tikai maskētos vārdus. Piemēram:
 
 Ievade: vīrietis devās uz [MASK1]. viņš nopirka [MASK2] piena.
 
