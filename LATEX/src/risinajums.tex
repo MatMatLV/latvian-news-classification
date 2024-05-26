@@ -1,16 +1,16 @@
 \chapter{Rāpuļa un klasifikācijas modeļu izveide}
 \section{Datu izgūšana no ziņu portāliem ar rāpuli}
-Lai veiktu izpēti, sakumā ir nepieciešams ievākt treniņdatus / valodas korpusu, kas raksturo problēmvidi – ziņu portālu rakstus. Praktiskai rāpuļa implementācijai tika izvēlēts Python ietvars “Scrapy”, ar kura palīdzību iespējams izveidot tīmekļa rāpuļus, kas pārmeklē mājaslapas un izvelk no tām datus strukturētā formā. Šis ietvars izvēlēts, jo tas ir viens no populārākajiem rīkiem šajā kategorijā un tas labi spēj apstrādāt un formatēt lielu datu apjomu. Tā kā tīmekļa rāpuļi ir jāpielāgo konkrētai mājaslapas struktūrai, lai iegūtu vēlamos datus, tika izvēlēts konkrēts portāls - delfi.lv, dēļ tā daudzveidīgā kategoriju klāsta un rakstu daudzuma. Lai palielinātu iegūstamo rakstu daudzveidību tika apsvērts pielietot rāpuli arī uz citiem ziņu portāliem, tomēr tiem visiem ir liels pārklājums savā starpā, pārpublicējot rakstus no ziņu aģentūrām kā LETA. Šāda pieeja sekojoši varētu novest pie dublikātiem datu kopā, radot iespēju vienādiem rakstiem parādīties gan apmācības, gan validācijas kopās vienlaicīgi. Darba ietvaros izveidots rāpulis, kas ievāc datus no delfi.lv portāla un saglabā tos JSON formā ar 4 pamatlaukiem – virsraksts, kategorija, saturs, hipersaite. Lai sašaurinātu problēmvidi un ierobežotu nepieciešamos resursus tika izvēlētas 10 apskatāmās kategorijas – mūzika, atpūta, kriminālziņas, finanses, tehnoloģijas, kino, literatūra, politika, sports, auto. Darbības princips rāpulim ir sekojošs:
+Lai veiktu izpēti, sakumā ir nepieciešams ievākt treniņdatus / valodas korpusu, kas raksturo problēmvidi – ziņu portālu rakstus. Praktiskai rāpuļa implementācijai tika izvēlēts \textit{Python} ietvars \textit{Scrapy}, ar kura palīdzību iespējams izveidot tīmekļa rāpuļus, kas pārmeklē mājaslapas un izvelk no tām datus strukturētā formā. Šis ietvars izvēlēts, jo tas ir viens no populārākajiem rīkiem šajā kategorijā un tas labi spēj apstrādāt un formatēt lielu datu apjomu. Tā kā tīmekļa rāpuļi ir jāpielāgo konkrētai mājaslapas struktūrai, lai iegūtu vēlamos datus, tika izvēlēts konkrēts portāls - delfi.lv, dēļ tā daudzveidīgā kategoriju klāsta un rakstu daudzuma. Lai palielinātu iegūstamo rakstu daudzveidību tika apsvērts pielietot rāpuli arī uz citiem ziņu portāliem, tomēr tiem visiem ir liels pārklājums savā starpā, pārpublicējot rakstus no ziņu aģentūrām kā LETA. Šāda pieeja sekojoši varētu novest pie dublikātiem datu kopā, radot iespēju vienādiem rakstiem parādīties gan apmācības, gan validācijas kopās vienlaicīgi. Darba ietvaros izveidots rāpulis, kas ievāc datus no delfi.lv portāla un saglabā tos JSON formā ar 4 pamatlaukiem – virsraksts, kategorija, saturs, hipersaite. Lai sašaurinātu problēmvidi un ierobežotu nepieciešamos resursus tika izvēlētas 10 apskatāmās kategorijas – mūzika, atpūta, kriminālziņas, finanses, tehnoloģijas, kino, literatūra, politika, sports, auto. Darbības princips rāpulim ir kā norādīts tālāk.
 \begin{itemize}
-\item Rāpulim sākotnēji apskatāmās saites noradām kā 10 izvēlēto kategoriju lapas (piemēram, politikas ziņām - https://www.delfi.lv/193/politics?page=1).
-\item No lapām iegūstam hipersaites uz individuāliem rakstiem, ierobežojot tālāk apskatāmās saites tā, lai tās aizvien piederētu apskatāmajām kategorijām un nesaturētu nevēlamas saites (kā komentāru lapas rakstiem).
-\item Apstrādājam katra raksta lapu, piefiksējot hipersaiti un dažādas komponentes - virsrakstu, kategoriju, saturu, atlasot tos pēc HTML elementu atbilstības konkrētas komponentes kritērijiem.
-\item Saglabājam katru rakstu JSON formātā un ierakstam failā, atkārtojot procedūru līdz vairs neatrodam unikālus rakstus ko rāpulim apmeklēt.
+\item Rāpulim sākotnēji apskatāmās saites tiek norādītas kā 10 izvēlēto kategoriju lapas (piemēram, politikas ziņām - https://www.delfi.lv/193/politics?page=1).
+\item No lapām tiek iegūtas hipersaites uz individuāliem rakstiem, ierobežojot tālāk apskatāmās saites tā, lai tās aizvien piederētu apskatāmajām kategorijām un nesaturētu nevēlamas saites (kā komentāru lapas rakstiem).
+\item Tiek apstrādāta katra raksta lapu, piefiksējot hipersaiti un dažādas komponentes - virsrakstu, kategoriju, saturu, atlasot tos pēc HTML elementu atbilstības konkrētas komponentes kritērijiem.
+\item Katrs raksts tiek saglabāts JSON formātā un ierakstīts failā, atkārtojot procedūru līdz vairs netiek atrasti unikāli raksti ko rāpulim apmeklēt.
 \end{itemize}
 
-Scrapy ietvars kopumā dod iespēju diezgan efektīvi realizēt šādu rāpuli – sākot no apskatāmo rakstu ierobežošanas līdz elementu atlasei un apstrādei. Salīdzinoši grūtāk ir tieši formalizēt kādus selektorus izvēlēties elementu atlasei, jo lapu formatējums starp dažādām kategorijām mēdz būt atšķirīgs un pat vienas kategorijas ietvaros tika novērots ka senākiem rakstiem formatējums var atšķirties no jaunāko rakstu formatējuma. Papildus tam arī ne visi raksti ir derīgi datu ieguvei, piemēram sastopami raksti kas satur tikai foto un video galerijas ar minimāliem aprakstiem, sastopami arī maksas raksti ar tikai vienu publiski pieejamu rindkopu.
+\textit{Scrapy} ietvars kopumā dod iespēju diezgan efektīvi realizēt šādu rāpuli – sākot no apskatāmo rakstu ierobežošanas līdz elementu atlasei un apstrādei. Salīdzinoši grūtāk ir tieši formalizēt kādus selektorus izvēlēties elementu atlasei, jo lapu formatējums starp dažādām kategorijām mēdz būt atšķirīgs un pat vienas kategorijas ietvaros tika novērots ka senākiem rakstiem formatējums var atšķirties no jaunāko rakstu formatējuma. Papildus tam arī ne visi raksti ir derīgi datu ieguvei, piemēram sastopami raksti kas satur tikai foto un video galerijas ar minimāliem aprakstiem, sastopami arī maksas raksti ar tikai vienu publiski pieejamu rindkopu.
 
-Izgūta raksta piemēru JSON formātā iespējams apskatīt \ref{appendix:raksta_piemers} pielikumā. Rezultātā tika ievākti 13762 raksti ar sadalījumu pa kategorijām kāds redzams tabulā \ref{tab:rakstu_kategorijas}
+Izgūta raksta piemēru JSON formātā iespējams apskatīt \ref{appendix:raksta_piemers} pielikumā. Rezultātā tika ievākti 13762 raksti ar sadalījumu pa kategorijām kāds redzams \ref{tab:rakstu_kategorijas} tabulā.
 \begin{table}[H]
 \centering
 \caption{\label{tab:rakstu_kategorijas}}
@@ -35,61 +35,63 @@ Auto & 1232
 
 Ar rāpuli izgūtie teksti papildus tika manuāli pārbaudīti un attīrīti no nevēlamiem datiem – iegulti koda fragmenti audio /video atskaņotājiem, hipersaites. Ievācot rakstus novērots, ka bez rakstu satura atšķiras arī vidējie rakstu garumi katrā kategorijā. Piemēram atpūtas ziņām raksturīgi gari raksti ar vidēji vairāk nekā 662 vārdiem, savukārt auto, sporta un kriminālziņām – krietni īsāki raksti (īpaši auto ziņām ar vidējo rakstu garumu ap 227 vārdiem). Šāda atšķirība garumos varētu atstāt ietekmi uz konkrētu kategoriju klasifikāciju akurātumu. Rakstu iedalījumu garumos sīkāk iespējams apskatīt \ref{appendix:kategorijas_wc} pielikumā.
 
+Rāpuļa kods pieejams \ref{appendix:code_repo} pielikuma 1. repozitorijā.
+
 \section{Klasisko mašīnmācīšanās algortimu implementācija}
 
 \subsubsection{Izmantotie rīki}
-Viena no Python valodas populārākajām mašīnmācīšanās bibliotēkām, kas palīdz risināt problēmas kā klasteru veidošana, regresija, klasifikācija, dimensiju skaita samazināšana, ir ‘sckit-learn’. Autors ir izvēlējies lietot šo bibliotēku lai atvieglotu plaši lietotu klasifikācijas algoritmu implementāciju (Naivā Bejesa metode, loģistiskā regresija, lēmumu koki,  atbalsta vektoru mašīnas). 
+Viena no \textit{Python} valodas populārākajām mašīnmācīšanās bibliotēkām, kas palīdz risināt problēmas kā klasteru veidošana, regresija, klasifikācija, dimensiju skaita samazināšana, ir \textit{sckit-learn}. Autors ir izvēlējies lietot šo bibliotēku lai atvieglotu plaši lietotu klasifikācijas algoritmu implementāciju (Naivā Bejesa metode, loģistiskā regresija, lēmumu koki,  atbalsta vektoru mašīnas). 
 
-Svarīga loma valodas apstrādē arī ir ievades tokenizācijai, tās veikšanai iespējams izmantot Python bibliotēkas kā NLTK un spaCy. Tieši šīs divas bibliotēkas ir populārākās un spēj tikt galā ar biežām tokenizācijas problēmām kā saīsinājumu, pieturzīmju un simbolu atdalīšana. Darba ietvaros tokenizācijas nolūkiem tika izvēlēts pielietot spaCy.
+Svarīga loma valodas apstrādē arī ir ievades tokenizācijai, tās veikšanai iespējams izmantot Python bibliotēkas kā \textit{NLTK} un \textit{spaCy}. Tieši šīs divas bibliotēkas ir populārākās un spēj tikt galā ar biežām tokenizācijas problēmām kā saīsinājumu, pieturzīmju un simbolu atdalīšana. Darba ietvaros tokenizācijas nolūkiem tika izvēlēts pielietot \textit{spaCy}.
 
 \subsection{Priekšapstrāde un vektorizācija}
 \subsubsection{Tokenizācija un tekstu attīrīšana}
-Teksta apstrāde tiek sākta ar teksta tokenizāciju, izmantojot spaCy bibliotēkā iebūvētās metodes. Kad teksts ir sadalīts vārdos – apstrāde tiek turpināta ar visu vārdu pārvēršanu formā ar visiem mazajiem burtiem, tiek izņemtas pieturzīmes un stopvārdi.
+Teksta apstrāde tiek sākta ar teksta tokenizāciju, izmantojot \textit{spaCy} bibliotēkā iebūvētās metodes. Kad teksts ir sadalīts vārdos – apstrāde tiek turpināta ar visu vārdu pārvēršanu formā ar visiem mazajiem burtiem, tiek izņemtas pieturzīmes un stopvārdi.
 
-Konkrētāk apskatot stopvārdu atmešanu - dažādās Python bibliotēkās ir iekļauti saraksti ar stopvārdiem izplatītām valodām, tomēr latviešu valodai šāds sarakts jādefinē neatkarīgi. Tika veikta izpēte par to vai šāds saraksts jau ir publiski pieejams un kā viens no populārākajiem atrasts ‘stopwords-lv’ repozitorijs \footnote{https://github.com/stopwords-iso/stopwords-lv}) . Lai gan tas ir izmantojams kā labs pamats un uzskaita palīgvārdus (saikļus, prievārdus, partikulas), trūkst citas svarīgas morfoloģiskās grupas kā vietniekvārdi (attieksmes vietniekvārdi – kurš, kura u.c., norādāmie vietniekvārdi – šis, šī, tas, tā, viņš u.c, kā arī locījumi šiem vārdiem), jo arī šo vārdu esamība neraksturo teksta fragmenta jēgu vai piederību kādai kategorijai. Darba ietvaros izveidots uzlabots stopvārdu saraksts latviešu valodai, kas labāk spētu veikt vārdu filtrēšanas soli teksta priekšasptrādē, un pielietots uz apmācības datiem. 
+Konkrētāk apskatot stopvārdu atmešanu - dažādās \textit{Python} bibliotēkās ir iekļauti saraksti ar stopvārdiem izplatītām valodām, tomēr latviešu valodai šāds sarakts jādefinē neatkarīgi. Tika veikta izpēte par to vai šāds saraksts jau ir publiski pieejams un kā viens no populārākajiem atrasts ''stopwords-lv'' repozitorijs \footnote{https://github.com/stopwords-iso/stopwords-lv}) . Lai gan tas ir izmantojams kā labs pamats un uzskaita palīgvārdus (saikļus, prievārdus, partikulas), trūkst citas svarīgas morfoloģiskās grupas kā vietniekvārdi (attieksmes vietniekvārdi – kurš, kura u.c., norādāmie vietniekvārdi – šis, šī, tas, tā, viņš u.c, kā arī locījumi šiem vārdiem), jo arī šo vārdu esamība neraksturo teksta fragmenta jēgu vai piederību kādai kategorijai. Darba ietvaros izveidots uzlabots stopvārdu saraksts latviešu valodai, kas labāk spētu veikt vārdu filtrēšanas soli teksta priekšasptrādē, un pielietots uz apmācības datiem. 
 
-Lemmatizācija netiek pielietota, dazādiem autoriem norādot tās mazo nozīmi tekstu klasifikācijas modeļu uzlabošanā \cite{santos2023effect}. Citos pētījumos, piemēram par angļu un čehu valodas datu kopu priekapstrādi \cite{normalizationTextClassification}, secināts, ka kopumā stopvārdu izņemana gandrīz vienmēr uzlabo iegūtos rezultātus, tomēr lemmatizācija gandrīz vienmēr atstāj negatīvu ietekmi uz gala modeli.
+Lemmatizācija netiek pielietota, dazādiem autoriem norādot tās mazo nozīmi tekstu klasifikācijas modeļu uzlabošanā \cite{santos2023effect}. Citos pētījumos, piemēram par angļu un čehu valodas datu kopu priekšapstrādi \cite{normalizationTextClassification}, secināts, ka kopumā stopvārdu izņemana gandrīz vienmēr uzlabo iegūtos rezultātus, tomēr lemmatizācija gandrīz vienmēr atstāj negatīvu ietekmi uz gala modeli.
 
 \subsubsection{Vektorizācija}
-Pirms algoritmu pielietošanas nepieciešams datus vektorizēt. Darba ietvaros uz katru no algoritmiem tika pārbaudītas dažādas vektorizācijas pieejas – vārdu maiss, bigrammu maiss, TF-IDF un vārdlietojuma kartējumi ar FastText, pielietojot katru no tām uz rāpuļa izgūtās datu kopas. Tika arī veikti eksperimenti ar word2vec vārdlietojuma kartējuma pieeju, tomēr Fasttext pielietošana sniedza labākus sākotnējos rezultātus, arī citi pētījumi par vārdlietojuma kartējuma pieejām latviešu valodas tekstiem \cite{LaucisJekabsonWordEmbedding} norāda FastText kā pieeju ar labāko veiktspēju, salīdzinot ar word2vec, ngram2vec, SSG (Structured Skip-Gram).
+Pirms algoritmu pielietošanas nepieciešams datus vektorizēt. Darba ietvaros uz katru no algoritmiem tika pārbaudītas dažādas vektorizācijas pieejas – vārdu maiss, bigrammu maiss, TF-IDF un vārdlietojuma kartējumi ar \textit{FastText}, pielietojot katru no tām uz rāpuļa izgūtās datu kopas. Tika arī veikti eksperimenti ar \textit{word2vec} vārdlietojuma kartējuma pieeju, tomēr \textit{FastText} pielietošana sniedza labākus sākotnējos rezultātus, arī citi pētījumi par vārdlietojuma kartējuma pieejām latviešu valodas tekstiem \cite{LaucisJekabsonWordEmbedding} norāda \textit{FastText} kā pieeju ar labāko veiktspēju, salīdzinot ar \textit{word2vec}, \textit{ngram2vec}, SSG (\textit{Structured Skip-Gram}).
 
-FastText gadījumā tiek lietots jau apmācīts vārdu vektors, apmācīts uz Common Crawl \footnote{https://commoncrawl.org/} rāpuļa un Wikipedia rakstu kopām latviešu valodā. Vārdu vcktors ir publicēts FastText oficiālajā mājaslapā \footnote{https://fasttext.cc/docs/en/crawl-vectors.html} un tiek pieleitots caur Gensim bibliotēku.
+FastText gadījumā tiek lietots jau apmācīts vārdu vektors, apmācīts uz \textit{Common Crawl} \footnote{https://commoncrawl.org/} rāpuļa un \textit{Wikipedia} rakstu kopām latviešu valodā. Vārdu vcktors ir publicēts FastText oficiālajā mājaslapā \footnote{https://fasttext.cc/docs/en/crawl-vectors.html} un tiek pielietots kodā caur \textit{Gensim} bibliotēku.
 
 \subsection{Algoritmu implementācijas}
 
 \subsubsection{Datu līdzsvarošana un sadale}
-Svarīģs priekšnosacījums labai klasifikācijas modeļa apmācībai ir izvairīšanās no nevienmērīga klašu sadalījuma datu kopā. Ar rāpuli tika mēģināts izgūt samērā līdzīgu rakstu skaitu pa kategorijām, tomēr atšķirības eksistē, piemēram, klasei “Mūzika” rezultātā tika izgūti 1722 raksti, bet auto ziņām – 1232 raksti. Pirms apmācības visām kategorijām saglabājam 1200 rakstus, pārējos atmetot. Rezultātā iegūstam 12 000 rakstus, kurus tālāk sadalām – 80\% apmācībai (9600 raksti), 20\% validācijai (2400 raksti).
+Svarīgs priekšnosacījums labai klasifikācijas modeļa apmācībai ir izvairīšanās no nevienmērīga klašu sadalījuma datu kopā. Ar rāpuli tika mēģināts izgūt samērā līdzīgu rakstu skaitu pa kategorijām, tomēr atšķirības eksistē, piemēram, klasei “Mūzika” rezultātā tika izgūti 1722 raksti, bet auto ziņām – 1232 raksti. Pirms apmācības visām kategorijām saglabājam 1200 rakstus, pārējos atmetot. Rezultātā iegūstam 12 000 rakstus, kurus tālāk sadalām – 80\% apmācībai (9600 raksti), 20\% validācijai (2400 raksti).
 
 \subsubsection{Atbalsta vektora mašīnas}
-Atbalsta vektora mašīnas apmācības algoritms ir implementēts ar scikit-learn komponenti LinearSVC (sklearn.svm.LinearSVC) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_svm} tabulā.
+Atbalsta vektora mašīnas apmācības algoritms ir implementēts ar \textit{scikit-learn} komponenti \textit{LinearSVC} (sklearn.svm.LinearSVC) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_svm} tabulā.
 \begin{table}[H]
 \centering
 \caption{\label{tab:accuracy_svm}}
 \textbf{Akurātuma mēri pielietojot AVM\\}
 \begin{tabular}{|l||l|l|l|l|}
 \hline
-& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-Akurātums & 0.9696 & 0.9679 & \textbf{0.9738} & 0.9567 \\ \hline
-F1 & 0.9695 & 0.9678 & \textbf{0.9737} & 0.9564 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & FastText \\ \hline
+Akurātums & 0.9696 & 0.9679 & \textbf{0.9738} & 0.9596 \\ \hline
+F1 & 0.9695 & 0.9678 & \textbf{0.9737} & 0.9594 \\ \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Naivā Bajesa metode}
-Naivā Bajesa apmācības algoritms ir implementēts ar scikit-learn komponenti MultinomialNB (sklearn.naive\_bayes.MultinomialNB) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_nb} tabulā.
+Naivā Bajesa apmācības algoritms ir implementēts ar \textit{scikit-learn} komponenti \textit{MultinomialNB} (sklearn.naive\_bayes.MultinomialNB) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_nb} tabulā.
 \begin{table}[H]
 \centering
 \caption{\label{tab:accuracy_nb}}
 \textbf{Akurātuma mēri pielietojot Naivā Bajesa metodi\\}
 \begin{tabular}{|l||l|l|l|l|}
 \hline
-& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-Akurātums & \textbf{0.9629} & 0.9558 & 0.9617 & 0.85 \\ \hline
-F1 & \textbf{0.9628} & 0.9559 & 0.9616 & 0.8487 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & FastText \\ \hline
+Akurātums & \textbf{0.9629} & 0.9558 & 0.9617 & 0.8758 \\ \hline
+F1 & \textbf{0.9628} & 0.9559 & 0.9616 & 0.8757 \\ \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Loģistiskā regresija}
-Loģistiskās regresijas apmācības algoritms ir implementēts ar scikit-learn komponenti LogisticRegression (sklearn.linear\_model.LogisticRegression) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_lr} tabulā.
+Loģistiskās regresijas apmācības algoritms ir implementēts ar \textit{scikit-learn} komponenti \textit{LogisticRegression} (sklearn.linear\_model.LogisticRegression) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_lr} tabulā.
 
 \begin{table}[H]
 \centering
@@ -97,14 +99,14 @@ Loģistiskās regresijas apmācības algoritms ir implementēts ar scikit-learn 
 \textbf{Akurātuma mēri pielietojot loģistisko regresiju\\}
 \begin{tabular}{|l||l|l|l|l|}
 \hline
-& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-Akurātums & 0.9663 & \textbf{0.9663} & 0.9663 & 0.9579 \\ \hline
-F1 & 0.9662 & \textbf{0.9663} & 0.9662 & 0.9579 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & FastText \\ \hline
+Akurātums &  \textbf{0.9663} & 0.9633 &  \textbf{0.9663} & 0.9575 \\ \hline
+F1 &  \textbf{0.9662} & 0.9633 &  \textbf{0.9662} & 0.9574 \\ \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Lēmumu koki}
-Lēmumu koku pmācības algoritms ir implementēts ar scikit-learn komponenti DecisionTreeClassifier (sklearn.tree.DecisionTreeClassifier) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_dt}tabulā.
+Lēmumu koku pmācības algoritms ir implementēts ar \textit{scikit-learn} komponenti \textit{DecisionTreeClassifier} (sklearn.tree.DecisionTreeClassifier) ar dažādām vektorizācijas metodēm. Novērtēto akurātuma mēru ar dažādām vekorizācijas pieejām varam apskatīt \ref{tab:accuracy_dt}tabulā.
 
 \begin{table}[H]
 \centering
@@ -112,45 +114,45 @@ Lēmumu koku pmācības algoritms ir implementēts ar scikit-learn komponenti De
 \textbf{Akurātuma mēri pielietojot lēmumu kokus\\}
 \begin{tabular}{|l||l|l|l|l|}
 \hline
-& Vārdu maiss & Bigrammu maiss & TF-IDF & Fasttext \\ \hline
-Akurātums & 0.8096 & \textbf{0.8196} & 0.7975 & 0.7408 \\ \hline
-F1 & 0.8095 & \textbf{0.8192} & 0.7975 & 0.7408 \\ \hline
+& Vārdu maiss & Bigrammu maiss & TF-IDF & FastText \\ \hline
+Akurātums & 0.8129 & \textbf{0.8250} & 0.8 & 0.7529 \\ \hline
+F1 & 0.8129 & \textbf{0.8249} & 0.8004 & 0.7517 \\ \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Priekšapstrādes nozīme un rezultātu salīdzinājums}
 
-Lai veiksmīgi varētu novērtēt priekšapstrādes lomu modeļu veiktspējā, iepriekš apskatītie algoritmi un vektorizācijas pieejas tiek pārbaudīti arī bez tekstu papildus priekšapstrādes. Īpaši nozīmīgi tas ir modeļiem ar FastText vektorizāciju, jo šajā gadījumā priekšapmācītie vārdu vektori ir apmācīti bez priekapstrādes \cite{grave2018learning}. Rezultāti apkopoti tabulā \ref{tab:accuracy_all}, izceļot labākos rezultātus starp pieejām ar priekšapstrādi un bez tās.
+Lai veiksmīgi varētu novērtēt priekšapstrādes lomu modeļu veiktspējā, iepriekš apskatītie algoritmi un vektorizācijas pieejas tiek pārbaudīti arī bez tekstu papildus priekšapstrādes. Īpaši nozīmīgi tas ir modeļiem ar FastText vektorizāciju, jo šajā gadījumā priekšapmācītie vārdu vektori ir apmācīti bez priekšapstrādes \cite{grave2018learning}. Rezultāti apkopoti tabulā \ref{tab:accuracy_all}, izceļot labākos rezultātus starp pieejām ar priekšapstrādi un bez tās.
 
 \begin{table}[H]
 \centering
 \caption{\label{tab:accuracy_all}}
 \textbf{Akurātuma mēri dažādiem modeļiem ar un bez priekšapstrādes\\}
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l|l|l|}
 \hline
-                                         & \makecell{Ar \\ priekšapstrādi} & \makecell{Bez \\ priekšapstrādes} & $| \Delta|$          \\ \hline
-Atbalsta vektora mašīna (TF-IDF)         & \textbf{\textcolor{teal}{0.9738}}   & 0.9733 & 0.0005 \\ \hline
-Atbalsta vektora mašīna (Bigrammu maiss) & \textbf{0.9679}   & 0.9663 & 0.0016 \\ \hline
-Atbalsta vektora mašīna (Vārdu maiss)    & \textbf{0.9696}   & 0.9663 & 0.0033 \\ \hline
-Atbalsta vektora mašīna (FastText)       & 0.9567            & \textbf{0.9592} & 0.0025 \\ \hline
-Naivā Bajesa metode (TF-IDF)             & \textbf{0.9617}   & 0.9542 & 0.0075 \\ \hline
-Naivā Bajesa metode (Bigrammu maiss)     & \textbf{0.9558}   & 0.9363 & 0.0195 \\ \hline
-Naivā Bajesa metode (Vārdu maiss)        & \textbf{0.9629}   & 0.9575 & 0.0054 \\ \hline
-Naivā Bajesa metode (FastText)           & \textbf{0.85}     & 0.8396 & 0.0104 \\ \hline
-Loģistiskā regresija (TF-IDF)            & 0.9663            & \textbf{0.9667} & 0.0004 \\ \hline
-Loģistiskā regresija (Bigrammu maiss)    & \textbf{0.9663}   & 0.9613 & 0.005 \\ \hline
-Loģistiskā regresija (Vārdu maiss)       & \textbf{0.9663}   & 0.9642 & 0.0021 \\ \hline
-Loģistiskā regresija (FastText)          & \textbf{0.9579}   & 0.9546 & 0.0033 \\ \hline
-Lēmumu koki (TF-IDF)                     & \textbf{0.7975}   & 0.7921 & 0.0054 \\ \hline
-Lēmumu koki (Bigrammu maiss)             & \textbf{0.8196}   & 0.8083 & 0.0113 \\ \hline
-Lēmumu koki (Vārdu maiss)                & 0.8096            & \textbf{0.8142} & 0.0046 \\ \hline
-Lēmumu koki (FastText)                   & \textbf{0.7408}   & 0.735 & 0.0058 \\ \hline
+                                         & \makecell{Ar \\ priekšapstrādi} & \makecell{Bez \\ priekšapstrādes}  \\ \hline
+Atbalsta vektora mašīna (TF-IDF)         & 0.9738   & \textbf{\textcolor{teal}{0.9746}}  \\ \hline
+Atbalsta vektora mašīna (Bigrammu maiss) & \textbf{0.9679}   & 0.9642\\ \hline
+Atbalsta vektora mašīna (Vārdu maiss)    & \textbf{0.9696}   & 0.9667  \\ \hline
+Atbalsta vektora mašīna (FastText)       & \textbf{0.9596}            & 0.9592 \\ \hline
+Naivā Bajesa metode (TF-IDF)             & \textbf{0.9617}   & 0.9537 \\ \hline
+Naivā Bajesa metode (Bigrammu maiss)     & \textbf{0.9558}   & 0.94  \\ \hline
+Naivā Bajesa metode (Vārdu maiss)        & \textbf{0.9629}   & 0.9567 \\ \hline
+Naivā Bajesa metode (FastText)           & \textbf{0.8758}     & 0.8396 \\ \hline
+Loģistiskā regresija (TF-IDF)            & \textbf{0.9663}            & 0.9625 \\ \hline
+Loģistiskā regresija (Bigrammu maiss)    & \textbf{0.9633}   & 0.9567 \\ \hline
+Loģistiskā regresija (Vārdu maiss)       & \textbf{0.9663}   & 0.9550 \\ \hline
+Loģistiskā regresija (FastText)          & \textbf{0.9575}   & 0.9558 \\ \hline
+Lēmumu koki (TF-IDF)                     & \textbf{0.8}   & 0.7850 \\ \hline
+Lēmumu koki (Bigrammu maiss)             & \textbf{0.8250}   & 0.7979  \\ \hline
+Lēmumu koki (Vārdu maiss)                & \textbf{0.8129}            & 0.7992 \\ \hline
+Lēmumu koki (FastText)                   & \textbf{0.7529}   & 0.7308 \\ \hline
 \end{tabular}
 \end{table}
 
-Pēc tabulas datiem varam novērot, ka priekšapstrāde gandrīz vienmēr uzlabo gala rezultātu, lai gan sastopami arī izņēmumi. Kopumā gan priekšapstrādes ietekme nav vērtējama kā pārāk liela – labākajam modelim sniedzot akurātuma uzlabojumu kā 0,0005. 
+Pēc tabulas datiem varam novērot, ka priekšapstrāde gandrīz vienmēr uzlabo gala rezultātu, lai gan sastopami arī izņēmums tieši modelī ar labāko rezultātu. Kopumā gan priekšapstrādes ietekme nav vērtējama kā pārāk liela – labākajam modelim sniedzot akurātuma uzlabojumu kā 0,0008. 
 
-Vislabākais sasniegtais akurātums iegūts ar atbalsta vektora mašīnām un TF-IDF vektorizāciju - \textbf{0.9738}, šai pieejai varam vizualizēt kategorizāciju ar pārpratuma matricu. Kā redzams attēlā \ref{fig:AVM_TFIDF} – desmit  kategoriju klasifikācija tiek veikta ļoti precīzi un biežākā kļūda ir nepareizi klasificētas finanšu ziņas, klasificējot tās kā tehnoloģiju ziņas.
+Vislabākais sasniegtais akurātums iegūts ar atbalsta vektora mašīnām un TF-IDF vektorizāciju - \textbf{0.9738}, šai pieejai varam vizualizēt kategorizāciju ar pārpratuma matricu. Kā redzams \ref{fig:AVM_TFIDF} attēlā – desmit  kategoriju klasifikācija tiek veikta ļoti precīzi un biežākā kļūda ir nepareizi klasificētas finanšu ziņas, klasificējot tās kā tehnoloģiju ziņas.
 
 \begin{figure}[H]
 	\centering
@@ -162,7 +164,7 @@ Vislabākais sasniegtais akurātums iegūts ar atbalsta vektora mašīnām un TF
 \pagebreak
 \section{Neironu tīklu implementācija}
 
-Darba ietvaros tika izvērtētas un implementētas dažādas neironu tīklu arhitektūras. Tā kā tika nolemts pārbaudīt plašu spektru ar dažādiem apmācības algoritmiem – tika izvēlēts Python ietvars Keras, balstīts uz Tensorflow bāzes, kas palīdz ātri un sintaktiski vienkārši prototipēt dažādus modeļus. Neironu tīklu apmācība, vismaz sākotnēji, tika veikta uz autora datora, izmantojot viduvējas veiktspējas procesoru (AMD Ryzen 5700X) un 16GB RAM. Apmācība vienkāršākiem tīkliem šādi veicama diezgan efektīvi, tomēr sarežģītākas arhitektūras ar BiLSTM slāņiem vai BERT modeļa pielāgošana kļūst gan laikietilpīgāka (12+ stundu apmācība), gan ierobežota operatīvās atmiņas resursu dēļ. Šo iemeslu dēļ darba gaitā modeļu apmācība turpināta ar Google TPU v2, kas izstrādāts tieši neironu tīklu apmācībai un nodrošina krietni ātrakus apmācības laikus.
+Darba ietvaros tika izvērtētas un implementētas dažādas neironu tīklu arhitektūras. Tā kā tika nolemts pārbaudīt plašu spektru ar dažādiem apmācības algoritmiem – tika izvēlēts Python ietvars \textit{Keras}, balstīts uz \textit{Tensorflow} bāzes, kas palīdz ātri un sintaktiski vienkārši prototipēt dažādus modeļus. Neironu tīklu apmācība, vismaz sākotnēji, tika veikta uz autora datora, izmantojot viduvējas veiktspējas procesoru (AMD Ryzen 5700X) un 16GB RAM. Apmācība vienkāršākiem tīkliem šādi veicama diezgan efektīvi, tomēr sarežģītākas arhitektūras ar BiLSTM slāņiem vai BERT modeļa pielāgošana kļūst gan laikietilpīgāka (12+ stundu apmācība), gan ierobežota operatīvās atmiņas resursu dēļ. Šo iemeslu dēļ darba gaitā modeļu apmācība turpināta ar Google TPU v2, kas izstrādāts tieši neironu tīklu apmācībai un nodrošina krietni ātrakus apmācību laikus.
 
 \subsection{Konvolūcijas neironu tīkli}
 Konvolūcijas tīklu implementācijai tiek veidots Keras modelis ar secīgiem slāņiem – iegulšanas, viendimensiju konvolūcijas ar ReLU aktivizācijas funkciju, apvienošanas (globālā maksimuma), atmešanas, pilnīgi savienotais slānis gala klasifikācijas veikšanai. Ilustrēti ar papildus informāciju par izvēlētajām slāņu dimensijām varam apskatīt modeli \ref{fig:SingleLayerCNN} attēlā.
@@ -175,7 +177,7 @@ Konvolūcijas tīklu implementācijai tiek veidots Keras modelis ar secīgiem sl
 \end{figure}
 
 \pagebreak
-Apmācību tiek veikta ar partijas izmēru kā 32, turpinot apmācību 10 epohos, saglabājot modeli posmos ar mazāko validācijas zuduma (validation loss) vērtību, mēģinot izvairīties no pārmērīgas pielāgošanas. Uz tekstiem pirms apmācības tiek veikta priekapstrāde - simbolu un stopvārdu atmešana. Akurātuma un zuduma evolūciju pa epohiem iespējams apskatīt \ref{fig:Accuracy_Loss_CNN_10epoch} attēlā.
+Apmācība tiek veikta ar partijas izmēru kā 32, turpinot apmācību 10 epohos, saglabājot modeli posmos ar mazāko validācijas zuduma (\textit{validation loss}) vērtību, mēģinot izvairīties no pārmērīgas pielāgošanas. Uz tekstiem pirms apmācības tiek veikta priekšapstrāde - simbolu un stopvārdu atmešana. Akurātuma un zuduma evolūciju pa epohiem iespējams apskatīt \ref{fig:Accuracy_Loss_CNN_10epoch} attēlā.
 
 \begin{table}[H]
 \centering
@@ -184,11 +186,11 @@ Apmācību tiek veikta ar partijas izmēru kā 32, turpinot apmācību 10 epohos
 \begin{tabular}{|l|l|}
 \hline
 Akurātums & F1 \\ \hline
-0.9621 & 0.9620  \\ \hline
+0.9617 & 0.9616  \\ \hline
 \end{tabular}
 \end{table}
 
-Pielietojot attēlā \ref{fig:SingleLayerCNN} ilustrēto konvolūcijas neironu tīkla uzbūvi tiek iegūti rezultāti kā \ref{tab:score_cnn} tabulā. Pārpratuma matricu iespējams apskatīt attēlā \ref{fig:CNN}, kur varam novērot līdzīgu kļūdu izplatību pa klasēm kā iepriekš apskatītos modeļos, arī ar šo pieeju visgrūtāk modelim ir atķirt tieši tehnoloģiju un finanšu ziņas.
+Pielietojot attēlā \ref{fig:SingleLayerCNN} ilustrēto konvolūcijas neironu tīkla uzbūvi tiek iegūti rezultāti kā \ref{tab:score_cnn} tabulā. Pārpratuma matricu iespējams apskatīt \ref{fig:CNN} attēlā, kur varam novērot līdzīgu kļūdu izplatību pa klasēm kā iepriekš apskatītos modeļos, arī ar šo pieeju visgrūtāk modelim ir atķirt tieši tehnoloģiju un finanšu ziņas.
 
 \begin{figure}[H]
 	\centering
@@ -222,12 +224,111 @@ Modelis kurš apmācīts at augstākminēto arhitektūru nesiendza veiktspējas 
 \begin{tabular}{|l|l|}
 \hline
 Akurātums & F1 \\ \hline
-0.9517 & 0.9516  \\ \hline
+0.9575 & 0.9576  \\ \hline
 \end{tabular}
 \end{table}
 
+\subsubsection{Priekšapstrādes nozīme}
+
+Arī konvolūcijas neironu tīkliem tika pārbaudīta priekšapstrādes nozīme, apskatot jau minētās arhitektūras ar un bez priekšapstrādes pielietošanas Rezultāti apkopoti tabulā \ref{tab:accuracy_all_knt}, izceļot labāko rezultātu. Iespējams secināt, ka pielietojot konvolūcijas neironu tīklus, priekšapstrāde aizvien ir svarīgs solis, kas spēj pozitīvi ietekmēt modeļu klasificēšanas akurātumu.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:accuracy_all_knt}}
+\textbf{Akurātuma mēri dažādiem KNT modeļiem ar un bez priekšapstrādes\\}
+\begin{tabular}{|l|l|l|l|}
+\hline
+                                      & Ar priekšapstrādi & Bez priekšapstrādes \\ \hline
+KNT                                   &  \textbf{0.9617}            & 0.9533              \\ \hline
+KNT + FastText                        & 0.9192            & 0.9537              \\ \hline
+KNT (paralēla konvolūcija)            & 0.9575            & 0.9558               \\ \hline
+KNT (paralēla konvolūcija) + FastText & 0.9058            & 0.9496 \\ \hline             
+\end{tabular}
+\end{table}
+
+\pagebreak
+
+\subsection{LSTM neironu tīkli}
+LSTM tīklu implementācijai tiek veidots Keras modelis ar secīgiem slāņiem – iegulšanas, viendimensiju telpiskās atmešanas (kur atšķirībā no regulārās atmešanas aizvieto nevis nejašus elementus ar nulles vērtību, bet visas vērtības vienā dimensijā), LSTM  un pilnīgi savienotā slāņa gala klasifikācijas veikšanai. Ilustrēti ar papildus informāciju par izvēlētajām slāņu dimensijām varam apskatīt modeli \ref{fig:BaseLSTM} attēlā.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{BaseLSTM}
+\caption{Vienkārša LSTM tīkla uzbūve}
+\label{fig:BaseLSTM}
+\end{figure}
+
+Apmācība tiek veikta ar partijas izmēru kā 32, turpinot apmācību 10 epohos, saglabājot modeli posmos ar mazāko validācijas zuduma (validation loss) vērtību, mēģinot izvairīties no pārmērīgas pielāgošanas. Uz tekstiem pirms apmācības tiek veikta priekšapstrāde - simbolu un stopvārdu atmešana. Akurātuma un zuduma evolūciju pa epohiem iespējams apskatīt \ref{fig:Accuracy_Loss_LSTM_15epoch} attēlā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:score_lstm}}
+\textbf{Veiktspējas mēri pielietojot LSTM neironu tīklu\\}
+\begin{tabular}{|l|l|}
+\hline
+Akurātums & F1 \\ \hline
+0.9367 & 0.9363 \\ \hline
+\end{tabular}
+\end{table}
+
+Pielietojot attēlā \ref{fig:BaseLSTM} ilustrēto konvolūcijas neironu tīkla uzbūvi tiek iegūti rezultāti kā \ref{tab:score_cnn} tabulā. Pārpratuma matricu iespējams apskatīt attēlā \ref{fig:LSTM}, kur varam novērot līdzīgu kļūdu izplatību pa klasēm kā iepriekš apskatītos modeļos, arī ar šo pieeju visgrūtāk modelim ir atķirt tieši tehnoloģiju un finanšu ziņas.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{LSTM}
+\caption{LSTM neironu tīkls - pārpratuma matrica}
+\label{fig:LSTM}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{Accuracy_Loss_LSTM_15epoch}
+\caption{LSTM neironu tīkls - novērtējums pa apmācības posmiem}
+\label{fig:Accuracy_Loss_LSTM_15epoch}
+\end{figure}
+
+Apskatīta arī uzlabota LSTM arhitektūras pieeja, pielietojot LSTM slāņus divos virzienos, kas palīdz modelim gūt labāku konteksta un vārdu savstarpējo atkarību izpratni tekstā pirms un pēc konkrētā fragmenta.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{BiDirectionalLSTM}
+\caption{Divvirzienu LSTM neironu tīkla uzbūve}
+\label{fig:BiDirectionalLSTM}
+\end{figure}
+
+Modelis kurš apmācīts at augstākminēto arhitektūru nesiendza veiktspējas uzlabojumus, kā redzams \ref{tab:score_bilstm}tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:score_bilstm}}
+\textbf{Veiktspējas mēri – divvirzienu LSTM\\}
+\begin{tabular}{|l|l|}
+\hline
+Akurātums & F1 \\ \hline
+0.9313 & 0.9311 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Priekšapstrādes nozīme}
+
+Arī LSTM neironu tīkliem tika pārbaudīta priekšapstrādes nozīme, apskatot jau minētās arhitektūras ar un bez priekšapstrādes pielietošanas Rezultāti apkopoti tabulā \ref{tab:accuracy_all_LSTM}, izceļot labāko rezultātu. Šo tīklu gadījumā labāki rezultāti tika sasniegti bez priekšapstrādes.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:accuracy_all_LSTM}}
+\textbf{Akurātuma mēri dažādiem LSTM modeļiem ar un bez priekšapstrādes\\}
+\begin{tabular}{|l|l|l|l|}
+\hline
+& Ar priekšapstrādi & Bez priekšapstrādes \\ \hline
+LSTM &  0.9329 & \textbf{0.9367} \\ \hline
+Divvirzienu LSTM & 0.9304 & 0.9313 \\ \hline 
+\end{tabular}
+\end{table}
+
+\pagebreak
+
+
 \subsection{BERT}
-Sākotnējais BERT modelis, kuru Google izstrādātāji jau bija apmācījuši un publicējuši, latviešu valodas ziņu apstrādei nav pielietojams, jo modelis apmācīts tikai uz angļu valodas tekstiem. Lai gan tikusi publicēta arī BERT uzbūves arhitektūra un modeli iespējams pašrocīgi apmācīt uz latviešu valodas tekstiem – šī darba ietvaros tas netiek veikts, jo šādai apmācībai nepieciešami ievērojami apmācības resursi ilgstošā laika posmā, kas autoram nav pieejami. Publiski gan palaik ir pieejams BERT modelis, kur apmācība uz latviešu valodas tekstiem jau ir veikta, to apmācījuši LU Matemātikas un informātikas institūta pētnieki Artūrs Znotiņš un Guntis Barzdiņš, modeli nosaucot par LVBERT. Tas ir apmācīts uz latviešu Wikipedia ierakstiem, tekstiem no valodas korpusa LVK2018, dažādiem ziņu rakstiem un to komentāriem, kas kopā veido 500 miljonu lielu tokenu kopu apmācībai \cite{lvbert}. Salīdzinot ar sākotnējo BERT modeli, LVBERT apmācības tokenu skaits ir vairāk nekā sešas reizes mazāks.
+Sākotnējais BERT modelis, kuru Google izstrādātāji jau bija apmācījuši un publicējuši, latviešu valodas ziņu apstrādei nav pielietojams, jo modelis apmācīts tikai uz angļu valodas tekstiem. Lai gan tikusi publicēta arī BERT uzbūves arhitektūra un modeli iespējams pašrocīgi apmācīt uz latviešu valodas tekstiem – šī darba ietvaros tas netiek veikts, jo šādai apmācībai nepieciešami ievērojami apmācības resursi ilgstošā laika posmā, kas autoram nav pieejami. Publiski gan palaik ir pieejams BERT modelis, kur apmācība uz latviešu valodas tekstiem jau ir veikta, to apmācījuši LU Matemātikas un informātikas institūta pētnieki Artūrs Znotiņš un Guntis Barzdiņš, modeli nosaucot par LVBERT. Tas ir apmācīts uz latviešu \textit{Wikipedia} ierakstiem, tekstiem no valodas korpusa LVK2018, dažādiem ziņu rakstiem un to komentāriem, kas kopā veido 500 miljonu lielu tokenu kopu apmācībai \cite{lvbert}. Salīdzinot ar sākotnējo BERT modeli, LVBERT apmācības tokenu skaits ir vairāk nekā sešas reizes mazāks.
 
 LVBERT, gluži kā citi BERT balstītie modeļi ir vispārināti un nav piemēroti tikai vienai problēmai – tos nepieciešams pielāgot konkrētai problēmai pirms to pielietošanas, šajā gadījumā - papildus tika pievienoti slāņi tieši klasifikācijas risināšanai. Papildus tekstu priekšapstrāde netika pielietota, jo tādējādi varam pazaudēt daļu no konteksta un saiknēm starp vārdiem, kas tieši ir viena no BERT modeļu spēcīgākajām pusēm.
 
@@ -253,4 +354,4 @@ Rezultātā iegūtā modeļa raksturojošie mēri skatāmi \ref{tab:score_bert} 
 	\label{fig:Matrica_BERT}
 \end{figure}
 
-Papildus apskatot pārpratuma matricu attēlā \ref{fig:Matrica_BERT}, BERT modelim var novērot līdzīgu klasifikācijas kļūdu sadalījums kā jau iepriekš apskatītajiem modeļiem.
+Papildus apskatot pārpratuma matricu \ref{fig:Matrica_BERT} attēlā, BERT modelim var novērot līdzīgu klasifikācijas kļūdu sadalījums kā jau iepriekš apskatītajiem modeļiem.

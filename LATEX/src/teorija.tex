@@ -1,36 +1,40 @@
 \chapter{Mašīmācīšanās valodas apstrādē}
 \section{Dabiskās valodas apstrāde}
-Dabiskās valodas apstrāde (angliski – natural language processing jeb NLP) ir daudznozaru joma, kas apvieno lingvistikas, datorzinātnes un mašīnmācīšanās elementus, lai ļautu datoriem saprast, interpretēt un ģenerēt cilvēka valodu. 
+Dabiskā valodas apstrāde jeb NLP apvieno datorlingvistiku - uz likumiem balstītu cilvēka valodas modelēšanu - ar statistikas un mašīnmācīšanās modeļiem, lai datori un digitālās ierīces varētu atpazīt, saprast un ģenerēt tekstu un runu \cite{ibmMachineLearning}.
 
-DVA sastāv no vairākām pamata komponentēm:
+Cilvēku valodai ir sarežģīta uzbūve, kuru dažkārt ir grūti aprakstīt. Par piemēru ņemot problēmu par nodoma izprašanu - valodas stili kā sarkasms, homonīmi, idiomas, metaforas, dažādas sintaktiskās konstrukcijas, tie visi apgrūtina šādu uzdevumu. Lai palīdzētu datoram izprast cilvēku valodu, tiek veikti dažādi dabiskās valodas apstrādes pamatuzdevumi, ieskaitot arī tālāk norādītos.
 \begin{itemize}
-\item Tokenizācija: teksta sadalīšanas process vārdos vai frāzēs (tokenos)
-\item Morfoloģiskā marķēšana: gramatikas marķējumu piešķiršana vārdiem
-\item Sintakses parsēšana: teikumu gramatiskās struktūras analīze
-\item Nosaukto entitāšu atpazīšana: nosaukumu atpazīšana un kategorizācija, piemēram, personvārdi, datumi un atrašanās vietas
+\item Balss atpazīšana: balss datu pārveide teksta datos. Cilvēku runas veids (dažādas valodas, akcenti, runas temps, intonācijas, nepareiza gramatika, neskaidra izruna) un tā daudzveidība padara šo par īpaši sarežģītu problēmu
+\item Nosaukto entītiju atpazīšana: nosaukumu atpazīšana un iedalīšana kategorijās, piemēram, personvārdos, datumos, atrašanās vietās
+\item Semantiskā analīze: vārdiem ar daudzām nozīmēm nepieciešams analizēt kontekstu, lai spētu noteikt vārda nozīmi konkrētajā lietojumā
 \item Lemmatizācija: vārdu pārveidošana pamatformā
+\item Tokenizācija: teksta sadalīšanas process vārdos vai frāzēs
+\item Morfoloģiskā marķēšana: marķējumu piešķiršana vārda daļām (saknes, priedēkļi galotnes u.c. daļas)
+\item Runas daļu marķēšana: marķējumu piešķiršana vārdiem, atkarībā no to vārdšķiras (lietvārds, darbības vārds, saiklis u.c.)
+\item Sintakses parsēšana: teikumu gramatiskās struktūras analīze
 \end{itemize}
 
-Pielietojot daļu no šīm komponentēm tālāk iespējami sarežģītāki pielietojumi teksta apstrādei – kategorizācijai, noskaņojuma analīzei, mašīntulkošanai, čatbotu izveidei. 
+Pielietojot daļu no šīm komponentēm iespējami sarežģītāki pielietojumi teksta apstrādei – klasifikācijai, tekstu kopsavilkumu veidošanai, noskaņojuma analīzei, mašīntulkošanai, čatbotu izveidei. 
 
-Sākotnējās DVA sistēmas balstījās uz manuāli izstrādātām noteikumiem, taču šīs sistēmas ir ierobežotas ar savu nespēju apstrādāt cilvēka valodas daudzveidību un sarežģītību, kā rezultātā DVA sistēmas mūsdienās bieži tiek veidotas tieši ar mašīnmācīšanās iesaisti.
+Sākotnējās DVA sistēmas balstījās uz manuāli izstrādātiem noteikumiem, taču šīs sistēmas ir ierobežotas ar savu nespēju apstrādāt cilvēku valodu daudzveidību un sarežģītību, kā rezultātā DVA sistēmas mūsdienās bieži tiek veidotas tieši ar mašīnmācīšanās iesaisti.
 
 \section{Mašīnmācīšanās}
 Mašīnmācīšanās ir mākslīgā intelekta nozare, kas nodarbojas ar datorprogrammu izstrādi, kuras, izmantojot algoritmus un statistikas modeļus, mācās no datiem un uzlabo savu precizitāti. Toms Mičels savukārt apraksta mašīnmācīšanās jomu, izvirzot centrālo jautājumu, ko tā pēta: "Kā mēs varam izveidot datoru sistēmas, kas automātiski uzlabojas, iegūstot pieredzi, un kādi ir pamatlikumi, kas nosaka visus mācīšanās procesus?" \cite{definitionML}.
 
-Induktīvā mācīšanās ir mašīnmācīšanās apakšnozare, kas specifiski nodarbojas ar modeļu mācīšanos no novērojumiem. Šajā nozarē mācīšanās uzdevumi bieži tiek raksturoti, pamatojoties uz atgriezenisko saiti, kas tiek sniegta apmācības veicējam \cite{russel2010}, šādi:
+Induktīvā mācīšanās ir mašīnmācīšanās apakšnozare, kas specifiski nodarbojas ar modeļu mācīšanos no novērojumiem. Šajā nozarē mācīšanās uzdevumi bieži tiek raksturoti, pamatojoties uz atgriezenisko saiti, kas tiek sniegta apmācības veicējam \cite{russel2010} tālāk norādītos veidos.
 
 \begin{itemize}
-\item Uzraudzīta mācīšanās: Apmācības procesā tiek sniegts vēlams izvads katram novērojumam. Mērķis ir iemācīties funkciju, kas paredz pareizo izvades vērtību brīdī kad tiek sniegts iepriekš neredzēts novērojums.
-\item Neuzraudzīta mācīšanās: Apmācības laikā netiek sniegts izvads. Mērķis ir atklāt paraugus un regulāras pazīmes datos.
-\item Stimulētā mācīšanās: Šis ir īpašs uzraudzītās mācīšanās gadījums, kur apmācības posmā tiek sniegta atlīdzība pēc katras darbības.
+\item Uzraudzīta mācīšanās: apmācības procesā tiek sniegts vēlams izvads katram novērojumam. Mērķis ir iemācīties funkciju, kas paredz pareizo izvades vērtību brīdī kad tiek sniegts iepriekš neredzēts novērojums.
+\item Neuzraudzīta mācīšanās: apmācības laikā netiek sniegts izvads. Mērķis ir atklāt paraugus un regulāras pazīmes datos.
+\item Stimulētā mācīšanās: Īpašs uzraudzītās mācīšanās gadījums, kur apmācības laikā tiek sniegta atlīdzība pēc katras darbības.
 \end{itemize}
 
 Uzraudzītas mācīšanās gadījumus, kad uzdevums ir iemācīties diskrēti vērtētu funkciju, sauc par klasifikāciju. Uzdevums, kad jāiemācās nepārtraukti vērtēta funkcija, tiek saukts par regresiju. Savukārt klasterošana ir neuzraudzītās mācīšanās uzdevums, kas atrod līdzīgu objektu grupas datu kopā. Šī darba ietvaros tiek apskatīta tieši klasifikācija.
 
+\pagebreak
 \section{Tekstu klasifikācija}
 
-Teksta klasifikācijas mērķis ir tekstu piesaiste konkrētai klasei, balstoties uz teksta saturu. Šāda klasifikācija ir pielietojama ziņu portālos un citur, kur nepieciešams kategorizēt lielu datu daudzumu. Mašīnmācīšanās algoritmi ļauj rast risinājumu dažādām problēmām, piemēram, ar augstu precizitāti noteikt vai ienākošais e-pasts ir vai nav mēstule. Iespējams arī veikt sentimentu analīzi un noteikt cilvēku attieksmi par kādu konkrētu tematu, piemēram, M. Kandias ir apskatījis kā ar tekstu klasifikācijas palīdzību noteikt negatīvu attieksmi pret likumsargiem, balstoties uz konkrēta lietotāja ierakstiem vietnē YouTube \cite{threatdetectionyoutube}.
+Tekstu klasifikācijas mērķis ir tekstu piesaiste konkrētai klasei, balstoties uz teksta saturu. Šāda klasifikācija ir pielietojama ziņu portālos un citur, kur nepieciešams kategorizēt lielu datu daudzumu. Mašīnmācīšanās algoritmi ļauj rast risinājumu dažādām problēmām, piemēram, ar augstu precizitāti noteikt vai ienākošais e-pasts ir vai nav mēstule. Iespējams arī veikt sentimentu analīzi un noteikt cilvēku attieksmi par kādu konkrētu tematu, piemēram, M. Kandias ir apskatījis kā ar tekstu klasifikācijas palīdzību noteikt negatīvu attieksmi pret likumsargiem, balstoties uz konkrēta lietotāja ierakstiem vietnē YouTube \cite{threatdetectionyoutube}.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{masinmacisanas}
@@ -42,25 +46,25 @@ Teksta klasifikācijas piemēru ar mašīnmācīšanās pielietojumu iespējams 
 
 \chapter{Pazīmju ģenerēšana}
 \section{Tekstu priekšapstrāde}
-Pirms iespējams izveidot klasifikācijas modeli, nepieciešams veikt teksta priekšapstrādi, lai dati būtu pielietojami tālākā apstrādē. Tas sevī ietver gan dažādu teksta fragmentu atmešanu, gan pārveidošanu formā kuru spētu saprast apmācības algoritmi. Tālāk apskatīti konkrēti priekšapstrādes soļus.
+Pirms iespējams izveidot klasifikācijas modeli, nepieciešams veikt teksta priekšapstrādi, lai dati būtu pielietojami tālākajā apstrādē. Tas sevī ietver gan dažādu teksta fragmentu atmešanu, gan pārveidošanu formā kuru spētu saprast apmācības algoritmi. Tālāk apskatīti konkrēti priekšapstrādes soļi.
 
 \subsubsection{Vārdu atdalīšana jeb tokenizācija}
 Lai tekstu izmantotu klasificēšanā, ir jāspēj atdalīt atsevišķas šī teksta daļas. To iespējams paveikt dažādos veidos – tekstu iespējams sadalīt pa individuāliem vārdiem vai arī  secīgu vārdu grupām. Vārdu atdalīšanai var izmantot dažādus atdalošos simbolus, piemēram atstarpi un jaunas līnijas sākuma simbolu (\textbackslash n’). Tomēr ne visi atdalošie simboli ir viennozīmīgi, piemēram punkts var būt gan kā teikuma beigas, gan kā daļa no konkrētas vērtības (skaitlis 10.5).
 Vārdu atdalīšana secīgās vārdu grupās izmanto n-grammas, kas ir n secīgu vārdu un/vai simbolu kopa tekstā. Izmantojot n-grammas, iespējams iegūt plašāku teksta kontekstu no atdalītajiem vārdiem.
 
 \subsubsection{Sakņu atdalīšana un lemmatizācija}
-Apstrādājot tekstus, svarīgi ir arī ņemt vērā faktu, ka dažādos tekstos viens un tas pats vārds bieži tiek lietots dažādos locījumos un visbiežāk locījumam nav ietekme uz to vai teksts pieder konkrētai klasei vai nē. Svarīgi arī ņemt vērā, ka liels individuālo vārdu atkārtojums dažādos locījumos palielina klasifikācijai nepieciešamo laiku un resursus. Sakņu atdalīšana un lemmatizācija risina šo problēmu, pārvēršot vārdus dažādos locījumos vienādā formā. Sakņu atdalīšanas gadījumā tiek mēģināts nodzēst vārdu galotnes / piedēkļus (saulei - saul, saulīte - saul), balstoties uz valodas likumsakarībām vārda daļu atpazīšanai. Lemmatizācijas gadījumā vārdi tiek pārveidoti to pamatformā (saulei - saule, saulīte - saule), šādai apstrādes metodei nepieciešama krietni sarežģītāka morfoloģijas izpratne.
+Apstrādājot tekstus, svarīgi ir arī ņemt vērā faktu, ka dažādos tekstos viens un tas pats vārds bieži tiek lietots dažādos locījumos un visbiežāk locījumam nav ietekme uz to vai teksts pieder konkrētai klasei. Svarīgi arī ņemt vērā, ka liels individuālu vārdu atkārtojums dažādos locījumos palielina klasifikācijai nepieciešamo laiku un resursus. Sakņu atdalīšana un lemmatizācija risina šo problēmu, pārvēršot vārdus dažādos locījumos vienādā formā. Sakņu atdalīšanas gadījumā tiek mēģināts nodzēst vārdu galotnes / piedēkļus (saulei - saul, saulīte - saul), balstoties uz valodas likumsakarībām vārda daļu atpazīšanai. Lemmatizācijas gadījumā vārdi tiek pārveidoti to pamatformā (saulei - saule, saulīte - saule), šādai apstrādes metodei nepieciešama krietni sarežģītāka morfoloģijas izpratne.
 
 \subsubsection{Stopvārdu dzēšana}
-Bieži vien noderīga ir arī tā sauktā stopvārdu (angliski - stopwords) dzēšana no apstrādāmajiem datiem. Tie ir vārdi kuri neietekmē teksta saturu un to biežais lietojums var atstāt negatīvu ietekmi uz klasifikācijas akurātumu. Latviešu valodā piemērs šādiem vārdiem būtu palīgvārdi, kuri tiek saprasti kā saikļi (un, bet, vai u.c.), prievārdi (uz, no u.c.), partikulas (arī, diezin, gan u.c.).
+Bieži vien noderīga ir arī tā sauktā stopvārdu (angliski - stopwords) dzēšana no apstrādāmajiem datiem. Tie ir vārdi kuri neietekmē teksta saturu un to biežais lietojums var atstāt negatīvu ietekmi uz klasifikācijas akurātumu. Latviešu valodā piemērs šādiem vārdiem būtu palīgvārdi, kuri ietver saikļus (un, bet, vai u.c.), prievārdus (uz, no u.c.), partikulas (arī, diezin, gan u.c.).
 
 \section{Vektorizācija}
-Teksta vektorizācija ir process, kurā teksta informācija tiek pārveidota skaitļu formā, ko tālāk savukārt var izmantot mašīnmācīšanai. Šis solis ir būtisks, jo mašīnmācīšanās algoritmu strādā ar skaitļiem, bet teksta dati ir paši par sevi neskaitliski. Teksta vektorizācijai ir vairākas metodes, populārākās no tām apskatītas zemāk.
+Teksta vektorizācija ir process, kurā teksta informācija tiek pārveidota skaitļu formā, ko tālāk var izmantot mašīnmācīšanai. Šis solis ir būtisks, jo mašīnmācīšanās algoritmi strādā ar skaitļiem, bet teksta dati ir paši par sevi neskaitliski. Teksta vektorizācijai ir vairākas metodes, populārākās no tām apskatītas zemāk.
 
 \subsubsection{Vārdu maiss}
 Vārdu maiss – tā ir nesakārtota vārdu kopa, kur vārdu secība tiek ignorēta, saglabājot tikai vārdu biežumu dokumentā \cite{speechandlanguageproc}. Teksts tiek pārveidots vektorā, kur katram unikālam vārdam dokumentā tiek piešķirts indekss, kā vērtību indeksā norādot konkrētā vārda biežumu. 
 
-Lai ilustrētu šādu pieeju, pielietojam to uz 2 teikumiem:
+Lai ilustrētu šādu pieeju, pielietojam to uz diviem teikumiem:
 
 1. Kaķis devās medīt peles
 
@@ -70,7 +74,7 @@ Rezultātā iegūstot vektorus teikumiem kā \ref{tab:vardu_maiss} tabulā.
 \begin{table}[H]
 \centering
 \caption{\label{tab:vardu_maiss}}
-\textbf{Vārdu maisa vektori 2 teikumiem\\}
+\textbf{Vārdu maisa vektori diviem teikumiem\\}
 \begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
            & kaķis & devās & medīt & peles & ātri & skrēja & bēga \\ \hline
@@ -85,12 +89,12 @@ Ar šo pieeju mēs veicam šādus pieņēmumus:
 \item Nepieciešams zināt tikai kuri vārdi / tekstvienības atrodas tekstā un cik bieži tie atkārtojas.
 \end{itemize}
 
-Plašāka konteksta izgūšanai no teksta, iespējams veidot vektorus, kur katram indeksam atbilst vairāku secīgu vārdu kombinācija jeb n-gramma. Piemēram, izvēloties n-grammas ar garumu 2 (bigrammas), iepriekš apskatīto teikumu vekori izskatītos kā \ref{tab:vardu_maiss_bigramma} tabulā.
+Plašāka konteksta izgūšanai no teksta, iespējams veidot vektorus, kur katram indeksam atbilst vairāku secīgu vārdu kombinācija jeb n-gramma. Piemēram, izvēloties n-grammas ar garumu 2 (bigrammas), iepriekš apskatīto teikumu vektori izskatītos kā \ref{tab:vardu_maiss_bigramma} tabulā.
 
 \begin{table}[H]
 \centering
 \caption{\label{tab:vardu_maiss_bigramma}}
-\textbf{Bigrammu maisa vektori 2 teikumiem\\}
+\textbf{Bigrammu maisa vektori diviem teikumiem\\}
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
 \hline
  & \begin{tabular}[c]{@{}l@{}}kaķis\\ devās\end{tabular} & \begin{tabular}[c]{@{}l@{}}devās\\ medīt\end{tabular} & \begin{tabular}[c]{@{}l@{}}medīt\\ peles\end{tabular} & \begin{tabular}[c]{@{}l@{}}kaķis\\ ātri\end{tabular} & \begin{tabular}[c]{@{}l@{}}ātri\\ skrēja\end{tabular} & \begin{tabular}[c]{@{}l@{}}skrēja\\ peles\end{tabular} & \begin{tabular}[c]{@{}l@{}}peles\\ ātri\end{tabular} & \begin{tabular}[c]{@{}l@{}}ātri\\ bēga\end{tabular} \\ \hline
@@ -100,7 +104,7 @@ Plašāka konteksta izgūšanai no teksta, iespējams veidot vektorus, kur katra
 \end{table}
 
 \subsubsection{TF-IDF}
-Terminu biežums - inversais dokumentu biežums (angliski, saīsināti - TF-IDF) ir vektorizācijas paveids ko izmanto, lai novērtētu termina (vārda) svarīgumu dokumentā attiecībā uz dokumentu kopu (korpusu) \cite{manning_raghavan_schutze_2008}. 
+Terminu biežums - inversais dokumentu biežums (angliski, saīsināti - TF-IDF) ir vektorizācijas paveids ko izmanto, lai novērtētu termina (vārda) svarīgumu tekstā attiecībā uz dokumentu kopu (korpusu) \cite{manning_raghavan_schutze_2008}. 
 
 Termina biežums (TF):
 
@@ -140,7 +144,7 @@ TF\text{-}IDF(t, d, D) = TF(t, d) \times IDF(t, D)
 TF-IDF rezultāts atspoguļo, cik svarīgs ir vārds konkrētajā dokumentā, ņemot vērā visu tekstu kopu. Augstāki TF-IDF vērtējumi tiek piešķirti terminiem, kas bieži parādās dokumentā, bet reti visā kopā. Tas palīdz uzsvērt terminu svarīgumu, kuri ir raksturīgi tieši konkrētiem dokumentiem, vienlaikus samazinot kopīgu terminu nozīmi, kas parādās daudzos dokumentos.
 
 \subsubsection{Vārdlietojuma kartējums}
-Vārdlietojuma kartējums (angliski - word embedding) ir jaunāka metode, kur vārdi tiek attēloti kā skaitliski vektori daudzdimensiju telpā. Šie vektori spēj saglabāt informāciju par vārdu kontekstu / nozīmi / saikni ar citiem vārdiem, respektīvi -  vārdi ar līdzīgu nozīmi vai pielietojumu ir attēloti ar vektoriem, kas ģeometriski tuvi viens otram vektoru telpā. Piemēram, labi apmācītā vārdu iegulšanas modelī vārdi "karalis" un "karaliene" tiek attēloti kā vektori, kas ir tuvu viens otram, norādot to semantisko līdzību \cite{BaeldungEmbedding}. Šāda pieeja tiek vizualizēta \ref{fig:wordembedding} attēlā.
+Vārdlietojuma kartējums (angliski - word embedding) ir jaunāka metode, kur vārdi tiek attēloti kā skaitliski vektori daudzdimensiju telpā. Šie vektori spēj saglabāt informāciju par vārdu kontekstu / nozīmi / saikni ar citiem vārdiem, respektīvi -  vārdi ar līdzīgu nozīmi vai pielietojumu ir attēloti ar vektoriem, kas ģeometriski atrodas tuvu viens otram vektoru telpā. Piemēram, labi apmācītā vārdlietojuma kartējuma modelī vārdi "karalis" un "karaliene" tiek attēloti kā vektori, kas ir tuvu viens otram, norādot to semantisko līdzību \cite{BaeldungEmbedding}. Šāda pieeja tiek vizualizēta \ref{fig:wordembedding} attēlā.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{word_embedding}
@@ -160,7 +164,7 @@ Viena no izplatītākajām metodēm, kas samazina pazīmju skaitu ir retu vārdu
 \section{Klasiskie algoritmi tekstu klasifikācijai}
 
 \subsubsection{Naivā Bejesa metode}
-Naivā Bejesa  mašīnmācīšanās algoritms bieži tiek lietots tieši klasifikācijas uzdevumos tā veiktspējas un efektivitātes dēļ.  Tas balstās uz Bejesa teorēmu, kas ir viena no pamatteorēmām varbūtību teorijā. Šī teorija apraksta notikuma varbūtību, pamatojoties uz iepriekš zināmiem datiem. Teksta klasifikācijas kontekstā teorēma palīdz mums aprēķināt varbūtību dokumenta piederībai noteiktai klasei.
+Naivā Bejesa  mašīnmācīšanās algoritms bieži tiek lietots tieši klasifikācijas uzdevumos tā veiktspējas un efektivitātes dēļ.  Tas balstās uz Bejesa teorēmu, kas ir viena no pamatteorēmām varbūtību teorijā. Šī teorēma apraksta notikuma varbūtību, pamatojoties uz iepriekš zināmiem datiem. Teksta klasifikācijas kontekstā teorēma palīdz mums aprēķināt varbūtību dokumenta piederībai noteiktai klasei.
 
 Bejesa teorēmu var izteikt šādi:
 \begin{equation} \label{naivebayes}
@@ -175,7 +179,7 @@ Bejesa teorēmu var izteikt šādi:
 \item \(P(dokuments)\) ir varbūtība, ka dokuments parādās datu kopā.
 \end{itemize}
 
-"Naivais" aspekts Naivajā Bejesā nāk no pieņēmuma, ka pazīmes (vārdi tekstā) ir neatkarīgas. Citiem vārdiem sakot, mēs pieņemam, ka katra vārda klātbūtne vai neesamība dokumentā ir neatkarīga no citu vārdu klātbūtnes vai neesamības. Šis ir vienkāršs pieņēmums, bet tāds kurš bieži darbojas praksē.
+"Naivais" aspekts Naivajā Bejesā nāk no pieņēmuma, ka pazīmes (vārdi tekstā) ir neatkarīgas. Citiem vārdiem sakot, mēs pieņemam, ka katra vārda klātbūtne vai neesamība dokumentā ir neatkarīga no citu vārdu klātbūtnes vai neesamības. Šis ir vienkāršs pieņēmums, bet tas bieži darbojas praksē.
 
 \subsubsection{Loģistiskā regresija}
 
@@ -188,7 +192,7 @@ Lineāra kombinācija tiek aprēķināta šādi:
 \begin{equation} \label{formula2}
    z = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \ldots + \theta_n x_n
 \end{equation}
-Kur formulā \ref{formula2}  \(x_1, x_2, \ldots, x_n\) ir skaitliskās pazīmes, kas izgūtas no teksta dokumenta un \(\theta_0, \theta_1, \ldots, \theta_n\)  ir modeļa parametri, arī saukti par svariem vai koeficientiem.
+Kur formulā \ref{formula2}  \(x_1, x_2, \ldots, x_n\) ir skaitliskās pazīmes, kas izgūtas no dokumenta un \(\theta_0, \theta_1, \ldots, \theta_n\)  ir modeļa parametri, arī saukti par svariem vai koeficientiem.
 
 Apmācības fāzē loģistiskās regresijas modelis mācās optimizēt savus parametrus (\(\theta\)) no marķētajiem datiem, lai iegūtu pēc iespējas pareizākus minējumus.
 
@@ -208,19 +212,19 @@ Piemērā \ref{fig:lemumu_koks_teorija} apskatām vienkāršu šāda koka reprez
 
 \subsubsection{Atbalsta vektoru mašīnas (SVM)}
 
-Atbalsta vektora mašīnas \cite{supportvectornetworks} (angliski - support vector machines jeb SVM) ir pārraudzītās mācīšanās algoritms kurš ir diezgan populārs tieši klasificēšanas problēmu risināšanā. Šis algoritms veic klasifikāciju konstruējot n-dimensiju hiperplakni kura optimāli ierobežo datus divās nošķirtās kategorijās. Lai vieglāk ilustrētu algoritma darbību, varam apskatīt divdimensiju piemēru.
+Atbalsta vektora mašīnas \cite{supportvectornetworks} (\textit{support vector machines} jeb SVM) ir pārraudzītās mācīšanās algoritms kurš ir populārs tieši klasifikācijas problēmu risināšanā. Šis algoritms veic klasifikāciju konstruējot n-dimensiju hiperplakni kura optimāli ierobežo datus divās nošķirtās kategorijās. Lai vieglāk ilustrētu algoritma darbību, varam apskatīt divdimensiju piemēru.
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{svm1}
 	\caption{Atbalsta vektora mašīnas algoritma ilustrācija \cite{supportvectornetworks} }
 	\label{fig:svm1}
 \end{figure}
-Šajā piemērā \ref{fig:svm1} gadījumi ar vienu kategoriju atrodas pa kreisi (apzīmēti ar zaļiem apļiem) un ar otru kategoriju – pa labi (apzīmēti ar ziliem kvadrātiem). Atbalstu vektora mašīnas analīze mēģinās atrast 1-dimensijas hiperplakni (līniju) kura atdala datus balstoties uz kategoriju kurai tie pieder. Ir praktiski neierobežots līniju skaits, kas spētu veikt šādu nodalījumu, attēlā norādīti 2 piemēri un atliek gūt atbildi uz jautājumu – kura līnija ir labāka kategorizācijas veikšanai vispārīgā gadījumā. Raustītās līnijas, kuras zīmētas paralēli atdalošajai līnijai, iezīmē attālumu starp atdalošo līniju un tai tuvāko vektoru. Šo attālumu sauc par robežu (angliski – margin). Vektori kas atrodas pie šīs robežas ir atbalsta vektori.
+Šajā piemērā no \ref{fig:svm1} attēla - gadījumi ar vienu kategoriju atrodas pa kreisi (apzīmēti ar zaļiem apļiem) un ar otru kategoriju – pa labi (apzīmēti ar ziliem kvadrātiem). Atbalstu vektora mašīnas analīze mēģinās atrast 1-dimensijas hiperplakni (līniju) kura atdala datus balstoties uz kategoriju kurai tie pieder. Pastāv praktiski neierobežots līniju skaits, kas spētu veikt šādu nodalījumu, attēlā norādīti divi piemēri. Atliek gūt atbildi uz jautājumu – kura līnija ir labāka kategorizācijas veikšanai vispārīgā gadījumā. Raustītās līnijas, kuras zīmētas paralēli atdalošajai līnijai, iezīmē attālumu starp atdalošo līniju un tai tuvāko vektoru. Šo attālumu sauc par robežu (\textit{margin}). Vektori kas atrodas pie šīs robežas ir atbalsta vektori.
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{svm2}
 	\caption{Robežas un atbalsta vektoru ilustrācija \cite{supportvectornetworks} }
 	\label{fig:svm2}
 \end{figure}
-Atbalstu vektora mašīnas analīze atradīs līniju (vispārīgi – hiperplakni), kas novietota pēc iespējas lielāku robežu starp atbalsta vektoriem.
+Atbalstu vektora mašīnas analīze atradīs līniju (vispārīgi – hiperplakni), kas novietota ar pēc iespējas lielāku robežu starp atbalsta vektoriem.
 
 \section{Neironu tīkli}
 Cilvēka smadzenes ir neironu tīkla arhitektūras iedvesmas avots. Cilvēka smadzeņu šūnas, ko sauc par neironiem, veido sarežģītu, savstarpēji cieši saistītu tīklu, kurā neironi sūta viens otram elektriskus signālus ar mērķi palīdzēt cilvēkiem apstrādāt informāciju. Līdzīgi mākslīgais neironu tīkls ir veidots no mākslīgiem neironiem, kas strādā kopā, lai atrisinātu problēmu \cite{AwsNeuralNetworks}. 
@@ -232,7 +236,7 @@ Sākumā jāapskata māklīgā neironu tīkla pamatvienība - neirons.
 	\label{fig:neirons}
 \end{figure}
 
-Kā redzams attēlā attēlā \ref{fig:neirons}, šī neirona uzbūvi raksturo tā 4 pamatelementi - ieejas signāls, svars, summēšanas funkcija, aktivizācijas funkcija un nobīde.
+Kā redzams attēlā attēlā \ref{fig:neirons}, šī neirona uzbūvi raksturo tā pieci pamatelementi - ieejas signāls, svars, summēšanas funkcija, aktivizācijas funkcija un nobīde.
 
 Ieejas signāls - tas ir neironā ienākošais signāls. Izcelsme tam var būt ārēja vai arī tas var būt cita neirona izejas signāls. Šādi ieejas signāli neironam var būt vairāki.
 
@@ -242,9 +246,9 @@ Summēšanas funkcija - šīs funkcijas mērķis ir apvienot vairākus ieejas si
 
 Aktivizācijas funkcija - šī funkcija izrēķina aktivitātes stāvokli, kas bieži ir arī neirona izejas vērtība.	
 
-Papildus svars (novirze) -  novirzes uzdevums ir sniegt svaru aktivizācijas funkcijas radītajai vērtībai. Tās loma ir līdzīga konstantes lomai lineārā funkcijā un, gluži kā svars, novirzes vērtība tiek noteikta apmācībnas procesā.
+Papildus svars (novirze) -  novirzes uzdevums ir sniegt svaru aktivizācijas funkcijas radītajai vērtībai. Tās loma ir līdzīga konstantes lomai lineārā funkcijā un, gluži kā svars, novirzes vērtība tiek noteikta apmācību procesā.
 
-Kad vairāki neironi ir salikti kopā pēc kārtas, tie veido slāni. Vairākus slāņus apvienojot varam iegūt daudzslāņu neironu tīklu. Vienkārša daudzslāņu neironu tīkla arhitektūra aprakstāma kā savstarpēji savienoti mākslīgie neironi trīs slāņos.
+Kad vairāki neironi ir salikti kopā pēc kārtas, tie veido slāni. Vairākus slāņus apvienojot varam iegūt daudzslāņu neironu tīklu. Vispārēja daudzslāņu neironu tīkla arhitektūra, apskatīta \ref{fig:Artificial-neural-network-architecture}attēlā, aprakstāma kā savstarpēji savienoti mākslīgie neironi trijos vai vairāk slāņos.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{Artificial-neural-network-architecture}
@@ -256,7 +260,7 @@ Kad vairāki neironi ir salikti kopā pēc kārtas, tie veido slāni. Vairākus 
 
 Informācija no ārpasaules caur ievades slāni nonāk mākslīgajā neironu tīklā. Ievades mezgli apstrādā datus, analizē vai klasificē tos un nodod tos nākamajam slānim.
 
-\textbf{Slēptais slānis}
+\textbf{Slēptie slāņi}
 
 Slēptie slāņi izmanto ievadi no ievades slāņa vai citiem slēptiem slāņiem. Mākslīgajiem neironu tīkliem var būt liels skaits slēpto slāņu. Katrs slēptais slānis analizē iepriekšējā slāņa izvadi, apstrādā to tālāk un nodod nākamajam slānim.
 
@@ -265,10 +269,13 @@ Slēptie slāņi izmanto ievadi no ievades slāņa vai citiem slēptiem slāņie
 Izvades slānis sniedz visu mākslīgā neironu tīkla veiktās datu apstrādes gala rezultātu. Tam var būt viens vai vairāki mezgli. Piemēram, ja mums ir bināra (jā/nē) klasifikācijas problēma, izvades slānim būs viens izvades mezgls, kas dos rezultātu 1 vai 0. Tomēr, ja mums ir vairāku klašu klasifikācijas problēma, izvades slānis var sastāvēt no vairāk nekā viena izvades mezgla.
 
 \subsection{Konvolūcijas neironu tīkli}
-Konvolūcijas neironu tīklu sakotnējais mērķis ir bijis datorredzes problēmu risināšana ar dziļās mašīnmācīšanās problēmu, tomēr laika gaitā šāda neironu tīklu arhitektūra ir guvusi plašu pielietojumu arī dabīgās valodas apstrādē. Kim Yoon 2014. gadā ir pierādījis ka teikumu klasifikācijā tieši konvolūcijas neironu tīklu spēj sniegt labākus rezultātus par citiem neironu tīklu modeļiem \cite{kimYoonCNN}. Arī šī darba ietvaros tādēļ šāda pieeja tiks pārbaudīta. Lai gūtu priekšstatu par konvolūcijas neironu tīklu darbību sākumā tiek apskatīti visizplatītākie slāņi šāda tīkla izveidei.
+Konvolūcijas neironu tīklu sākotnējais mērķis ir bijis datorredzes problēmu risināšana ar dziļās mašīnmācīšanās palīdzību, tomēr laika gaitā šāda neironu tīklu arhitektūra ir guvusi plašu pielietojumu arī dabīgās valodas apstrādē. Kim Yoon 2014. gadā ir pierādījis ka teikumu klasifikācijā tieši konvolūcijas neironu tīklu spēj sniegt labākus rezultātus par citiem neironu tīklu modeļiem \cite{kimYoonCNN}. Cits populārs neironu tīkla veids valodas apstrādē ir rekurentie neironu tīkli ar ilgtermiņa atmiņu (LSTM balstīti modeļi) - šāda pieeja ļauj gūt labus rezultātus apstrādē kur liela nozīme ir vārdu secībai un atkarībai no citiem apkārt esošiem vārdiem, piemēram, mašīntulkošanā. Teksta klasifikācijā šādas valodas izpratnes nozīme nav tik izteikta, piemēram, Ņujorkas Universitātes pētnieku salīdzinājums starp dažādiem modeļiem teksta klasifikācijā \cite{zhang2015characterlevel}, pielietojot tos uz dažādām datu kopām, skatāms \ref{appendix:zhang_models} pielikumā. Kā redzams no šiem datiem, labākos rezultātus sasniedz klasiski modeļi ar loģistisko regresiju un KNT modeļi (atkarībā no datu kopas), LSTM modeļiem neuzrādot labākus veiktspējas rādītājus nevienā no apskatītajām datu kopām. Savukārt Mathieu Cliche pētījumā par sentimenta analīzi uz dažādu gadu Twitter datu kopām \cite{cliche-2017-bb}, salīdzinot KNT un LSTM modeļus, iegūtie akurātuma rezultāti dažu gadu datu kopās (skatīt tabulu \ref{appendix:twitter_models} pielikumā) sasniedz vienādus rezultātus (2013., 2014. un  2016. gada dati), savukārt 2015. gada datiem labāko rezultātu uzrādot KNT modeļiem. Balstoties uz augstākminētajiem salīdzinājumiem, arī autors izvēlējies vispirms pārbaudīt KNT arhitektūru un tās spēju veiksmīgi klasificēt latviešu valodas ziņu rakstus. Sākumā tiek apskatīti pamatslāņi, kurus apvienojot iespējams veidot konvolūcijas neironu tīklus.
+
+\subsubsection{Iegulšanas slānis}
+Neironu tīklā iegulšanas slānis pārvērš ievades vārdus vektoru attēlojumā, veidojot vārdlietojuma kartējumu (jau iepriekš apskatītu pie vektorizācijas pieejām). Šis ir svarīgs solis, lai modelis varētu efektīvi apstrādāt un saprast teksta datus, it īpaši vārdu kontekstu. Vārdi ar līdzīgām nozīmēm tiek kartēti kā līdzīgi vektori, ļaujot izprast vārdu saistības un teikuma uzbūves sakarības. Šie vektori ir apmācāmi parametri, respektīvi, apmācības laikā tiek modificēti to svari, ļaujot neironu tīklam apgūt vispiemērotāko vārdu attēlojumu konkrētajam uzdevumam.
 
 \subsubsection{Konvolūcijas slānis}
-Konvolūcijas darbības princips ir filtru pielietošana, secīgi ejot cauri ievadei un meklējot dažādas pazīmes. Atkarībā no apskatāmās problēmas šie filtri var ieņemt dažādas  formas – pielietojot konvolūciju uz attēliem parasti tiks pielietoti trīs dimensiju filtri. Teksta apstrādes gadījumā savukārt tiek lietoti viendimensionāli filtri ar noteiktu platumu, ko parasti sauc par kodola (angliski – kernel) izmēru. Piemēram, kodola izmērs kā 3 nozīmētu to, ka vienlaikus filtrs apskatīs trīs secīgus vārdus. Filtrs tiek pārvietots pār ievades virkni un kovolūcija tiek veikta veicot skalāro reizinājumu starp filtru un apskatīto virknes posmu. Rezultātā katrā posmā tiek iegūta vērtība, kas norāda meklētās pazīmes klātbūtni. Konvolūcijas slānis parasti satur vairākus šādus filtrus un katrs filtrs ir atbildīgs par dažādu pazīmju pārbaudi ievades datos. Apmācības laikā neironu tīkls nosaka optimālos svarus katram no šiem filtriem, norādot dažādu pazīmju nozīmi pareizas izvades iegūšanai.
+Konvolūcijas darbības princips ir filtru pielietošana, secīgi ejot cauri ievadei un meklējot dažādas pazīmes. Atkarībā no apskatāmās problēmas šie filtri var ieņemt dažādas  formas – pielietojot konvolūciju uz attēliem parasti tiks pielietoti trīs dimensiju filtri. Teksta apstrādes gadījumā savukārt tiek lietoti viendimensionāli filtri ar noteiktu platumu, ko parasti sauc par kodola (\textit{kernel}) izmēru. Piemēram, kodola izmērs kā 3 nozīmētu to, ka vienlaikus filtrs apskatīs trīs secīgus vārdus. Filtrs tiek pārvietots pār ievades virkni un kovolūcija tiek veikta veicot skalāro reizinājumu starp filtru un apskatīto virknes posmu. Rezultātā katrā posmā tiek iegūta vērtība, kas norāda meklētās pazīmes klātbūtni. Konvolūcijas slānis parasti satur vairākus šādus filtrus un katrs filtrs ir atbildīgs par dažādu pazīmju pārbaudi ievades datos. Apmācības laikā neironu tīkls nosaka optimālos svarus katram no šiem filtriem, norādot dažādu pazīmju nozīmi pareizas izvades iegūšanai.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{convolution_linear_layer-min}
@@ -282,14 +289,14 @@ Apvienošanas slānis veic ievades datu samazināšanas procedūru, atmetot mazs
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{pooling_vs_global-min}
-	\caption{Apvienšanas slānis \cite{TextCNNLena}}
+	\caption{Apvienošanas slānis \cite{TextCNNLena}}
 	\label{fig:pooling_vs_global}
 \end{figure}
 
-Galvenā ideja ar maksimālo apvienošanu ir atrast lielāko vērtību katrā dimensijā jeb atrast lielāko vērtību katrai pazīmei, rezultātā iegūstot vektoru, kurš norāda kādas pazīmes apskatāmajā ievades tekstā ir atrastas. Alternatīvi var izmantot arī vidējās vērtības apvienošanu, kur gala vektora vērtība tiek veidota nevis no maksimālās, bet vidējās vērtības apskatāmajā dimensijā. Kā redzams attēlā \ref{fig:pooling_vs_global} - šādas apvienošanas operācijas varam veikt ar noteiktu soļa izmēru (no angliskā stride) vai pielietojot uz visu ievades virkni. 
+Galvenā ideja ar maksimālo apvienošanu ir atrast lielāko vērtību katrā dimensijā jeb atrast lielāko vērtību katrai pazīmei, rezultātā iegūstot vektoru, kurš norāda kādas pazīmes apskatāmajā ievades tekstā ir atrastas. Alternatīvi var izmantot arī vidējās vērtības apvienošanu, kur gala vektora vērtība tiek veidota nevis no maksimālās, bet vidējās vērtības apskatāmajā dimensijā. Kā redzams \ref{fig:pooling_vs_global} attēlā - šādas apvienošanas operācijas varam veikt ar noteiktu soļa izmēru (\textit{stride}) vai pielietojot uz visu ievades virkni. 
 
 \subsubsection{Atmešanas slānis}
-Lai izvairītos no pārmērīgas pielāgošanas apmācības laikā bieži tiek lietots arī atmešanas slānis (no angļu val. dropout). Slāņa princips ir nejaušības kārtā “atmest” daļu no iegūtajām vērtībām jeb konkrētāk - iestatīt daļu no tām kā 0, kas palīdz vispārināt modeli un labāk reaģēt uz neredzētiem ievades datiem. Šādam slānim parasti arī definējam atmešanas rādītāju (no angļu val. droput rate), kas norāda kādu daļu no neironiem mēs atmetam apmācības laikā, vērtība visbiežāk tiek izvēlēta robežās no 0.2 līdz 0.5.
+Lai izvairītos no pārmērīgas pielāgošanas apmācības laikā bieži tiek lietots arī atmešanas slānis (\textit{dropout}). Slāņa princips ir nejaušības kārtā “atmest” daļu no iegūtajām vērtībām jeb konkrētāk - iestatīt daļu no tām kā 0, kas palīdz vispārināt modeli un labāk reaģēt uz neredzētiem ievades datiem. Šādam slānim parasti arī definējam atmešanas rādītāju (\textit{dropout rate}), kas norāda kādu daļu no neironiem mēs atmetam apmācību laikā, vērtība visbiežāk tiek izvēlēta robežās no 0.2 līdz 0.5.
 
 \subsubsection{Pilnīgi savienotais slānis}
 Konvolūcijas neironu tīklā kā pēdējais slānis ir pilnīgi savienotais slānis, kas apvieno tīkla iepriekšējo slāņu rezultātus, lai veiktu minējumu par ievades piederību kategorizācijas klasēm. Pārsvarā šajā slānī izmanto softmax aktivizācijas funkciju ar kuras palīdzību pārvēršam slānim padotās skaitliskās vērības par varbūtības vērtībām katrai klasei (robežās no 0 līdz 1) un kur visu klašu varbūtību summa būs kā 1. Ja dots ievades vektors ar rezultātiem katrai klasei kā \(z = (z_1, z_2, ..., z_k)\), tad softmax funkciju i-tajam elementam varam definēt kā:
@@ -328,8 +335,82 @@ Standarta arhitektūrai iespējams arī veikt dažādus uzlabojumus, viena no li
 	\label{fig:KNT_konkatenacija}
 \end{figure}
 
+\subsection{Rekurentie neironu tīkli}
+Rekurentie neironu tīkli (RNT) ir neironu tīkla veids, kas palīdz apstrādāt secīgus datus, piemēram, tekstus, ņemot vērā to secību un atkarības starp datiem. Šie tīkli satur rekurentus savienojumus neironu tīklā ar kuru palīdzību iespējams saglabāt slēpto stāvokli ar informāciju no iepriekšējiem apstrādes soļiem.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{LSTM-SimpleRNN}
+\caption{RNT ilustrācija \cite{ChristopherOlahLSTM}}
+\label{fig:LSTM-SimpleRNN}
+\end{figure}
+
+\subsubsection{Gradientu zušana}
+Neironu tīklos gradienti kalpo kā indikatori svara korekcijai, samazinot atšķirību starp prognozētajiem un faktiskajiem rezultātiem. Tomēr gradienti bieži kļūst aizvien mazāki, virzoties caur tīkla slāņiem, potenciāli izraisot mācīšanās palēnināšanos vai pat apstāšanos sākotnējos slāņos. Šo parādību sauc par izzūdošā gradienta problēmu. Rekurento neironu tīklu gadījumā šī parādības a rodas no rekurentajiem savienojumiem un gradientu vērtībām pēc daudziem soļiem, respektīvi, katrā laika posmā RNT šūna izmanto gan pašreizējo ievadi, gan slēpto stāvokli no iepriekšējā laika posma, lai aprēķinātu jaunu slēpto stāvokli un izveidotu izvadi. Šī atkarība no iepriekšējiem laika posmiem izraisa gradienta izplatīšanos, izmantojot atkārtotu savienojumu ķēdi. Veicot aprēķinus par vairākiem iepriekšējiem soļiem – šo sākotnējo soļu gradienti var kļūt ļoti mazi, jo katrā laika posmā tiek atkārtoti aprēķināti gradienti. Tie var samazināties līdz stāvoklim, kur tie faktiski ir ar nulles vērtību. Rezultātā secības agrākie laika soļi apmācības laikā saņem ļoti vājus gradienta signālus. Turklāt to atbilstošie svari tiek atjaunināti lēni vai netiek atjaunināti vispār. Tas noved pie svarīgas informācijas zaudēšanas un lēnas mācīšanās konverģences.
+
+\subsubsection{LSTM}
+LSTM tika izstrādāts lai mēģinātu risināt izzūdošā gradienta problēmu. Lai to izdarītu, LSTM izmanto vārteju mehānismus, lai kontrolētu informācijas plūsmu un gradientus. Tas palīdz novērst izzūdošu gradienta problēmu un ļauj tīklam mācīties un saglabāt informāciju garākās virknēs.
+
+LSTM pamatā ir šūnas stāvoklis, kas tiek nodots no šūnas ievades uz izvadi, veidojot sava veida ilgtermiņa atmiņu (ilustrēts \ref{fig:LSTM-chain} attēlā). Pamatā ir 3 vārtejas – aizmiršanas vārti, ieejas vārti, izvades vārti. Informācija plūst pa visu ķēdi tikai ar nelielām lineārām darbībām caur trim vārtiem, kas nosaka informācijas plūsmu un to kāda informācija tiek saglabāta vai ignorēta.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{LSTM-chain}
+\caption{LSTM ilustrācija \cite{ChristopherOlahLSTM}}
+\label{fig:LSTM-chain}
+\end{figure}
+
+Aizmiršanas vārti izlemj, cik daudz no ilgtermiņa atmiņas jeb šūnas stāvokļa jāpārnes no iepriekšējā šūnas stāvokļa uz nākošo . Šim nolūkam tiek izmantota sigmoīda funkcija, kas norāda šūnas stāvokļa nozīmi. Izvade \(f_t\) svārstās no 0 līdz 1 un norāda, cik daudz informācijas tiek saglabāts, t.i., 0 - nesaglabāt informāciju un 1 - saglabāt visu informāciju par šūnas stāvokli. Aizmiršanas vārtus raksturo formula
+
+\begin{equation}
+f_t = \sigma \left( W_{f, x} x_t + W_{f, h} h_{t-1} + b_f \right)
+\end{equation}
+
+Kur:
+
+- \( \sigma \) ir sigmoīda aktivācijas funkcija.
+
+- \( W_{f, x} \) ir ievades svaru matrica  \( x_t \) laika solī \( t \).
+
+- \( x_t \) ir ievades vektors laika solī  \( t \).
+
+- \( W_{f, h} \)  ir slēptā stāvokļa svara matrica \( h_{t-1} \) no iepriekšējā laika soļa.
+
+- \( h_{t-1} \) ir slēptais stāvoklis no iepriekšējā laika soļa.
+
+- \( b_f \) ir aizmiršanas vārtu novirzes vērtība.
+
+Ievades vārti izlemj, kura informācija jāpievieno šūnas stāvoklim un tādējādi arī ilgtermiņa atmiņai. Izvade \(i_t\) svārstās no 0 līdz 1 un norāda, cik daudz informācijas tiek pievienots, t.i., 0 - nepievienot jaunu informāciju un 1 - pievienot visu jauno informāciju. Šo vārteju raksturo zemāk minētā formula.
+\begin{equation}
+i_t = \sigma \left( W_{i, x} x_t + W_{i, h} h_{t-1} + b_i \right)
+\end{equation}
+
+Izvades vārti izlemj kuras šūnas stāvokļa daļas veido izvadi. Tādējādi izejas vārti ir atbildīgi par īstermiņa atmiņu. Izvade \(o_t\)  svārstās no 0 līdz 1 un norāda, cik daudz no šūnas stāvokļa tiek izvadīts, t.i., 0 - neizvadīt neko par šūnas stāvokli un 1 - izvadīt visušūnas stāvokli. Vārteju raksturo sekojoša formula.
+\begin{equation}
+o_t = \sigma \left( W_{o,x} x_t + W_{o,h} h_{t-1} + b_o \right)
+\end{equation}
+
+Kā redzams, visus trīs vārtus attēlo viena un tā pati funkcija. Atšķiras tikai svari un novirzes. Šūnas stāvoklis tiek atjaunināts, izmantojot aizmiršanas vārtus un ievades vārtus.
+\begin{equation}
+c_t = (f_t \cdot c_{t-1}) + (i_t \cdot \tanh(h_{t-1}))
+\end{equation}
+
+Pašreizējā laika soļa slēpto stāvokli \(h_t\) nosaka izejas vārti un tanh funkcija, kas ierobežo šūnas stāvokli no -1 līdz 1.
+\begin{equation}
+h_t = o_t \cdot \tanh(c_t)
+\end{equation}
+
+\subsubsection{Divvirzienu LSTM}
+Divvirzienu LSTM jeb BiLSTM ir LSTM arhitektūras variants, kas sastāv no diviem atsevišķiem LSTM slāņiem - viens slānis apstrādā ievades datus secīgi, bet otrs apstrādā ievadi apgrieztā secībā. Šo divu LSTM slāņu izejas tiek apvienotas katrā laika solī, iegūstot galīgo izejas rezultātu. Šāda arhitektūra ilustrēta \ref{fig:BiLSTM} attēlā.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{BiLSTM-visualization}
+\caption{Divvirzienu LSTM ilustrācija \cite{BaeldungBiLSTM}}
+\label{fig:BiLSTM}
+\end{figure}
+
+Galvenā šādas pieejas priekšrocība ir plašāka konteksta un vārdu sasvstarpējo atkarību izpratne, apskatot vārdus gan pēc, gan pirms konkrētā fragmenta.
+
 \subsection{Transformatori un lielie valodu modeļi}
-Lielie valodu modeļi (angliski - Large language models jeb LLM) kā ChatGPT pēdejos gados guvuši lielu popularitāti un tiek plaši pielietoti arī dabīgās valdoas apstrādē. Formāli lielās valodas modeļus mēs varam aprakstīt kā uz plašu valodas korpusu apmācītus modeļus, kuri veidoti ar transformatora arhitektūras pamatiem. Transformatora arhitektūras sākums ir 2017 gadā ar publikāciju “Attention Is All You Need” \cite{vaswani2023attention} jeb “Uzmanība ir viss kas ir nepieciešams”. Pirms tālāk tiek apskatīta transformatora arhitektūru - svarīgi ir arī apskatīt to kas tieši ir šī “uzmanība”, kas parādās publikācijas virsrakstā.
+Lielie valodu modeļi (\textit{Large language models} jeb LLM) kā ChatGPT pēdejos gados guvuši lielu popularitāti un tiek plaši pielietoti arī dabīgās valodas apstrādē. Formāli lielās valodas modeļus mēs varam aprakstīt kā uz plašu valodas korpusu apmācītus modeļus, kuri veidoti ar transformatora arhitektūras pamatiem. Transformatora arhitektūras sākums ir 2017 gadā ar publikāciju \textit{“Attention Is All You Need”} \cite{vaswani2023attention} jeb “Uzmanība ir viss kas ir nepieciešams”. Pirms tālāk tiek apskatīta transformatora arhitektūru - svarīgi ir arī apskatīt to kas tieši ir šī “uzmanība”, kas parādās publikācijas virsrakstā.
 
 \subsubsection{Uzmanības mehānisms}
 Sākotnēji uzmanības mehānisma ideja tika apskatīta tieši tulkošanas kontekstā, 2015. gada publikācijā “Neural Machine Translation by Jointly Learning to Align and Translate” \cite{bahdanau2016neural}. Kā tieši šis uzmanības mehānisms izpaužas viegli saprast no pētījumā iekļautās problēmas apskatīšanas, kur tiek veikts tulkojums no angļu uz franču valodu.
@@ -340,7 +421,7 @@ Sākotnēji uzmanības mehānisma ideja tika apskatīta tieši tulkošanas konte
 
 \noindent Franču valodas ekvivalentais teikums: \textit{L’accord sur la zone économique européenne a été signé en août 1992.}
 
-Apskatot pieejas šī teikuma tulkošanai - viens slikts veids, kā mēģināt tulkot šo teikumu, būtu vārdu pa vārdam tulkot teikumu no angļu uz franču valodu. Tas nenovestu pie kvalitatīva tulkojuma dažādu iemeslu dēļ, pirmkārt - daži vārdi franču tulkojumā ir citā secībā, no piemēra - angļu valodā Eiropas Ekonomikas zona ir "European Economic Area", bet franču valodā - "la zone économique européenne". Otrkārt - franču valoda, līdzīgi kā latviešu valoda, ir valoda ar vārdiem, kas sadalīti pēc dzimtes. Vārdiem “économique” un “européenne” ir jābūt sieviešu dzimtes formā, lai tie atbilstu sieviešu dzimtes objektam “la zone”.
+Apskatot pieejas šī teikuma tulkošanai - viens slikts veids, kā mēģināt tulkot šo teikumu, būtu vārdu pa vārdam tulkot teikumu no angļu uz franču valodu. Tas nenovestu pie kvalitatīva tulkojuma dažādu iemeslu dēļ, pirmkārt - daži vārdi franču tulkojumā ir citā secībā, no piemēra - angļu valodā Eiropas Ekonomikas zona ir \textit{"European Economic Area"}, bet franču valodā - \textit{"la zone économique européenne"}. Otrkārt - franču valoda, līdzīgi kā latviešu valoda, ir valoda ar vārdiem, kas sadalīti pēc dzimtes. Vārdiem “économique” un “européenne” ir jābūt sieviešu dzimtes formā, lai tie atbilstu sieviešu dzimtes objektam “la zone”.
 
 Uzmanība ir mehānisms, kas ļauj teksta modelim apskatīt katru vārdu oriģinālajā teikumā, kad tiek pieņemts lēmums kā veikt tulkojumu uz izvades teikumu. Zemāk apskatāma vizualizācija šim piemēram no sākotnējā uzmanības pētījuma:
 
@@ -352,7 +433,7 @@ Uzmanība ir mehānisms, kas ļauj teksta modelim apskatīt katru vārdu oriģin
 
 Tā ir sava veida intensitātes karte, kas norāda kur modelis “pievērš uzmanību”, kad tas izvada katru vārdu franču teikumā. Kā var redzēt, tulkojot Eiropas Ekonomiskās zonas terminu – viss termins tiek apskatīts kā saistīts kopums. Uz ko tieši modelim vērst uzmanību tiek apgūts no apmācības datiem. Veicot apmācību uz tūkstošiem franču un angļu valodas teikumu piemēriem, modelis iemācās par vārdu savstarpējo atkarību, dzimtēm, vārda formām un citiem morfoloģijas un sintakses likumiem. 
 
-Uzmanības mehānisms ir bijis ārkārtīgi noderīgs dabiskās valodas apstrādes rīks kopš tā atklāšanas 2015. gadā, taču sākotnējā formā tas tika izmantots kopā ar rekurentiem neironu tīkliem (RNT). 
+Uzmanības mehānisms ir bijis ārkārtīgi noderīgs dabīgās valodas apstrādes rīks kopš tā atklāšanas 2015. gadā, taču sākotnējā formā tas tika izmantots kopā ar rekurentiem neironu tīkliem (RNT). 
 
 \subsubsection{Transformatora arhitektūra}
 
@@ -385,7 +466,7 @@ Vērtība (V): satur informāciju par vārdiem, kurus mēs izgūsim, ja tiks atr
 
 \subsubsection{Uzmanības rādītāju noteikšana}
 
-Pašuzmanības mehānisms aprēķina uzmanības rādītājus veicot skalāro reizinājumu starp vaicājuma vektoriem (Q) un atslēgas vektoriem (K), rezultātu reizinot to ar \(\frac{1}{\sqrt{d}}\), kur d ir vaicājuma vektora garums. Papildus tam - normalizešanai tiek arī pielietota softmax funkcija. Formulu tad var definēt sekojoši.
+Pašuzmanības mehānisms aprēķina uzmanības rādītājus veicot skalāro reizinājumu starp vaicājuma vektoriem (Q) un atslēgas vektoriem (K), rezultātu reizinot to ar \(\frac{1}{\sqrt{d}}\), kur d ir vaicājuma vektora garums. Papildus tam - normalizešanai tiek arī pielietota softmax funkcija. Formulu var definēt tālāk norādītā veidā.
 
 \begin{equation}
 Uzmaniba(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q} \cdot \mathbf{K}^T}{\sqrt{d}}\right) \cdot \mathbf{V}
@@ -398,23 +479,23 @@ Uzmaniba(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf
 Lai uzlabotu konteksta izpratni, transformators bieži izmanto vairākas vaicājumu, atslēgu un vērtību kopas, kas pazīstamas kā “uzmanības galvas”. Tas ļauj modelim vienlaikus koncentrēties uz dažādiem teksta aspektiem.
 
 \subsubsection{Izvades ģenerēšana no pašuzmanības slāņa}
-Izvade satur kontekstualizētus vārdu attēlojumus, ņemot vērā to attiecības ar citiem vārdiem. Šī izvade tagad kļūst par ievadi uz priekšu padeves slānim (no angliskā feed-forward).
+Izvade satur kontekstualizētus vārdu attēlojumus, ņemot vērā to attiecības ar citiem vārdiem. Šī izvade tagad kļūst par ievadi uz priekšu padeves (\textit{feed-forward}) slānim.
 
 \subsubsection{Padeves slānis}
-Padeves slānis tiek izmantots uz pašuzmanības slāņu izvadi un tas tiek pielietots katrai pozīcijai atsevišķi. Šis slānis palīdz modelēt attālas vārdu savstarpējās atkarības. Pirmais solis padeves slānī ir lineāras transformācijas pielietošana ievadei. Tas ietver ievades reizināšanu ar apgūstamo svaru un nobīdes pievienošanu. Šī lineārā transformācija projicē ievadi citā (bieži vien augstākas dimensijas) telpā, radot pamatu sarežģītai mijiedarbībai un transformācijām. Pēc lineārās transformācijas pārveidotajai ievadei tiek piemērota nelineāra aktivizācijas funkcija, piemēram, Rectified Linear Unit (ReLU). Aktivizācijas funkcija ievieš nelinearitāti, ļaujot modelim tvert sarežģītas saiknes datos. Pēc aktivizācijas funkcijas rezultātiem tiek piemērota cita lineāra transformācija. Šī transformācija izmanto atšķirīgus svarus un nobīdes, lai vēl vairāk pielāgotu datus.
+Padeves (\textit{feed forward}) slānis tiek izmantots uz pašuzmanības slāņu izvadi un tas tiek pielietots katrai pozīcijai atsevišķi. Šis slānis palīdz modelēt attālas vārdu savstarpējās atkarības. Pirmais solis padeves slānī ir lineāras transformācijas pielietošana ievadei. Tas ietver ievades reizināšanu ar apgūstamo svaru un nobīdes pievienošanu. Šī lineārā transformācija projicē ievadi citā (bieži vien augstākas dimensijas) telpā, radot pamatu sarežģītai mijiedarbībai un transformācijām. Pēc lineārās transformācijas pārveidotajai ievadei tiek piemērota nelineāra aktivizācijas funkcija, piemēram, \textit{Rectified Linear Unit} (ReLU). Aktivizācijas funkcija ievieš nelinearitāti, ļaujot modelim tvert sarežģītas saiknes datos. Pēc aktivizācijas funkcijas rezultātiem tiek piemērota cita lineāra transformācija. Šī transformācija izmanto atšķirīgus svarus un nobīdes, lai vēl vairāk pielāgotu datus.
 
 \subsection{BERT}
-BERT modelis pirmo reizi publicēts 2019. gadā un autoru vārdiem BERT ir pirmā neparraudzītās apmācības pieeja ar dziļu divvirziena konkteksta izveidi dabīgās valodas priekšapstrādei \cite{devlin2019bert}. Viena no BERT priekšrocībām ir tā, ka visu BERT arhitektūru un jau apmācītos modeļus Google komanda ir publiskojusi caur GitHub \footnote{https://github.com/google-research/bert}, atšķirībā no citiem izplatītiem lielajiem valodas modeļiem kā GPT no OpenAI, kur kods nav publiski pieejams un kurus nevaram izmantot darbā apskatītās problēmas risināšanai.
+BERT modelis pirmo reizi publicēts 2019. gadā un autoru vārdiem BERT ir pirmā nepārraudzītās apmācības pieeja ar dziļu divvirziena konkteksta izveidi dabīgās valodas priekšapstrādei \cite{devlin2019bert}. Viena no BERT priekšrocībām ir tā, ka visu BERT arhitektūru un jau apmācītos modeļus Google komanda ir publiskojusi caur GitHub \footnote{https://github.com/google-research/bert}, atšķirībā no citiem izplatītiem lielajiem valodas modeļiem kā GPT no OpenAI, kur modeļu izveides kods nav publiski pieejams un kuru nevaram izmantot darbā apskatītās problēmas risināšanai.
 
-Ar BERT arhitekrūru tiek apmācīts “valodas izpratnes” modelis, izmantojot lielapjoma teksta korpusus, piemēram, visus Wikipedia rakstus konkrētajā valodā. Pēc tam jāveic modeļa pielāgošana konkrētu dabīgās valodas apstrādes uzdevumu risināšanai kā tekstu klasifikācija. Nepārraudzītā apmācība ļauj veidot BERT modeli uz plašiem teksta korpusiem no jebkura interneta resursa.
+Ar BERT arhitektūru tiek apmācīts “valodas izpratnes” modelis, izmantojot lielapjoma teksta korpusus, piemēram, visus Wikipedia rakstus konkrētajā valodā. Pēc tam jāveic modeļa pielāgošana konkrētu dabīgās valodas apstrādes uzdevumu risināšanai kā tekstu klasifikācija. Nepārraudzītā apmācība ļauj veidot BERT modeli uz plašiem teksta korpusiem no jebkura interneta resursa.
 
-Svarīga loma iekš BERT ir arī kā valodas dati tiek vektorizēti. Valodas attēlojumi vektora formā var iekļaut sevī kontekstu vai neiekļaut to. Citas iepriekš populārākās vektorizācijas pieejas kā word2vec ģenerē vārdlietojuma kartējumu bez konteksta katram vārdam apmācības vārdnīcā, respketīvi, daudznozīmīgi vārdi (piemēram, "komanda" - ko varam uztvert kā pavēli vai cilvēku kopu sportā) pazaudē savu atšķirīgo nozīmi un patieso kontekstu. Kontekstu veidojoši modeļi savukārt ģenerē attēlojumu katram vārdam atkarībā no konteksta konkrētajā teikumā. BERT gadījumā, atšķirībā no citiem iepriekšējiem modeļiem, šo konteksts tiek veidots divos virzienos – apskatot vārdus gan pirms, gan pēc konkrētā vārda. Šādai priekšapstrādei BERT izmanto sekojošu pieeju -  tiek maskēti 15\% ievades vārdu, tālāk šādu ievades kopu apstrādājam caur dziļu divvirzienu transformatora kodētāju, pēc tam paredzam tikai maskētos vārdus. Piemēram:
+Svarīga loma iekš BERT ir arī kā valodas dati tiek vektorizēti. Valodas attēlojumi vektora formā var iekļaut sevī kontekstu un var neiekļaut to. Citas iepriekš populārākās vektorizācijas pieejas kā word2vec ģenerē vārdlietojuma kartējumu bez konteksta katram vārdam apmācības vārdnīcā, respektīvi, daudznozīmīgi vārdi (piemēram, "komanda" - ko varam uztvert kā pavēli vai cilvēku kopu sportā) pazaudē savu atšķirīgo nozīmi un patieso kontekstu. Kontekstu veidojoši modeļi savukārt ģenerē attēlojumu katram vārdam atkarībā no konteksta konkrētajā teikumā. BERT gadījumā, atšķirībā no citiem iepriekšējiem modeļiem, šis konteksts tiek veidots divos virzienos – apskatot vārdus gan pirms, gan pēc konkrētā vārda. Šādai priekšapstrādei BERT izmanto sekojošu pieeju -  tiek maskēti 15\% ievades vārdu, tālāk šādu ievades kopu apstrādā caur dziļu divvirzienu transformatora kodētāju, pēc tam paredz tikai maskētos vārdus. Piemēram:
 
-Ievade: vīrietis devās uz [MASK1]. viņš nopirka [MASK2] piena.
+Ievade: vīrietis devās uz [MASK1]. Viņš nopirka [MASK2] piena.
 
 Etiķetes: [MASK1] = veikalu; [MASK2] = litru
 
-Papildus, lai apmācītu arī attiecības starp teikumiem, veicam apmācību uz vienkāršu uzdevumu, kurš pielietojams jebkuram valodas korpusam. Šis uzdevums ir - ja doti divi teikumi A un B, vai B ir nākamais teikums, kas seko aiz A, vai arī vienkārši nejaušs teikums no valodas korpusa? Piemērs varētu izskatīties sekojoi.
+Papildus, lai apmācītu arī attiecības starp teikumiem, tiek veikta apmācība uz vienkāršu uzdevumu, kurš pielietojams jebkuram valodas korpusam. Šis uzdevums ir - ja doti divi teikumi A un B, vai B ir nākamais teikums, kas seko aiz A, vai arī vienkārši nejaušs teikums no valodas korpusa? Piemērs varētu izskatīties šādi.
 
 Teikums A: Vīrietis devās uz veikalu.
 
@@ -430,19 +511,19 @@ Pazīme: NotNextSentence
 
 \section{Modeļu novērtēšana un validācija}
 Pēc apmācīta modeļa iegūšanas ir svarīgi novērtēt izveidotā modeļa veiktspēju un to, cik labi tas spēs veikt tekstu klasifikāciju ar jauniem datiem. 
-Viena no izplatītākajām novērtēšanas metodēm ir metode ar noturēšanu (holdout method), kur paraugu kopa tiek sadalīta divās daļās – apmācības kopa un testa kopa. Klasifikators tad tiek apmācīts ar apmācību kopu un validēts ar testa kopu. Šīs metodes mīnuss ir tas, ka apmācībai pieejama mazāka datu kopa. Cita negatīvā īpašība šai metodei ir arī tā, ka rezultāti ir atkarīgi no nevienlīdzīgā datu sadalījuma starp šīm abām kopām.
+Viena no izplatītākajām novērtēšanas metodēm ir metode ar noturēšanu (\textit{holdout method}), kur paraugu kopa tiek sadalīta divās daļās – apmācības kopa un testa kopa. Klasifikators tad tiek apmācīts ar apmācību kopu un validēts ar testa kopu. Šīs metodes mīnuss ir tas, ka apmācībai pieejama mazāka datu kopa. Cita negatīvā īpašība šai metodei ir arī tā, ka rezultāti ir atkarīgi no nevienlīdzīgā datu sadalījuma starp šīm abām kopām.
 
-Cita metode ir nejauša paraugu atlase (Random Subsampling). Šī metode atkārto metodi ar noturēšanu vairākas reizes, lai labāk noteiktu modeļa veiktspēju, tomēr arī šai metodei piemīt pirmās metodes negatīvās īpašības.
-Modeļa novērtēšana ar apmācību datiem nav ieteicama, jo tādējādi notiks pārmērīga pielāgošana (overfitting) un mašīnmācīšanās modelis iegaumēs apmācības datus, bet nespēs pareizi klasificēt jaunus datus.
+Cita metode ir nejauša paraugu atlase (\textit{Random Subsampling}). Šī metode atkārto metodi ar noturēšanu vairākas reizes, lai labāk noteiktu modeļa veiktspēju, tomēr arī šai metodei piemīt pirmās metodes negatīvās īpašības.
+Modeļa novērtēšana ar apmācību datiem nav ieteicama, jo tādējādi notiks pārmērīga pielāgošana (\textit{overfitting}) un mašīnmācīšanās modelis iegaumēs apmācības datus, bet nespēs pareizi klasificēt jaunus datus.
 
-Visbeidzot var izmantot arī šķērsvalidāciju (cross-validation). Šī metode sadala paraugu kopu k vienādās daļās un izmanto katru no šīm daļām tieši vienu reizi priekš testēšanas.  Citas, k-1, reizes katra daļa tiek izmantota apmācībai.
+Visbeidzot var izmantot arī šķērsvalidāciju (\textit{cross-validation}). Šī metode sadala paraugu kopu k vienādās daļās un izmanto katru no šīm daļām tieši vienu reizi priekš testēšanas.  Citas, k-1, reizes katra daļa tiek izmantota apmācībai.
 
 \subsubsection{Klasifikācijas mēri}
 \renewcommand{\theequation}{2.\arabic{equation}}
 Klasifikācijas problēma ir bieži apskatīts mašīnmācīšanās temats un visizplatītākie mēri, ar kuriem novērtēt modeļa precizitāti ir aprakstīti zemāk.
 
 \subsubsection{Pārpratumu matrica}
-Pārpratumu matrica ļauj pārredzami attēlot modeļa precizitāti modelim ar 2 un vairāk klasēm. Matrica sastāv no 2 asīm, kur uz x ass tiek attēlotas visas klases un uz y ass tiek attēloti klases minējumi. Katra matricas šūna satur minējumu skaitu attiecīgajai klases un minētās klases kombinācijai.
+Pārpratumu matrica ļauj pārredzami attēlot modeļa precizitāti modelim ar divām un vairāk klasēm. Matrica sastāv no divām asīm, kur uz x ass tiek attēlotas visas klases un uz y ass tiek attēloti klases minējumi. Katra matricas šūna satur minējumu skaitu attiecīgajai klases un minētās klases kombinācijai.
 
 Bināras klasifikācijas gadījumā pārpratumu matrica varētu būt attēlojama ar šādu tabulu:
 \begin{table}[H]
@@ -499,7 +580,7 @@ Liela nozīme ir konkrētai valodai, kurai veicam apstrādi. Darbā apskatam lat
 Papildus tam - dabiskā valoda var būt neskaidra, ar vārdiem un frāzēm, kuriem ir vairākas nozīmes atkarībā no konteksta. Šīs neskaidrības precīza risināšana ir izaicinājums teksta klasifikācijas modeļiem.
 
 \subsubsection{Tekstu nevienmērība}
-Teksta dati ir dažādi un atšķiras pēc garuma, struktūras un kvalitātes. Tie var ietvert rakstos raksturīgas kļūdas, slengu, saīsinājumus un plašu rakstīšanas stilu klāstu, kas padara tos grūti standartizējamus. Arī kopumā bieži apmācībai pieejamie dati nav vienmērīgi - dažādas tekstu klases var būt vai nu plašāk vai retāk izplatītas dotā datu kopā.
+Teksta dati ir dažādi un atšķiras pēc garuma, struktūras un kvalitātes. Tie var ietvert konkrētu autoru tipiskās kļūdas, slengu, saīsinājumus un plašu rakstīšanas stilu klāstu, kas padara tos grūti standartizējamus. Arī kopumā bieži apmācībai pieejamie dati nav vienmērīgi - dažādas tekstu klases var būt vai nu plašāk vai retāk izplatītas dotā datu kopā.
 
 \subsubsection{Pārmērīga pielāgošana}
 Pārmērīga pielāgošana nozīmē to, ka klasifikators ir pārāk labi modelējis apmācības datus

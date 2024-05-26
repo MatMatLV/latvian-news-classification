@@ -61,7 +61,7 @@
 \parbox[c]{0.3\textwidth}{\textbf{Darba vadītājs:}}&
 \parbox[t]{0.65\textwidth}{\defZinVaditajs} \\
 \parbox[c]{0.3\textwidth}{\textbf{Darba apjoms:}}&
-\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} lpp, 6~tabulas,  \total{fignum}~attēli, 12~formulas, \total{citnum}~bibliogrāfiskās norādes, \total{nofappendices}~pielikumi} \\
+\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} lpp, 16~tabulas,  \total{fignum}~attēli, 17~formulas, \total{citnum}~bibliogrāfiskās norādes, \total{nofappendices}~pielikumi} \\
 \parbox[c]{0.3\textwidth}{\textbf{Atslēgas vārdi:}}&
 \parbox[t]{0.65\textwidth}{Dabiskās valodas apstrāde, mašīnmācīšanās, tekstu klasifikācija} \\
 &\\
@@ -71,7 +71,7 @@ Bakalaura darbā ir aprakstīta dabīgās valodas apstrāde un kā mašīnmācī
 
 Darba ietvaros tiek ievākta rakstu kopa no ziņu portāliem un pārbaudīts kāda pieeja sniedz augstāko precizitāti teksta klasifikācijai latviešu valodā. Tiek izvērtētas un salīdzinātās dažādas pazīmju ģenerēšanas pieejas un apmācības algoritmi (naivā Bajesa metode, loģistiskā regresija, lēmumu koki, atbalsta vektora mašīnas, neironu tīkli).
 
-Papildus apskatītas dažādas atvērtā pirmkoda bibliotēkas mašīnmācīšanās problēmu risināšanai kā scikit-learn un Tensorflow, to praktiskais pielietojums dabīgo valodu apstrādei.
+Papildus apskatītas dažādas atvērtā pirmkoda bibliotēkas, kā scikit-learn un Tensorflow, kas palīdz risināt mašīnmācīšanās problēmas, un to praktiskais pielietojums dabīgo valodu apstrādei.
 
 
 \clearpage
@@ -89,7 +89,7 @@ Papildus apskatītas dažādas atvērtā pirmkoda bibliotēkas mašīnmācīšan
 \parbox[c]{0.3\textwidth}{\textbf{Academic Advisor:}}&
 \parbox[t]{0.65\textwidth}{\defZinVaditajs} \\
 \parbox[c]{0.3\textwidth}{\textbf{The volume of the work:}}&
-\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} pages, 6~tables,  \total{fignum}~images, 12~equations, \total{citnum}~literature sources, \total{nofappendices}~appendices} \\
+\parbox[t]{0.65\textwidth}{\textcolor{black}{\pageref{LastPage}} pages, 16~tables,  \total{fignum}~images, 17~equations, \total{citnum}~literature sources, \total{nofappendices}~appendices} \\
 \parbox[c]{0.3\textwidth}{\textbf{Keywords:}}&
 \parbox[t]{0.65\textwidth}{ Natural language processing, machine learning, text classification} \\
 &\\
@@ -108,25 +108,25 @@ In addition, various open source libraries for machine learning as scikit-learn 
 \chapter*{Izmantotie saīsinājumi un termini}
 \addcontentsline{toc}{chapter}{Izmantotie saīsinājumi un termini}
 
-\textbf{DVA} - Dabisko valodu apstrāde (angliski - natural language processing)
+\textbf{DVA} (\textit{Natural language processing}) – Dabisko valodu apstrāde
 
-\textbf{LSTM} - rekurentā mākslīgā neironu tīkla paveids ar atmiņas elementu (angliski - Long Short-Term Memory)
+\textbf{LSTM} (\textit{Long Short-Term Memory}) – rekurentā mākslīgā neironu tīkla paveids ar atmiņas elementu
 
-\textbf{GLUE} - standartizēta pieeja valodas apstrādes modeļu veiktspējas novērtēanai, sevī ietver 9 dažādus valodas apstrādes uzdevumus (angliski - General Language Understanding Evaluation)
+\textbf{KNT} (\textit{Convolutional neural network}) – konvolūcijas neironu tīkls
 
-\textbf{TF-IDF} - Terminu biežums - inversais dokumentu biežums (angliski - term frequency - inverse document frequency)
+\textbf{GLUE} (\textit{General Language Understanding Evaluation}) – standartizēta pieeja valodas apstrādes modeļu veiktspējas novērtēanai, sevī ietver 9 dažādus valodas apstrādes uzdevumus
 
-\textbf{Epoha}  - Apmācības periods. Apmācības procesa daļa, kurā neironu tīkls tieši vienu reizi tiek apmācīts uz visiem apmācības piemēriem (no angliskā termina - epoch).
+\textbf{TF-IDF} (\textit{Term Frequency - Inverse Document Frequency}) – Terminu biežums - inversais dokumentu biežums
 
-\textbf{PA} - pareiza atbilsme (angliski - true positive)
+\textbf{Epoha} (\textit{epoch})  – Apmācības periods. Apmācības procesa daļa, kurā neironu tīkls tieši vienu reizi tiek apmācīts uz visiem apmācības piemēriem
 
-\textbf{PA} - pareiza atbilsme (angliski - true positive)
+\textbf{PA} (\textit{true positive}) – pareiza atbilsme
 
-\textbf{PN} - pareiza neatbilsme (angliski - true negative)
+\textbf{PN} (\textit{true negative}) – pareiza neatbilsme
 
-\textbf{KA} - kļūdaina atbilsme (angliski - false positive)
+\textbf{KA} (\textit{false positive}) – kļūdaina atbilsme
 
-\textbf{KN} - kļūdaina neatbilsme (angliski - false negative)
+\textbf{KN} (\textit{false negative}) – kļūdaina neatbilsme
 
 \chapter*{Ievads} % * nepieliks numuru pie nosaukuma
 \addcontentsline{toc}{chapter}{Ievads}
@@ -150,6 +150,14 @@ In addition, various open source libraries for machine learning as scikit-learn 
 \bibliography{main}
 \addcontentsline{toc}{chapter}{Izmantotās literatūras un avotu saraksts}
 
+%----------------------------------------------PIELIKUMS----------------------------------------------------------
+
+\begin{appendices}
+\chapter*{Pielikumi}
+\input{src/pielikums}
+\end{appendices}
+
+%----------------------------------------------GALVOJUMS----------------------------------------------------------
 \chapter*{Galvojums}
 \addcontentsline{toc}{chapter}{Galvojums}
 \sloppy
@@ -178,12 +186,6 @@ laikā, individuāli izraudzītā vietā.
 \noindent202\rule{0.5cm}{0.2pt}.gada \rule{1cm}{0.2pt}.\rule{3cm}{0.2pt} 
 
 \label{LastPage}
-%----------------------------------------------PIELIKUMS----------------------------------------------------------
-
-\begin{appendices}
-\chapter*{Pielikums}
-\input{src/pielikums}
-\end{appendices}
 
 
 \end{document}

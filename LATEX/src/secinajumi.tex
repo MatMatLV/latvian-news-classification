@@ -1,15 +1,19 @@
-Darba procesā tika noskaidrots ka ziņu klasifikācijā pielietot mašīnmācīšanās algoritmus ir noderīgi, jo iespējams veikt šo klasifikāciju ļoti precīzi, augstāko akurātuma rādītāju 0.9738 sasniedzot ar atbalsta vektora mašīnas algoritmu un TF-IDF pielietojumu pazīmju ģenerēšanā.
+Darba procesā tika noskaidrots ka ziņu klasifikācijā pielietot mašīnmācīšanās algoritmus ir noderīgi, jo iespējams veikt šo klasifikāciju ļoti precīzi, augstāko akurātuma rādītāju 0.9746 sasniedzot ar atbalsta vektora mašīnas algoritmu un TF-IDF pielietojumu pazīmju ģenerēšanā.
 
 Novērots arī tas, ka ne visas kategorijas ir vienlīdz viegli klasificēt. Piemēram – finanšu un tehnoloģiju ziņas visiem modeļiem bija grūti klasificēt. Tas izskaidrojams ar saturisku pārklājumu starp tēmām (tehnoloģiju jaunumi un tehnoloģijas uzņēmumu finanšu jaunumi par peļņu/investīcijām).
 
-Lai gan izpētīt un implementēt neironu tīklus un dažādas to arhitekrūtas autora ieskatā bija jēgpilni, izveidotie modeļi nespēja sasniegt augstāku precizitāti.
+Lai gan izpētīt un implementēt neironu tīklus un dažādas to arhitektūras autora ieskatā bija jēgpilni, izveidotie modeļi nespēja sasniegt augstāku precizitāti par vienkāršākām mašīnmācīšanās pieejām. Daļēji tas izskaidrojams ar izvēlēto problēmu - galvenā neironu tīklu un lielo valodas modeļu priekrocība ir labāka valodas un konteksta izpratne, kas ir ļoti svarīgi veicot valodas apstrādes uzdevumus kā, piemēram, mašīntulkošana, tekstu ģenerēšana, kopsavilkumu veidošana. Klasifikācijā dziļa teksta izpratne ne vienmēr ir nepieciešama, lai labi klasificētu piederību kādai klasei. 
 
-Autora ieskatā publiskas ziņu rakstu datu kopas ir ļoti noderīgas mašīnmācīšanās eksperimentos, piemēram, angļu valodā ziņu kopas kā “20 Newsgroup” tiek plaši pielietotas un pat iekļautas populārās bibliotēkās kā sckit-learn. Latviešu valodā šādas publiskas datu kopas netika atrastas un rakstu kopas izveide ne vienmēr ir triviāls uzdevums. Autora ievākto datu kopu publiskojot iespējama tālāka tās pielietošana citu autoru darbos.
+Salīdzinot ar angļu valodas lielajiem valodas modeļiem kā BERT un XLNet, kuri pārsvarā tomēr uzrāda labākus rezultātus par klasiskiem klasifikācijas algoritmiem un iepriekšējām neironu tīkla arhitektūrām, LVBERT nespēja sniegt uzlabojumus autora izveidotajā datu kopā. Iegūtie rezultāti gan ierindoja to kā 2. labāko no apskatītajiem modeļiem, sniedzot labākus rezultātus arī par konvolūcijas neironu tīkliem.
 
-Teksta priekšapstrāde latviešu valodā ir ierobežota morfoloģisko rīku pieejamības dēļ. Zināmus uzlabojumus priekšapstrādē autoram ir izdevies panākt ar paplašināta stopvārdu saraksta izveidi.
+Teksta priekšapstrāde latviešu valodā ir ierobežota morfoloģisko rīku vieglas pieejamības dēļ. Zināmus uzlabojumus priekšapstrādē autoram ir izdevies panākt ar paplašināta stopvārdu saraksta izveidi, tomēr metodes kā lemmatizācija nav viegli pielietojama datiem. Darba laikā gan secināts, ka priekšapstrāde kopumā neatstāj lielu ietekmi uz gala rezultātu, priekšapstrādes loma samazinās arī pielietojot modernākas metodes kā lielo valodu modeļus.
+
+\pagebreak
 
 \textbf {Priekšlikumi:}
 
-Autora ieskatā noderīgi būtu uzlabot modeļu apmācību ar papildus tekstu morfoloģisko apstrādi (piemēram, lemmatizāciju). Šāda apstrāde angļu un citu izplatītāku valodas tekstiem ir pieejama dažādās Python bibliotēkās, diemžēl latviešu valodas tekstiem nav tāda atbalsta. Nepieciešams veikt papildus darbu šādu rīku izstrādei.
+Autora ieskatā publiskas ziņu rakstu datu kopas, marķētas ar ziņu kategoriju piederību, ir ļoti noderīgas mašīnmācīšanās eksperimentos, piemēram, angļu valodā ziņu kopas kā “20 Newsgroup” tiek plaši pielietotas un pat iekļautas populārās bibliotēkās kā sckit-learn. Latviešu valodā šādas publiskas datu kopas ar kategoriju marķējumiem netika atrastas, ziņu raksti pārsvarā pieejami tikai kā viena no sastāvdaļām lielākos valodas korpusos. Autora ievākto datu kopu publiskojot iespējama tālāka tās pielietošana citu autoru darbos, sniedzot labāku salīdzinājumu dazādu modeļu veiktspējā nākotnē uz vienādas datu kopas.
 
-Nepieciešama tālāka izpēte par neironu tīkliem un iespējām sasniegt augstāku precizitāti – iespējams autora izvēlētie slāņi un paramatri tīkla izveidei nebija optimāli.
+Iespējams veikt tālāku izpēte par neironu tīkliem un iespējām sasniegt augstāku precizitāti – autora izvēlētie slāņi un parametri tīkla izveidei, iespējams, nebija optimāli, labāku rezultātu varētu uzrādīt arī citas, darbā neapskatītas, tīklu arhitektūras pieejas.
+
+LVBERT veiktspēja bija ļoti tuva labākajam apmācības modelim. Iespējams, apmācot BERT modeli uz lielāka latviešu valodas tekstu korpusa (līdzvērtīgu angļu valodas BERT modeļa apmācības kopai) vai pielietojot citu lielā valodas modeļa arhitektūru, būtu iespējams izveidot modeli ar augstāku precizitāti. Tas ir perspektīvs temats nākotnes pētījumiem.
