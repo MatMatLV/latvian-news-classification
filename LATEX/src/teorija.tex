@@ -268,8 +268,74 @@ Slēptie slāņi izmanto ievadi no ievades slāņa vai citiem slēptiem slāņie
 
 Izvades slānis sniedz visu mākslīgā neironu tīkla veiktās datu apstrādes gala rezultātu. Tam var būt viens vai vairāki mezgli. Piemēram, ja mums ir bināra (jā/nē) klasifikācijas problēma, izvades slānim būs viens izvades mezgls, kas dos rezultātu 1 vai 0. Tomēr, ja mums ir vairāku klašu klasifikācijas problēma, izvades slānis var sastāvēt no vairāk nekā viena izvades mezgla.
 
+\subsection{Izplatītāko arhitektūru salīdzinājums}
+
+Pēdējos gados dabīgās valdoas apstrādē aizvien svarīgāka loma ir lielajiem valodas modeļiem (LLM), kas tiks apskatīti arī šajā darbā. Šādi modeļi, piemēram BERT un XLNet, arī tekstu klasifikācijā uzrādījuši vislabākos rezultātus daudzās angļu valodas tekstu kopās\cite{PapersWithCode}, tomēr modeļi ar labāko veiktspēju apmācīti tieši uz angļu valodas tekstiem un nav tieši pielietojami latviešu valodas apstrādei. Darba ietvaros tiks apskatīts uz latviešu valodas tekstiem apmācītais LVBERT modelis. Pozitīvās un negatīvās LLM īpašības tiek apskatītas \ref{tab:neironu_tiklu_arhitekturas_llm} tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:neironu_tiklu_arhitekturas_llm}}
+\textbf{Neironu tīklu arhitektūru salīdzinājums - LLM\\}
+\begin{tabular}{| m{5cm} | m{10cm} |}
+\hline
+\textbf{Pozitīvās īpašības} & 
+Plaša valodas morfoloģiskā un sintaktiskā izpratne, ļaujot labi uztvert kontekstu un valodas nianses \\ 
+\cline{2-2}
+ & Iepriekš apmācīti uz lieliem valodas korpusiem, pielāgojami konkrētai problēmai \\ 
+\hline
+\textbf{Negatīvās īpašības} & 
+Lielāks apmācības laiks / resursu patēriņš apmācībai par LSTM / KNT arhitektūrām \\ 
+\cline{2-2}
+ & Var būt pārmērīgi sarežģīta pieeja vienkāršākiem uzdevumiem \\ 
+ \cline{2-2}
+ & Uz latviešu valodu apmācītie modeļi lieto mazāku apmācības kopu par angļu valodas modeļiem \\ 
+\hline
+\end{tabular}
+\end{table}
+
+Tā kā LVBERT spēja veikt klasifikāciju nav tik labi dokumentāta kā citiem angļu valodas modeļiem, tiek apskatīti arī citi neironu tīklu paveidi. Cits populārs neironu tīkla veids, kas ir plaši pielietots valodas apstrādē un bija īpaši populārs pirms transformatoru arhitektūras, ir rekurentie neironu tīkli ar ilgtermiņa īstermiņa atmiņu (LSTM balstīti modeļi) - šāda pieeja ļauj gūt labus rezultātus apstrādē kur liela nozīme ir vārdu secībai un atkarībai no citiem apkārt esošiem vārdiem, piemēram, mašīntulkošanā. Pozitīvās un negatīvās LSTM īpašības tiek apskatītas \ref{tab:neironu_tiklu_arhitekturas_lstm} tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:neironu_tiklu_arhitekturas_lstm}}
+\textbf{Neironu tīklu arhitektūru salīdzinājums - LSTM\\}
+\begin{tabular}{| m{5cm} | m{10cm} |}
+\hline
+\textbf{Pozitīvās īpašības} & 
+Labi uztver attālas vārdu atkarības un kontekstu \\ 
+\cline{2-2}
+ & Īpaši efektīvs secīgu datu apstrādē \\ 
+\hline
+\textbf{Negatīvās īpašības} & 
+Ilgāks apmācības laiks / resursu patēriņš par KNT\\ 
+\hline
+\end{tabular}
+\end{table}
+
+Teksta klasifikācijā valodas izpratnes nozīme, ko spēj sasniegt LSTM modeļi, gan nav tik viennozīmīga kā citās valodas apstrādes problēmās, piemēram, Ņujorkas Universitātes pētnieku salīdzinājums starp dažādiem modeļiem teksta klasifikācijā \cite{zhang2015characterlevel}, pielietojot tos uz dažādām datu kopām, skatāms \ref{appendix:zhang_models} pielikumā. Kā redzams no šiem datiem, labākos rezultātus sasniedz klasiski modeļi ar loģistisko regresiju un KNT modeļi (atkarībā no datu kopas), LSTM modeļiem neuzrādot labākus veiktspējas rādītājus nevienā no apskatītajām datu kopām. Savukārt Mathieu Cliche pētījumā par sentimenta analīzi uz dažādu gadu Twitter datu kopām \cite{cliche-2017-bb}, salīdzinot KNT un LSTM modeļus, iegūtie akurātuma rezultāti dažu gadu datu kopās (skatīt tabulu \ref{appendix:twitter_models} pielikumā) sasniedz vienādus rezultātus (2013., 2014. un  2016. gada dati), savukārt 2015. gada datiem labāko rezultātu uzrādot KNT modeļiem. Pozitīvās un negatīvās KNT īpašības tiek apskatītas \ref{tab:neironu_tiklu_arhitekturas_knt} tabulā.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:neironu_tiklu_arhitekturas_knt}}
+\textbf{Neironu tīklu arhitektūru salīdzinājums - KNT\\}
+\begin{tabular}{| m{5cm} | m{10cm} |}
+\hline
+\textbf{Pozitīvās īpašības} & 
+Labi uztver lokālās iezīmes (frāzes, vārdu kombinācijas) \\ 
+\cline{2-2}
+ & Mazāks apmācības laiks / resursu patēriņš \\ 
+\cline{2-2}
+ & Labāka veiktspēja ar mazu apmācības datu kopu \\ 
+\hline
+\textbf{Negatīvās īpašības} & 
+Ierobežots attālu vārdu atkarību un konteksta uztveršanā \\ 
+\hline
+\end{tabular}
+\end{table}
+
+Tālāk tiks sīkāk apskatīti augstākminētie neironu tīklu arhitektūras paveidi.
 \subsection{Konvolūcijas neironu tīkli}
-Konvolūcijas neironu tīklu sākotnējais mērķis ir bijis datorredzes problēmu risināšana ar dziļās mašīnmācīšanās palīdzību, tomēr laika gaitā šāda neironu tīklu arhitektūra ir guvusi plašu pielietojumu arī dabīgās valodas apstrādē. Kim Yoon 2014. gadā ir pierādījis ka teikumu klasifikācijā tieši konvolūcijas neironu tīklu spēj sniegt labākus rezultātus par citiem neironu tīklu modeļiem \cite{kimYoonCNN}. Cits populārs neironu tīkla veids valodas apstrādē ir rekurentie neironu tīkli ar ilgtermiņa atmiņu (LSTM balstīti modeļi) - šāda pieeja ļauj gūt labus rezultātus apstrādē kur liela nozīme ir vārdu secībai un atkarībai no citiem apkārt esošiem vārdiem, piemēram, mašīntulkošanā. Teksta klasifikācijā šādas valodas izpratnes nozīme nav tik izteikta, piemēram, Ņujorkas Universitātes pētnieku salīdzinājums starp dažādiem modeļiem teksta klasifikācijā \cite{zhang2015characterlevel}, pielietojot tos uz dažādām datu kopām, skatāms \ref{appendix:zhang_models} pielikumā. Kā redzams no šiem datiem, labākos rezultātus sasniedz klasiski modeļi ar loģistisko regresiju un KNT modeļi (atkarībā no datu kopas), LSTM modeļiem neuzrādot labākus veiktspējas rādītājus nevienā no apskatītajām datu kopām. Savukārt Mathieu Cliche pētījumā par sentimenta analīzi uz dažādu gadu Twitter datu kopām \cite{cliche-2017-bb}, salīdzinot KNT un LSTM modeļus, iegūtie akurātuma rezultāti dažu gadu datu kopās (skatīt tabulu \ref{appendix:twitter_models} pielikumā) sasniedz vienādus rezultātus (2013., 2014. un  2016. gada dati), savukārt 2015. gada datiem labāko rezultātu uzrādot KNT modeļiem. Balstoties uz augstākminētajiem salīdzinājumiem, arī autors izvēlējies vispirms pārbaudīt KNT arhitektūru un tās spēju veiksmīgi klasificēt latviešu valodas ziņu rakstus. Sākumā tiek apskatīti pamatslāņi, kurus apvienojot iespējams veidot konvolūcijas neironu tīklus.
+Konvolūcijas neironu tīklu sākotnējais mērķis ir bijis datorredzes problēmu risināšana ar dziļās mašīnmācīšanās palīdzību, tomēr laika gaitā šāda neironu tīklu arhitektūra ir guvusi plašu pielietojumu arī dabīgās valodas apstrādē. Kim Yoon 2014. gadā ir pierādījis ka teikumu klasifikācijā tieši konvolūcijas neironu tīklu spēj sniegt labākus rezultātus par citiem neironu tīklu modeļiem \cite{kimYoonCNN}. Sākumā tiek apskatīti pamatslāņi, kurus apvienojot iespējams veidot konvolūcijas neironu tīklus.
 
 \subsubsection{Iegulšanas slānis}
 Neironu tīklā iegulšanas slānis pārvērš ievades vārdus vektoru attēlojumā, veidojot vārdlietojuma kartējumu (jau iepriekš apskatītu pie vektorizācijas pieejām). Šis ir svarīgs solis, lai modelis varētu efektīvi apstrādāt un saprast teksta datus, it īpaši vārdu kontekstu. Vārdi ar līdzīgām nozīmēm tiek kartēti kā līdzīgi vektori, ļaujot izprast vārdu saistības un teikuma uzbūves sakarības. Šie vektori ir apmācāmi parametri, respektīvi, apmācības laikā tiek modificēti to svari, ļaujot neironu tīklam apgūt vispiemērotāko vārdu attēlojumu konkrētajam uzdevumam.
@@ -299,7 +365,9 @@ Galvenā ideja ar maksimālo apvienošanu ir atrast lielāko vērtību katrā di
 Lai izvairītos no pārmērīgas pielāgošanas apmācības laikā bieži tiek lietots arī atmešanas slānis (\textit{dropout}). Slāņa princips ir nejaušības kārtā “atmest” daļu no iegūtajām vērtībām jeb konkrētāk - iestatīt daļu no tām kā 0, kas palīdz vispārināt modeli un labāk reaģēt uz neredzētiem ievades datiem. Šādam slānim parasti arī definējam atmešanas rādītāju (\textit{dropout rate}), kas norāda kādu daļu no neironiem mēs atmetam apmācību laikā, vērtība visbiežāk tiek izvēlēta robežās no 0.2 līdz 0.5.
 
 \subsubsection{Pilnīgi savienotais slānis}
-Konvolūcijas neironu tīklā kā pēdējais slānis ir pilnīgi savienotais slānis, kas apvieno tīkla iepriekšējo slāņu rezultātus, lai veiktu minējumu par ievades piederību kategorizācijas klasēm. Pārsvarā šajā slānī izmanto softmax aktivizācijas funkciju ar kuras palīdzību pārvēršam slānim padotās skaitliskās vērības par varbūtības vērtībām katrai klasei (robežās no 0 līdz 1) un kur visu klašu varbūtību summa būs kā 1. Ja dots ievades vektors ar rezultātiem katrai klasei kā \(z = (z_1, z_2, ..., z_k)\), tad softmax funkciju i-tajam elementam varam definēt kā:
+Konvolūcijas neironu tīklā kā pēdējais slānis ir pilnīgi savienotais slānis, kas apvieno tīkla iepriekšējo slāņu rezultātus, lai veiktu minējumu par ievades piederību kategorizācijas klasēm. Pārsvarā šajā slānī izmanto softmax aktivizācijas funkciju ar kuras palīdzību pārvēršam slānim padotās skaitliskās vērības par varbūtības vērtībām katrai klasei (robežās no 0 līdz 1) un kur visu klašu varbūtību summa būs kā 1. 
+
+Ja dots ievades vektors ar rezultātiem katrai klasei kā \(z = (z_1, z_2, ..., z_k)\), tad softmax funkciju i-tajam elementam varam definēt kā:
 \begin{equation}
 softmax(z)_i = \frac{e^{z_i}}{\sum_{j=1}^{k} e^{z_j}}
 \end{equation}
@@ -383,6 +451,7 @@ Ievades vārti izlemj, kura informācija jāpievieno šūnas stāvoklim un tād�
 i_t = \sigma \left( W_{i, x} x_t + W_{i, h} h_{t-1} + b_i \right)
 \end{equation}
 
+\pagebreak
 Izvades vārti izlemj kuras šūnas stāvokļa daļas veido izvadi. Tādējādi izejas vārti ir atbildīgi par īstermiņa atmiņu. Izvade \(o_t\)  svārstās no 0 līdz 1 un norāda, cik daudz no šūnas stāvokļa tiek izvadīts, t.i., 0 - neizvadīt neko par šūnas stāvokli un 1 - izvadīt visušūnas stāvokli. Vārteju raksturo sekojoša formula.
 \begin{equation}
 o_t = \sigma \left( W_{o,x} x_t + W_{o,h} h_{t-1} + b_o \right)
@@ -509,6 +578,7 @@ Teikums B: Pingvīni nelido.
 
 Pazīme: NotNextSentence
 
+\pagebreak
 \section{Modeļu novērtēšana un validācija}
 Pēc apmācīta modeļa iegūšanas ir svarīgi novērtēt izveidotā modeļa veiktspēju un to, cik labi tas spēs veikt tekstu klasifikāciju ar jauniem datiem. 
 Viena no izplatītākajām novērtēšanas metodēm ir metode ar noturēšanu (\textit{holdout method}), kur paraugu kopa tiek sadalīta divās daļās – apmācības kopa un testa kopa. Klasifikators tad tiek apmācīts ar apmācību kopu un validēts ar testa kopu. Šīs metodes mīnuss ir tas, ka apmācībai pieejama mazāka datu kopa. Cita negatīvā īpašība šai metodei ir arī tā, ka rezultāti ir atkarīgi no nevienlīdzīgā datu sadalījuma starp šīm abām kopām.
