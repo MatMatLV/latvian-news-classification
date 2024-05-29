@@ -35,6 +35,9 @@
 \def\oldbibitem{} \let\oldbibitem=\bibitem
 \def\bibitem{\stepcounter{citnum}\oldbibitem}
 
+%% Footnote lapas apakšā pat pie pagebreak
+\renewcommand{\footnoterule}{\vfill\kern -3pt \hrule width 0.4\columnwidth \kern 2.6pt}
+
 \begin{document}
 \pagenumbering{gobble}
 %%%% Titullapas sākums

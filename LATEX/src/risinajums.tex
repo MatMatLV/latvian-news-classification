@@ -64,6 +64,7 @@ Konkrētāk apskatot stopvārdu atmešanu - dažādās \textit{Python} bibliotē
 
 Lemmatizācija netiek pielietota, dazādiem autoriem norādot tās mazo nozīmi tekstu klasifikācijas modeļu uzlabošanā \cite{santos2023effect}. Citos pētījumos, piemēram par angļu un čehu valodas datu kopu priekšapstrādi \cite{normalizationTextClassification}, secināts, ka kopumā stopvārdu izņemana gandrīz vienmēr uzlabo iegūtos rezultātus, tomēr lemmatizācija gandrīz vienmēr atstāj negatīvu ietekmi uz gala modeli.
 
+
 \subsubsection{Vektorizācija}
 Pirms algoritmu pielietošanas nepieciešams datus vektorizēt. Darba ietvaros uz katru no algoritmiem tika pārbaudītas dažādas vektorizācijas pieejas – vārdu maiss, bigrammu maiss, TF-IDF un vārdlietojuma kartējumi ar \textit{FastText}, pielietojot katru no tām uz rāpuļa izgūtās datu kopas. Tika arī veikti eksperimenti ar \textit{word2vec} vārdlietojuma kartējuma pieeju, tomēr \textit{FastText} pielietošana sniedza labākus sākotnējos rezultātus, arī citi pētījumi par vārdlietojuma kartējuma pieejām latviešu valodas tekstiem \cite{LaucisJekabsonWordEmbedding} norāda \textit{FastText} kā pieeju ar labāko veiktspēju, salīdzinot ar \textit{word2vec}, \textit{ngram2vec}, SSG (\textit{Structured Skip-Gram}).
 
@@ -155,7 +156,7 @@ Vislabākais sasniegtais akurātums iegūts ar atbalsta vektora mašīnām un TF
 	\label{fig:AVM_TFIDF}
 \end{figure}
 
-Klasisko mašīnmācīšanās algortimu implementācijas kods pieejams \ref{appendix:code_repo} pielikuma 2. repozitorijā zem "Zinu\_klasifikacijas.ipynb" faila. Izveidotie modeļi pieejami šī paša repozitorija apakšmapē "models".
+Klasisko mašīnmācīšanās algortimu implementācijas kods pieejams \ref{appendix:code_repo} pielikuma 2. repozitorijā zem "Zinu\_klasifikacijas.ipynb" faila. Izveidotie modeļi pieejami šī paša repozitorija apakšmapē "models". Labāko modeļu ielāde un pielietošana caur lietotāja saskarni implementēta \ref{appendix:code_repo} pielikuma 3. repozitorijā.
 
 \pagebreak
 \section{Neironu tīklu implementācija}
